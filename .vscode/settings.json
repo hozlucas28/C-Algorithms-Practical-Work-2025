@@ -1,0 +1,17 @@
+{
+    "C_Cpp.autocompleteAddParentheses": true,
+    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 4 }",
+    "C_Cpp.clang_format_style": "file",
+    "C_Cpp.doxygen.generatedStyle": "/**",
+    "cSpell.caseSensitive": true,
+    "cSpell.language": "en,es-ES,es,en-GB,en-US,lorem",
+    "diffEditor.ignoreTrimWhitespace": true,
+    "editor.formatOnSave": true,
+    "editor.minimap.renderCharacters": false,
+    "emojisense.unicodeCompletionsEnabled": false,
+    "files.associations": {"*.c": "c", "*.h": "c"},
+    "files.trimTrailingWhitespace": true,
+    "markdown-preview-github-styles.colorTheme": "dark",
+    "terminal.integrated.defaultProfile.windows": "Command Prompt",
+    "workbench.startupEditor": "none"
+}

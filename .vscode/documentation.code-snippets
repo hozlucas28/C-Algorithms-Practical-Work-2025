@@ -1,0 +1,43 @@
+{
+    "Document struct": {
+        "scope": "c,cpp",
+        "prefix": "docStruct",
+        "body": [
+            "/**",
+            " * @struct ${1:<STRUCTURE NAME>}.",
+            " * @brief ${2:<BRIEF DESCRIPTION OF WHAT THE STRUCTURE REPRESENTS>}.",
+            " * ",
+            " * ${3:<DETAILED DESCRIPTION OF THE STRUCTURE (PURPOSE, AND LISTS OF FIELDS)>}.",
+            " */"
+        ]
+    },
+    "Document function": {
+        "scope": "c,cpp",
+        "prefix": "docFunction",
+        "body": [
+            "/**",
+            " * @brief ${1:<BRIEF DESCRIPTION OF THE FUNCTION>}.",
+            " * ",
+            " * ${2:<DETAILED DESCRIPTION OF THE FUNCTION (WHAT IT DOES, HOW IT WORKS, AND ANY IMPORTANT INFORMATION)>}.",
+            " * ",
+            " * @param ${3:param01} ${4:<BRIEF DESCRIPTION OF `param01` PARAMETER>}.",
+            " * ",
+            " * @return ${5:<BRIEF DESCRIPTION OF THE FUNCTION'S RETURN VALUE>}.",
+            " * ",
+            " * @warning ${6:<RELEVANT INFORMATION ABOUT SIDE EFFECTS OR IMPORTANT CONSIDERATIONS (OPTIONAL)>}.",
+            " */"
+        ]
+    },
+    "Document macro": {
+        "scope": "c,cpp",
+        "prefix": "docMacro",
+        "body": [
+            "/**",
+            " * @def ${1:<MACRO NAME>}",
+            " * @brief ${2:<BRIEF DESCRIPTION OF WHAT THE MACRO DOES>}.",
+            " * ",
+            " * @warning ${3:<WARNINGS ABOUT THE USE OF THE MACRO (OPTIONAL)>}.",
+            " */"
+        ]
+    }
+}

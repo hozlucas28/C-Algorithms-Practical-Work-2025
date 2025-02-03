@@ -1,0 +1,54 @@
+{
+    "tasks": [
+        {
+            "command": [
+                "(if exist \"${workspaceFolder}\\libs\\obj\" rmdir /s /q \"${workspaceFolder}\\libs\\obj\")",
+                "& (mkdir \"${workspaceFolder}\\libs\\obj\\Release\")",
+                "& (if exist \"${workspaceFolder}\\libs\\bin\" rmdir /s /q \"${workspaceFolder}\\libs\\bin\")",
+                "& (mkdir \"${workspaceFolder}\\libs\\bin\\Release\")"
+            ],
+            "group": {"kind": "build", "isDefault": false},
+            "label": "Create `\\libs\\obj\\Release` and `\\libs\\bin\\Release` folders",
+            "type": "shell"
+        },
+        {
+            "command": [
+                "(gcc -Wall -O2 -pedantic-errors -c \"${workspaceFolder}\\libs\\utilities.c\" -o \"${workspaceFolder}\\libs\\obj\\Release\\utilities.o\")",
+                "& (ar -r -s \"${workspaceFolder}\\libs\\bin\\Release\\libs.a\" \"${workspaceFolder}\\libs\\obj\\Release\\utilities.o\")"
+            ],
+            "group": {"kind": "build", "isDefault": false},
+            "label": "Compile libs project",
+            "type": "shell",
+            "dependsOn": "Create `\\libs\\obj\\Release` and `\\libs\\bin\\Release` folders"
+        },
+        {
+            "command": [
+                "(if exist \"${workspaceFolder}\\src\\obj\" rmdir /s /q \"${workspaceFolder}\\src\\obj\")",
+                "& (mkdir \"${workspaceFolder}\\src\\obj\\Release\")",
+                "& (if exist \"${workspaceFolder}\\src\\bin\" rmdir /s /q \"${workspaceFolder}\\src\\bin\")",
+                "& (mkdir \"${workspaceFolder}\\src\\bin\\Release\")"
+            ],
+            "group": {"kind": "build", "isDefault": false},
+            "label": "Create `\\src\\obj\\Release` and `\\src\\bin\\Release` folders",
+            "type": "shell"
+        },
+        {
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${workspaceFolder}\\src\\*.c",
+                "-o",
+                "${workspaceFolder}\\src\\bin\\Release\\src.exe",
+                "-s",
+                "${workspaceFolder}\\libs\\bin\\Release\\libs.a"
+            ],
+            "command": "gcc",
+            "dependsOn": ["Compile libs project", "Create `\\src\\obj\\Release` and `\\src\\bin\\Release` folders"],
+            "group": {"kind": "build", "isDefault": true},
+            "label": "C/C++: gcc.exe build active file",
+            "problemMatcher": ["$gcc"],
+            "type": "cppbuild"
+        }
+    ],
+    "version": "2.0.0"
+}
