@@ -163,10 +163,11 @@ C-Algorithms-Practical-Work-2025/
 
 -   `Master`: Branch containing the development versions of the practical work, where team members will introduce new changes (commits).
 
-> The other branches are fictional and represent individual contributions from each member to the `Master` branch.
-
 > [!IMPORTANT]
 > Stable versions are only available as [releases](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/releases).
+
+> [!NOTE]
+> The other branches are fictional and represent individual contributions from each member to the `Master` branch.
 
 ## Development team
 

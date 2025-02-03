@@ -163,10 +163,11 @@ C-Algorithms-Practical-Work-2025/
 
 -   `Master`: Rama que alberga las versiones en desarrollo del trabajo práctico, donde los miembros del equipo incorporarán nuevos cambios (confirmaciones).
 
-> Las demás ramas son ficticias y representan las contribuciones individuales que cada miembro hará sobre la rama `Master`.
-
 > [!IMPORTANT]
 > Las versiones estables solo están disponibles como [lanzamientos](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/releases).
+
+> [!NOTE]
+> Las demás ramas son ficticias y representan las contribuciones individuales que cada miembro hará sobre la rama `Master`.
 
 ## Equipo de desarrollo
 
