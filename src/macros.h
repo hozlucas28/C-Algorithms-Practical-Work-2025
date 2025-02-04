@@ -3,4 +3,4 @@
 
 #define DEVELOPMENT_TEAM "SQUASH"
 
-#endif // MACROS_H_INCLUDED
+#endif  // MACROS_H_INCLUDED
