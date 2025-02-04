@@ -7,7 +7,7 @@ If all necessary groups are formed and there are still students without a group,
 
 Groups must be formed and notified via the [MIeL](https://miel.unlam.edu.ar/) forum by 11:59 PM on Tuesday, February 4, 2025, as comments in the following post:
 
-![Post in the MIeL forum](../../statics/miel-post.PNG)
+![Post in the MIeL forum](../../statics/miel-post.png)
 
 Respecting the group formation deadline is a requirement to pass the practical work.
 
