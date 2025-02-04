@@ -143,16 +143,31 @@ C-Algorithms-Practical-Work-2025/
     gitGraph:
         commit
         commit tag: "v0.0.1"
+        branch "Blasco Nicolás"
+        commit
+        commit
+        checkout Master
+        branch "Casella Gonzalo"
+        commit
+        commit
+        checkout Master
         branch "Hoz Lucas"
         commit
         commit
         checkout Master
-        branch "TODO"
+        branch "Massa Valentin"
         commit
         commit
         checkout Master
-        merge "TODO"
-        merge "Hoz Lucas" tag: "v1.0.0"
+        branch "Rombola Facundo"
+        commit
+        commit
+        checkout Master
+        merge "Casella Gonzalo"
+        merge "Blasco Nicolás"
+        merge "Massa Valentin"
+        merge "Hoz Lucas"
+        merge "Rombola Facundo" tag: "v1.0.0"
 ```
 
 ### Etiquetas
@@ -171,8 +186,11 @@ C-Algorithms-Practical-Work-2025/
 
 ## Equipo de desarrollo
 
+-   [Blasco Nicolás](https://github.com/nicoblasco0)
+-   [Casella Gonzalo](https://github.com/Gonjuca15)
 -   [Hoz Lucas](https://github.com/hozlucas28)
--   [TODO](#) <!-- TODO -->
+-   [Massa Valentin](https://github.com/ValentinMassa)
+-   [Rombola Facundo](https://github.com/Cufaza)
 
 ## Material adicional
 
