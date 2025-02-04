@@ -36,7 +36,7 @@
 
 ## Summary
 
-This repository contains the practical work for the Algorithms and Data Structures course at the [National University of La Matanza (UNLaM)](https://www.unlam.edu.ar/). The practical work involves [TODO]. <!-- TODO -->
+This repository contains the practical work for the Algorithms and Data Structures course at the [National University of La Matanza (UNLaM)](https://www.unlam.edu.ar/). The practical work consists of developing the [Tic-Tac-Toe](https://en.wikipedia.org/wiki/Tic-tac-toe) game using the C programming language. The main objective is to integrate the game with an [API](https://simple.wikipedia.org/wiki/Application_programming_interface) to record the results and thus improve the artificial intelligence.
 
 ## Features
 

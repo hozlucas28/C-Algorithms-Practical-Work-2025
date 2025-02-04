@@ -36,7 +36,7 @@
 
 ## Resumen
 
-Este repositorio contiene el trabajo práctico de la materia Algoritmos y Estructuras de Datos de la [Universidad Nacional de La Matanza (UNLaM)](https://www.unlam.edu.ar/). El trabajo práctico consiste en [TODO]. <!-- TODO -->
+Este repositorio contiene el trabajo práctico de la materia Algoritmos y Estructuras de Datos de la [Universidad Nacional de La Matanza (UNLaM)](https://www.unlam.edu.ar/). El trabajo práctico consiste en desarrollar el juego [Tateti (Ta-C-Ti)](https://es.wikipedia.org/wiki/Tres_en_l%C3%ADnea) utilizando el lenguaje de programación C. El objetivo principal es integrar el juego con una [API](https://en.wikipedia.org/wiki/API) para registrar los resultados y así mejorar la inteligencia artificial.
 
 ## Características
 
