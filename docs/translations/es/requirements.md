@@ -7,7 +7,7 @@ En caso de conformarse todos los grupos necesarios y que aún haya estudiantes s
 
 Los grupos deben ser formados y notificados vía foro de [MIeL](https://miel.unlam.edu.ar/) hasta las 23:59 del martes 4 de febrero de 2025 como comentarios en la siguiente publicación:
 
-![Publicación en el foro de MIeL](../../statics/miel-post.png)
+![Publicación en el foro de MIeL](../../statics/requirements/miel-post.png)
 
 Respetar la fecha de conformación del grupo es condición para aprobar el trabajo práctico.
 
