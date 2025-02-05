@@ -128,7 +128,7 @@ C-Algorithms-Practical-Work-2025/
 │           ├── README.md
 │           ├── documentation.md
 │           └── requirements.md
-|
+│
 ├── libs/
 │   ├── libs.cbp
 │   ├── macros.h
@@ -140,8 +140,10 @@ C-Algorithms-Practical-Work-2025/
 │   ├── main.c
 │   ├── src.cbp
 │   ├── utilities.c
-│   └── utilities.h
-|
+│   ├── utilities.h
+│   │
+│   └── configuration/
+│
 ├── .clang-format
 ├── .gitignore
 ├── LICENSE
@@ -172,7 +174,9 @@ C-Algorithms-Practical-Work-2025/
     -   [utilities.c](./src/utilities.c) - File with the implementation of the function prototypes found in `utilities.h`.
     -   [utilities.h](./src/utilities.h) - File with the function prototypes for configuring the project.
 
--   [.clang-format](./.clang-format) - Configuration file for the `clang-format` code formatting tool.
+    -   [configuration](./src/configuration/) - Module with functions, macros, and structures to extract the configuration.
+
+-   [.clang-format](./.clang-format) - Configuration file for the [clang-format](https://clang.llvm.org/docs/ClangFormat.html) code formatting tool.
 -   [.gitignore](./.gitignore) - Git configuration file to avoid tracking unwanted files.
 -   [LICENSE](./LICENSE) - Project license.
 -   [README.md](./README.md) - Markdown file with the general documentation for the application and repository.

@@ -128,7 +128,7 @@ C-Algorithms-Practical-Work-2025/
 │           ├── README.md
 │           ├── documentation.md
 │           └── requirements.md
-|
+│
 ├── libs/
 │   ├── libs.cbp
 │   ├── macros.h
@@ -140,42 +140,46 @@ C-Algorithms-Practical-Work-2025/
 │   ├── main.c
 │   ├── src.cbp
 │   ├── utilities.c
-│   └── utilities.h
-|
+│   ├── utilities.h
+│   │
+│   └── configuration/
+│
 ├── .clang-format
 ├── .gitignore
 ├── LICENSE
 └── README.md
 ```
 
--   **[.github](../../../.github)** - Archivos relacionados a la integración continua.
+-   [.github](../../../.github) - Archivos relacionados a la integración continua.
 
-    -   **[workflows](../../../.github/workflows)** - Flujos de trabajo de las GitHub Actions.
+    -   [workflows](../../../.github/workflows) - Flujos de trabajo de las GitHub Actions.
 
--   **[.github](../../../.github)** - Archivos relacionados a la documentación de la aplicación.
+-   [.github](../../../.github) - Archivos relacionados a la documentación de la aplicación.
 
-    -   **[statics](../../../.github/statics)** - Archivos estáticos (imágenes, videos, diagramas, etc.).
-    -   **[translations](../../../.github/translations)** - Traducciones de los archivos con extensión `.md` (Markdown).
+    -   [statics](../../../.github/statics) - Archivos estáticos (imágenes, videos, diagramas, etc.).
+    -   [translations](../../../.github/translations) - Traducciones de los archivos con extensión `.md` (Markdown).
 
--   **[libs](../../../libs)** - Proyecto con las librerías necesarias para la ejecución del proyecto principal de aplicación.
+-   [libs](../../../libs) - Proyecto con las librerías necesarias para la ejecución del proyecto principal de aplicación.
 
-    -   **[libs.cbp](../../../libs/libs.cbp)** - Archivo de configuración del proyecto.
-    -   **[macros.h](../../../libs/macros.h)** - Archivo con las macros esenciales del proyecto.
-    -   **[main.h](../../../libs/main.h)** - Archivo que indexa todos los archivos `.h` del proyecto.
-    -   **[utilities.c](../../../libs/utilities.c)** - Archivo con el desarrollo de los prototipos de función presentes en `utilities.h`.
-    -   **[utilities.h](../../../libs/utilities.h)** - Archivo con los prototipos de función de uso común.
+    -   [libs.cbp](../../../libs/libs.cbp) - Archivo de configuración del proyecto.
+    -   [macros.h](../../../libs/macros.h) - Archivo con las macros esenciales del proyecto.
+    -   [main.h](../../../libs/main.h) - Archivo que indexa todos los archivos `.h` del proyecto.
+    -   [utilities.c](../../../libs/utilities.c) - Archivo con el desarrollo de los prototipos de función presentes en `utilities.h`.
+    -   [utilities.h](../../../libs/utilities.h) - Archivo con los prototipos de función de uso común.
 
--   **[src](../../../src)** - Proyecto principal de la aplicación.
+-   [src](../../../src) - Proyecto principal de la aplicación.
 
-    -   **[main.c](../../../src/main.c)** - Archivo de ejecución principal.
-    -   **[src.cbp](../../../src/src.cbp)** - Archivo de configuración del proyecto.
-    -   **[utilities.c](../../../src/utilities.c)** - Archivo con el desarrollo de los prototipos de función presentes en `utilities.h`.
-    -   **[utilities.h](../../../src/utilities.h)** - Archivo con los prototipos de función para configurar el proyecto.
+    -   [main.c](../../../src/main.c) - Archivo de ejecución principal.
+    -   [src.cbp](../../../src/src.cbp) - Archivo de configuración del proyecto.
+    -   [utilities.c](../../../src/utilities.c) - Archivo con el desarrollo de los prototipos de función presentes en `utilities.h`.
+    -   [utilities.h](../../../src/utilities.h) - Archivo con los prototipos de función para configurar el proyecto.
 
--   **[.clang-format](../../../.clang-format)** - Archivo de configuración de la herramienta de formateo de código `clang-format`.
--   **[.gitignore](../../../.gitignore)** - Archivo de configuración de Git para evitar el rastreo de archivos no deseados.
--   **[LICENSE](../../../LICENSE)** - Licencia del proyecto.
--   **[README.md](../../../README.md)** - Archivo Markdown con la documentación general de la aplicación y del repositorio.
+    -   [configuration](./src/configuration/) - Módulo con las funciones, estructuras y macros para extraer la configuración.
+
+-   [.clang-format](../../../.clang-format) - Archivo de configuración de la herramienta de formateo de código [clang-format](https://clang.llvm.org/docs/ClangFormat.html).
+-   [.gitignore](../../../.gitignore) - Archivo de configuración de Git para evitar el rastreo de archivos no deseados.
+-   [LICENSE](../../../LICENSE) - Licencia del proyecto.
+-   [README.md](../../../README.md) - Archivo Markdown con la documentación general de la aplicación y del repositorio.
 
 ## Flujo de trabajo del equipo
 
