@@ -5,4 +5,6 @@
 
 #define TEAM_NAME_LENGTH 32
 
+#define CONFIGURATION_PATH "./statics/configuration.txt"
+
 #endif  // SRC_MACROS_H_INCLUDED
