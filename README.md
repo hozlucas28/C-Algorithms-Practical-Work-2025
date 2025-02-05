@@ -7,17 +7,19 @@
 </p>
 
 <p align="center">
-    <a href="#----summary">Summary</a> •
-    <a href="#----features">Features</a> •
-    <a href="#----installation">Installation</a> •
-    <a href="#----known-issues">Known issues</a> •
-    <a href="#----application-structure">Application structure</a> •
+    <a href="#summary">Summary</a> •
+    <a href="#features">Features</a> •
+    <a href="#installation">Installation</a> •
+    <a href="#known-issues">Known issues</a> •
+    <a href="#how-to-play?">How to play</a>
     <br>
-    <a href="#----team-workflow">Team workflow</a> •
-    <a href="#----development-team">Development team</a> •
-    <a href="#----additional-material">Additional material</a> •
-    <a href="#----license">License</a> •
-    <a href="#----acknowledgments">Acknowledgments</a>
+    <a href="#application-structure">Application structure</a> •
+    <a href="#team-workflow">Team workflow</a> •
+    <a href="#development-team">Development team</a> •
+    <a href="#additional-material">Additional material</a>
+    <br>
+    <a href="#license">License</a> •
+    <a href="#acknowledgments">Acknowledgments</a>
 </p>
 
 <p align="center">
@@ -40,14 +42,14 @@ This repository contains the practical work for the Algorithms and Data Structur
 
 ## Features
 
--   Architecture planning
--   Code conventions and standards
--   Code documentation using [Doxygen](https://www.doxygen.nl/) syntax
--   Commits following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
--   Continuous integration with [GitHub Actions](https://docs.github.com/en/actions)
--   Deployment of releases
--   Team Workflow planning (branches, tags, and releases)
--   TODO <!-- TODO -->
+-   Architecture planning.
+-   Code conventions and standards.
+-   Code documentation using [Doxygen](https://www.doxygen.nl/) syntax.
+-   Commits following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+-   Continuous integration with [GitHub Actions](https://docs.github.com/en/actions).
+-   Deployment of releases.
+-   Team Workflow planning (branches, tags, and releases).
+-   TODO. <!-- TODO -->
 
 ## Installation
 
@@ -59,11 +61,50 @@ This repository contains the practical work for the Algorithms and Data Structur
 
 4. Select the [src.cbp](./src/src.cbp) project (main project), run it in Release mode, and enjoy it.
 
+> More information inside [How to play](#how-to-play) section.
+
 ### Known issues
 
 | Issue                                                       | Solution                                                                                                                                                                                                                                                                                                                                                                                                         |
 | :---------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **[src.cbp](./src/src.cbp) (main project) doesn't compile** | _Select the [libs.cbp](./libs/libs.cbp) project (library project) and compile it in Release mode and Debug mode. Then, select the [src.cbp](./src/src.cbp) project (main project), right-click on it, choose `Build Options`, and go to the `Linker settings` tab. There, add the `libs.a` files located in the `libs/bin/Debug` and `libs/bin/Release` folders. Finally, try compiling the main project again._ |
+
+## How to play
+
+TODO. <!-- TODO -->
+
+### Rules
+
+-   If it's a draw, the player earn two points.
+-   If the board is filled without a winner, the result is considered a draw.
+-   If the player has the `X` form, he makes the first move else the AI.
+-   If the player loses, he loses three points.
+-   If the player wins, he earn three points.
+-   The AI plays with a random, blocking or winning strategy, predefined at the start of the game.
+-   The order of the players is random.
+-   The player wins if he places three of his symbols in a horizontal, vertical or diagonal line.
+
+<details>
+<summary>How can I change the game configuration?</summary>
+
+TODO. <!-- TODO -->
+
+</details>
+
+### Use cases
+
+<!-- TODO -->
+
+| N°  | Description | Expected result | Received result |
+| :-: | :---------- | :-------------- | :-------------- |
+|  1  | TODO.       | TODO.           | TODO.           |
+|  2  | TODO.       | TODO.           | TODO.           |
+|  3  | TODO.       | TODO.           | TODO.           |
+|  4  | TODO.       | TODO.           | TODO.           |
+|  5  | TODO.       | TODO.           | TODO.           |
+|  6  | TODO.       | TODO.           | TODO.           |
+|  7  | TODO.       | TODO.           | TODO.           |
+|  8  | TODO.       | TODO.           | TODO.           |
 
 ## Application structure
 

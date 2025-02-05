@@ -7,17 +7,19 @@
 </p>
 
 <p align="center">
-    <a href="#----resumen">Resumen</a> •
-    <a href="#----caracteristicas">Características</a> •
-    <a href="#----instalacion">Instalación</a> •
-    <a href="#----problemas-conocidos">Problemas conocidos</a> •
-    <a href="#----estructura-de-la-aplicación">Estructura de la aplicación</a> •
+    <a href="#resumen">Resumen</a> •
+    <a href="#características">Características</a> •
+    <a href="#instalación">Instalación</a> •
+    <a href="#problemas-conocidos">Problemas conocidos</a> •
+    <a href="#Cómo-jugar">Cómo jugar</a>
     <br>
-    <a href="#----flujo-de-trabajo-del-equipo">Flujo de trabajo del equipo</a> •
-    <a href="#----equipo-de-desarrollo">Equipo de desarrollo</a> •
-    <a href="#----material-adicional">Material adicional</a> •
-    <a href="#----licencia">Licencia</a> •
-    <a href="#----agradecimientos">Agradecimientos</a>
+    <a href="#estructura-de-la-aplicación">Estructura de la aplicación</a> •
+    <a href="#flujo-de-trabajo-del-equipo">Flujo de trabajo del equipo</a> •
+    <a href="#equipo-de-desarrollo">Equipo de desarrollo</a> •
+    <a href="#material-adicional">Material adicional</a>
+    <br>
+    <a href="#licencia">Licencia</a> •
+    <a href="#agradecimientos">Agradecimientos</a>
 </p>
 
 <p align="center">
@@ -40,14 +42,14 @@ Este repositorio contiene el trabajo práctico de la materia Algoritmos y Estruc
 
 ## Características
 
--   Confirmaciones siguiendo la guía de los [Commits Convencionales](https://www.conventionalcommits.org/es/v1.0.0/)
--   Convenciones y estándares de código
--   Despliegue de entregables
--   Documentación del código utilizando la sintaxis de [Doxygen](https://www.doxygen.nl/)
--   Integración continua con [GitHub Actions](https://docs.github.com/es/actions)
--   Planificación de la arquitectura
--   Planificación del flujo de trabajo del equipo (ramas, etiquetas y versionado)
--   TODO <!-- TODO -->
+-   Confirmaciones siguiendo la guía de los [Commits Convencionales](https://www.conventionalcommits.org/es/v1.0.0/).
+-   Convenciones y estándares de código.
+-   Despliegue de entregables.
+-   Documentación del código utilizando la sintaxis de [Doxygen](https://www.doxygen.nl/).
+-   Integración continua con [GitHub Actions](https://docs.github.com/es/actions).
+-   Planificación de la arquitectura.
+-   Planificación del flujo de trabajo del equipo (ramas, etiquetas y versionado).
+-   TODO. <!-- TODO -->
 
 ## Instalación
 
@@ -59,11 +61,50 @@ Este repositorio contiene el trabajo práctico de la materia Algoritmos y Estruc
 
 4. Selecciona el proyecto [src.cbp](../../../src/src.cbp) (proyecto principal), ejecútalo en modo Release y disfrútalo.
 
+> Más información dentro de la sección [Cómo jugar](#como-jugar).
+
 ### Problemas conocidos
 
 | Problema                                                                     | Solución                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | :--------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Proyecto [src.cbp](../../../src/src.cbp) (proyecto principal) no compila** | _Selecciona el proyecto [libs.cbp](../../../libs/libs.cbp) (proyecto con las librerías) y compílalo en modo Release y en modo Debug. Luego, selecciona el proyecto [src.cbp](../../../src/src.cbp) (proyecto principal), haz clic derecho sobre este, elige la opción `Build Options` y ve a la pestaña `Linker settings`. Allí, añade los archivos `libs.a` que se encuentran dentro de las carpetas `libs/bin/Debug` y `libs/bin/Release`. Finalmente vuelve a intentar compilar el proyecto principal._ |
+
+## Cómo jugar
+
+TODO. <!-- TODO -->
+
+### Reglas
+
+-   El jugador gana si coloca tres de sus símbolos en una línea horizontal, vertical o diagonal.
+-   El orden de los jugadores es aleatorio.
+-   La IA juega con una estrategia aleatoria, de bloqueo o ganadora, predefinida al inicio del juego.
+-   Si el jugador gana, gana tres puntos.
+-   Si el jugador pierde, pierde tres puntos.
+-   Si el jugador tiene la forma `X`, él hace el primer movimiento, de lo contrario lo hace la IA.
+-   Si el tablero se llena y no hay un ganador, el resultado se considera un empate.
+-   Si es un empate, el jugador gana dos puntos.
+
+<details>
+<summary>¿Cómo puedo cambiar la configuración del juego?</summary>
+
+TODO. <!-- TODO -->
+
+</details>
+
+### Casos de uso
+
+<!-- TODO -->
+
+| N°  | Descripción | Resultado esperado | Resultado recibido |
+| :-: | :---------- | :----------------- | :----------------- |
+|  1  | TODO.       | TODO.              | TODO.              |
+|  2  | TODO.       | TODO.              | TODO.              |
+|  3  | TODO.       | TODO.              | TODO.              |
+|  4  | TODO.       | TODO.              | TODO.              |
+|  5  | TODO.       | TODO.              | TODO.              |
+|  6  | TODO.       | TODO.              | TODO.              |
+|  7  | TODO.       | TODO.              | TODO.              |
+|  8  | TODO.       | TODO.              | TODO.              |
 
 ## Estructura de la aplicación
 
