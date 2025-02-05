@@ -35,9 +35,22 @@
 			<Add library="../libs/bin/Debug/libs.a" />
 			<Add library="../libs/bin/Release/libs.a" />
 		</Linker>
+		<Unit filename="configuration/functions.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="configuration/functions.h" />
+		<Unit filename="configuration/logs/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="configuration/logs/main.h" />
+		<Unit filename="configuration/macros.h" />
+		<Unit filename="configuration/main.h" />
+		<Unit filename="configuration/structs.h" />
+		<Unit filename="macros.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="structs.h" />
 		<Unit filename="utilities.c">
 			<Option compilerVar="CC" />
 		</Unit>
