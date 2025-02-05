@@ -7,7 +7,7 @@ If all necessary groups are formed and there are still students without a group,
 
 Groups must be formed and notified via the [MIeL](https://miel.unlam.edu.ar/) forum by 11:59 PM on Tuesday, February 4, 2025, as comments in the following post:
 
-![Post in the MIeL forum](../../statics/miel-post.png)
+![Post in the MIeL forum](../../statics/requirements/miel-post.png)
 
 Respecting the group formation deadline is a requirement to pass the practical work.
 
@@ -31,6 +31,8 @@ The group name must consist of letters whose ASCII value is between `0x41` and `
 | INVISIBLE | It consists of valid characters, and according to the RAE its definition is: _"1. adj. That cannot be seen."_ |
 
 The submission must be a file with the following format: `TP_ALGORITMOS_2024_3C_{GROUP_NAME}.zip`.
+
+In the group submission through [MIeL](https://miel.unlam.edu.ar/), you must attach the `.zip` and the URL to the [GitHub](https://github.com/) repository. The repository must be public.
 
 For example: If the group's name was `INVISIBLE` _-and its members were Spinetta, Pomo, Machi, and Gubitsch-_ the file should be named `TP_ALGORITMOS_2024_3C_INVISIBLE.zip`.
 
@@ -132,3 +134,107 @@ A minimum of 8 test cases must be documented, with screenshots of the obtained o
 -   Functions should be as generic as possible.
 -   Meaningful variable names.
 -   It should work for at least all the documented test cases.
+
+## Endpoint details
+
+This [API](https://simple.wikipedia.org/wiki/Application_programming_interface) allows managing player rankings. The available [Endpoints](https://www.ibm.com/topics/api-endpoint) are: [GET](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET), [POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST), and [DELETE](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/DELETE). Below are their functions, examples, and responses.
+
+### Get rankings (GET)
+
+#### Description
+
+Retrieves the player rankings for the provided group code. If there is no data in the group, it returns an empty array.
+
+#### Endpoint
+
+`GET https://algoritmos-api.azurewebsites.net/api/TaCTi/{GroupCode}`
+
+#### Response
+
+-   200 OK: Returns an array with the group's rankings.
+-   400 Bad Request: If the group does not exist or an error occurs.
+
+#### Response example
+
+```json
+[
+    {
+        "nombreJugador": "giselle",
+        "puntaje": 10,
+        "ultimaPartidaJugada": "04/02/2025 21:37:33"
+    },
+    {
+        "nombreJugador": "matias",
+        "puntaje": 2,
+        "ultimaPartidaJugada": "04/02/2025 21:37:33"
+    }
+]
+```
+
+_If the group is empty..._
+
+```json
+[]
+```
+
+![](../../statics/requirements/get-method-with-data.png)
+
+![](../../statics/requirements/get-method-without-data.png)
+
+![](../../statics/requirements/get-method-bad-request.png)
+
+### Save rankings (POST)
+
+#### Description
+
+Saves players and their scores in the specified group. If the player's name already exists in the group, it accumulates the score.
+
+#### Endpoint
+
+`POST https://algoritmos-api.azurewebsites.net/api/TaCTi`
+
+#### Request body
+
+```json
+{
+    "CodigoGrupo": "PRUEBA",
+    "Jugadores": [
+        {
+            "nombre": "giselle",
+            "puntos": 10
+        },
+        {
+            "nombre": "matias",
+            "puntos": 2
+        }
+    ]
+}
+```
+
+#### Response
+
+-   204 No Content: Data was successfully saved.
+-   400 Bad Request: If the group does not exist or there is a problem with the provided data.
+
+![](../../statics/requirements/post-method.png)
+
+![](../../statics/requirements/post-method-bad-request-01.png)
+
+![](../../statics/requirements/post-method-bad-request-02.png)
+
+### Reset group (DELETE)
+
+#### Description
+
+Deletes all rankings from a specific group, fully resetting it. This method should not be implemented in your code; it is only provided to allow you to clear any data you have loaded.
+
+#### Endpoint
+
+`DELETE https://algoritmos-api.azurewebsites.net/api/TaCTi/{GroupCode}`
+
+#### Response
+
+-   200 OK: The group was successfully reset.
+-   400 Bad Request: If the group does not exist or an error occurs.
+
+![](../../statics/requirements/delete-method.png)
