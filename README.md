@@ -11,7 +11,7 @@
     <a href="#features">Features</a> •
     <a href="#installation">Installation</a> •
     <a href="#known-issues">Known issues</a> •
-    <a href="#how-to-play?">How to play</a>
+    <a href="#how-to-play">How to play</a>
     <br>
     <a href="#application-structure">Application structure</a> •
     <a href="#team-workflow">Team workflow</a> •
