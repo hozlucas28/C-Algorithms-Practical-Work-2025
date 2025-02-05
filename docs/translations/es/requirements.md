@@ -34,7 +34,7 @@ Se deberá entregar un archivo con el siguiente formato: `TP_ALGORITMOS_2024_3C_
 
 Por ejemplo: Si el grupo se llamase `INVISIBLE` _-y sus integrantes fueran Spinetta, Pomo, Machi y Gubitsch-_ el archivo debería llamarse `TP_ALGORITMOS_2024_3C_INVISIBLE.zip`.
 
-En la entrega grupal por [MIeL](https://miel.unlam.edu.ar/), se deberá adjuntar el `.zip` `y la URL al repositorio [GitHub](https://github.com/). El repositorio debe ser público.
+En la entrega grupal por [MIeL](https://miel.unlam.edu.ar/), se deberá adjuntar el `.zip` y la URL al repositorio [GitHub](https://github.com/). El repositorio debe ser público.
 
 El formato de entrega es motivo de rechazo del trabajo práctico. Como ocurre con cualquier sistema, debe respetar el formato solicitado.
 
