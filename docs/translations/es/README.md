@@ -3,7 +3,9 @@
 </h1>
 
 <p align="center">
-    <strong>Repositorio del trabajo práctico para la materia Algoritmos y Estructuras de Datos - <a href="https://www.unlam.edu.ar/">UNLaM</a> (Universidad Nacional de La Matanza).</strong>
+    <strong>Repositorio del trabajo práctico para la materia Algoritmos y Estructuras de Datos </strong>
+    <br>
+    <strong>- <a href="https://www.unlam.edu.ar/">UNLaM</a> (Universidad Nacional de La Matanza) -</strong>
 </p>
 
 <p align="center">

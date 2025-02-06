@@ -3,7 +3,9 @@
 </h1>
 
 <p align="center">
-    <strong>Repository for the practical work of the Algorithms and Data Structures course - <a href="https://www.unlam.edu.ar/">UNLaM</a> (National University of La Matanza).</strong>
+    <strong>Repository for the practical work of the Algorithms and Data Structures course</strong>
+    <br>
+    <strong>- <a href="https://www.unlam.edu.ar/">UNLaM</a> (National University of La Matanza) -</strong>
 </p>
 
 <p align="center">
