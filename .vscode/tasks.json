@@ -37,6 +37,7 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${workspaceFolder}\\src\\*.c",
+                "${workspaceFolder}\\src\\configuration\\*.c",
                 "-o",
                 "${workspaceFolder}\\src\\bin\\Release\\src.exe",
                 "-s",
