@@ -38,6 +38,7 @@
                 "-g",
                 "${workspaceFolder}\\src\\*.c",
                 "${workspaceFolder}\\src\\configuration\\*.c",
+                "${workspaceFolder}\\src\\configuration\\logs\\*.c",
                 "-o",
                 "${workspaceFolder}\\src\\bin\\Release\\src.exe",
                 "-s",
