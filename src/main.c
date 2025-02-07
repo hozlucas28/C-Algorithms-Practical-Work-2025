@@ -6,6 +6,7 @@
 
 #include "./configuration/main.h"
 #include "./macros.h"
+#include "./play.h"
 #include "./structs.h"
 #include "./utilities.h"
 
