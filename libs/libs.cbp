@@ -36,6 +36,7 @@
 		</Build>
 		<Unit filename="macros.h" />
 		<Unit filename="main.h" />
+		<Unit filename="structs.h" />
 		<Unit filename="utilities.c">
 			<Option compilerVar="CC" />
 		</Unit>
