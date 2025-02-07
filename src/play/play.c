@@ -32,7 +32,7 @@ int playTicTacToe(const int gamesPerPlayer, char* nameOfTheLocalFile) {
 
         updateLocalFile(&_player, nameOfTheLocalFile);
 
-        SendInformationToTheAPI(&_player);
+        sendInformationToTheAPI(&_player);
         // this part of the code may change when we have the API, and how to do it
         // Also, im not sure if the function is void or int, so we will have to see it later
     }
@@ -68,7 +68,7 @@ void playGame(Player* player) {
     // and will update the player points
 
     if (result)
-        puts("Game Over, your ass has been fucked by the machine ngg ");
+        puts("Game Over, U've lost, try again");
     else
         puts("Nice, you won, take care of your family, they may lose too");
 
@@ -86,6 +86,6 @@ void updateLocalFile(Player* player, char* nameOfTheLocalFile) {
     puts("Closing the file");
 }
 
-void SendInformationToTheAPI(Player* Player) {
+void sendInformationToTheAPI(Player* Player) {
     // i dont know what to do here yet
 }

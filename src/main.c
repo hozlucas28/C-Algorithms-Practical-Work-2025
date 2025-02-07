@@ -42,6 +42,7 @@ int main(const int argsLength, char* args[]) {
             case 1:
                 printf("\n> Team %s...", team.name);
                 printf("\n\n> [Playing Tic-Tac-Toe...]");
+                // playTicTacToe(config.gamesPerPlayer, config.localFile); needs to be added
                 break;
             case 2:
                 printf("\n> [Showing ranking...]");
