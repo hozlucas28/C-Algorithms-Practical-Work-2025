@@ -6,7 +6,7 @@
 
 #include "./configuration/main.h"
 #include "./macros.h"
-#include "./play/play.h"
+#include "./play/main.h"
 #include "./structs.h"
 #include "./utilities.h"
 
@@ -40,9 +40,8 @@ int main(const int argsLength, char* args[]) {
     while (userInput != 0) {
         switch (userInput) {
             case 1:
-                printf("\n> Team %s...", team.name);
-                printf("\n\n> [Playing Tic-Tac-Toe...]");
-                // playTicTacToe(config.gamesPerPlayer, config.localFile); needs to be added
+                printf("\n> Team %s...\n\n", team.name);
+                playTicTacToe(&config, LOCAL_FILE_PATH);
                 break;
             case 2:
                 printf("\n> [Showing ranking...]");

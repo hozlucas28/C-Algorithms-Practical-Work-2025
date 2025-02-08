@@ -9,6 +9,10 @@
 
 #define CONFIGURATION_PATH "./statics/configuration.txt"
 
+#define LOCAL_FILE_PATH "./statics/local-storage/informe-juego_"
+
+#define LOCAL_FILE_PATH_LENGTH (sizeof(LOCAL_FILE_PATH) + sizeof("YYYY-MM-DD-HH-mm") + 1)
+
 /* --------------------------------- Player --------------------------------- */
 
 #define PLAYER_NAME_LENGTH 64
