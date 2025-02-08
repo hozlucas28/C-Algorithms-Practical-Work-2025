@@ -21,6 +21,7 @@ int playTicTacToe(const Configuration* config) {
     */
 
     while (grabElementFromStack(&_ps, &_player, sizeof(_player)))
+    //
     // this function return 1 if its all ok, and 0 if the stack is empty
     {
         printf("Hello, Player %s, the game is about to star\n", _player.name);
