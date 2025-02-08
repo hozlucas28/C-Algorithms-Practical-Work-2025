@@ -35,6 +35,10 @@
 			<Add library="../libs/bin/Debug/libs.a" />
 			<Add library="../libs/bin/Release/libs.a" />
 		</Linker>
+		<Unit filename="api/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="api/main.h" />
 		<Unit filename="configuration/functions.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -50,6 +54,14 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="play/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="play/main.h" />
+		<Unit filename="play/utilities.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="play/utilities.h" />
 		<Unit filename="statics/configuration.txt" />
 		<Unit filename="structs.h" />
 		<Unit filename="utilities.c">

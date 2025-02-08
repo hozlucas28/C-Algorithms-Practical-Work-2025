@@ -34,6 +34,10 @@
 				</Linker>
 			</Target>
 		</Build>
+		<Unit filename="list/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="list/main.h" />
 		<Unit filename="macros.h" />
 		<Unit filename="main.h" />
 		<Unit filename="structs.h" />
