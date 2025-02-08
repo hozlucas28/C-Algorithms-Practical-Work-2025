@@ -1,22 +1,30 @@
-#include "play.h"
+#include "./play.h"
 
 #include "../../libs/Stack/stack.h"
+#include "../configuration/main.h"
 #include "../structs.h"
 
-int playTicTacToe(const int gamesPerPlayer, char* nameOfTheLocalFile) {
+int playTicTacToe(const Configuration* config) {
     tStack _ps;
     Player _player;
-    int games = 0;
+    unsigned games = 0;
 
     createStack(&_ps);
 
-    askNamesAndMixPlayers(&_ps);  // this function will return the stack with the players mixed
+    AskNamesLoadIntoListAndMixItAndLoadIntoAStack(
+        &_ps);  // this function will return the stack with the players mixed
+    /* This name is not appropiate, now i dont have one better, but we need to change it
+
+        We need to discuss how to do this, but the idea is to ask the names of the players nad load
+       it into a some structure (list, array, etc), then mix it and load it into a stack (if its
+       possible)
+    */
 
     while (grabElementFromStack(&_ps, &_player, sizeof(_player)))
     // this function return 1 if its all ok, and 0 if the stack is empty
     {
         printf("Hello, Player %s, the game is about to star\n", _player.name);
-        games = gamesPerPlayer;
+        games = config->gamesPerPlayer;
         while (games > 0) {
             askPlayerIfHeIsReady(&_player);  // this function will interrogate
                                              // the player if he is ready
@@ -29,13 +37,15 @@ int playTicTacToe(const int gamesPerPlayer, char* nameOfTheLocalFile) {
 
         puts("You have finished your games");
         printf("%s, Your final points are: %d \n", _player.name, _player.points);
-
-        updateLocalFile(&_player, nameOfTheLocalFile);
-
-        sendInformationToTheAPI(&_player);
-        // this part of the code may change when we have the API, and how to do it
-        // Also, im not sure if the function is void or int, so we will have to see it later
     }
+    // we need to see how to manage it
+    /*
+            updateLocalFile(&_player, nameOfTheLocalFile);
+
+                sendInformationToTheAPI(&_player);
+                 this part of the code may change when we have the API, and how to do it
+                 Also, im not sure if the function is void or int, so we will have to see it later
+    */
     return 1;
 }
 

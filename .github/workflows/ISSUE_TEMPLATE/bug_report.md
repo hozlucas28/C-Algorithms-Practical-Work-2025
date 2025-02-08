@@ -17,7 +17,6 @@ Explain to us what you were expecting from the program result after you introduc
 
 ### SCREENSHOTS OR FILE THAT SUPPLY EVIDENCE
 
-
 If you could, please attach the log error or a screenshot
 
 ### ADDITIONAL INFORMATIONl
