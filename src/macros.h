@@ -11,7 +11,8 @@
 
 #define LOCAL_FILE_PATH "./statics/local-storage/informe-juego_"
 
-#define LOCAL_FILE_PATH_LENGTH (sizeof(LOCAL_FILE_PATH) + sizeof("YYYY-MM-DD-HH-mm") + 1)
+#define LOCAL_FILE_PATH_LENGTH \
+    (sizeof(LOCAL_FILE_PATH) + sizeof("YYYY-MM-DD-HH-mm") + sizeof(".txt") + 1)
 
 /* --------------------------------- Player --------------------------------- */
 
