@@ -11,10 +11,11 @@
 #include "./utilities.h"
 
 int main(const int argsLength, char* args[]) {
-    Configuration config;
     unsigned char error;
 
     Team team;
+    Configuration config;
+    char localFilePath[LOCAL_FILE_PATH_LENGTH] = LOCAL_FILE_PATH;
 
     int userInput;
 
@@ -41,7 +42,7 @@ int main(const int argsLength, char* args[]) {
         switch (userInput) {
             case 1:
                 printf("\n> Team %s...\n\n", team.name);
-                playTicTacToe(&config, LOCAL_FILE_PATH);
+                playTicTacToe(&config, localFilePath);
                 break;
             case 2:
                 printf("\n> [Showing ranking...]");
