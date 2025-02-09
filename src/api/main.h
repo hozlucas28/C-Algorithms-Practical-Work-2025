@@ -6,6 +6,6 @@
 
 unsigned char postAPI(const Configuration* config, List* list);
 
-unsigned char createLocalFile(List* list, const char* localFilePath);
+unsigned char createLocalRecord(const Configuration* config, List* players, char* localFilePath);
 
 #endif  // SRC__API_H_INCLUDED
