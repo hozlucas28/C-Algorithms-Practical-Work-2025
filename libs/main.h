@@ -10,4 +10,7 @@
 // List
 #include "./list/main.h"
 
+// Time
+#include "./time/main.h"
+
 #endif  // LIBS_MAIN_H_INCLUDED
