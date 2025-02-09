@@ -8,9 +8,7 @@
 #include "../structs.h"
 #include "./utilities.h"
 
-unsigned char playTicTacToe(const Configuration* config, const char* localFilePath) {
-    unsigned char error;
-
+unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
     List players;
     List playersAfterMatch;
 
@@ -46,17 +44,23 @@ unsigned char playTicTacToe(const Configuration* config, const char* localFilePa
         if (!pushElement(&playersAfterMatch, &player, sizeof(player))) return 0;
     }
 
-    error = postAPI(config, &playersAfterMatch);
+    if (postAPI(config, &playersAfterMatch)) {
+        puts("> Error! An error occurred on post to the API.\n\n");
 
-    destroyList(&players);
-    destroyList(&playersAfterMatch);
+        destroyList(&players);
+        destroyList(&playersAfterMatch);
 
-    if (error) {
-        puts("> Error! An error occurred on post matches data.");
         return 0;
     };
 
-    createLocalFile(&playersAfterMatch, localFilePath);
+    if (createLocalRecord(config, &playersAfterMatch, localFilePath)) {
+        puts("> Error! An error occurred on create local record.\n\n");
+
+        destroyList(&players);
+        destroyList(&playersAfterMatch);
+
+        return 0;
+    };
 
     return 1;
 }
