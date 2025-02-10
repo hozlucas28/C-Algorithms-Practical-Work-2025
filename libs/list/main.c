@@ -138,6 +138,25 @@ void randomSort(List* _list) {
 
     _list = head;
 
+    if (length == 1) {
+        return;
+    }
+    if (length == 2) {
+        rndIndex = (rand() % (length));
+
+        if (rndIndex == index) return;
+
+        helper = __getElementAt(head, rndIndex);
+        auxPointer = (*_list)->__data;
+        elementSize = (*_list)->__sizeOfData;
+
+        (*_list)->__data = helper->__data;
+        (*_list)->__sizeOfData = helper->__sizeOfData;
+
+        helper->__data = auxPointer;
+        helper->__sizeOfData = elementSize;
+        return;
+    }
     while ((*_list) != NULL) {
         while ((rndIndex = (rand() % (length))) == index);
         helper = __getElementAt(head, rndIndex);
