@@ -1,6 +1,7 @@
 
 #include "../../libs/main.h"
 
+#include <curl/curl.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -8,8 +9,32 @@
 #include "./main.h"
 
 unsigned char postAPI(const Configuration* config, List* list) {
-    return 0;
-    // TODO
+    CURL* curl;
+    CURLcode res;
+
+    unsigned char error;
+
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+    curl = curl_easy_init();
+
+    if (!curl) return 1;
+
+    curl_easy_setopt(curl, CURLOPT_URL, config->apiURL);
+    struct curl_slist* headers = NULL;
+
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+
+    res = curl_easy_perform(curl);
+
+    if (res != CURLE_OK) error = 1;
+
+    // Limpiar y cerrar el manejo de curl
+    curl_easy_cleanup(curl);
+
+    // Finalizar el manejo global de curl
+    curl_global_cleanup();
+
+    return error;
 }
 
 unsigned char createLocalRecord(const Configuration* config, List* players, char* localFilePath) {
@@ -80,4 +105,10 @@ unsigned char createLocalRecord(const Configuration* config, List* players, char
     fclose(file);
 
     return 0;
+}
+
+size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
+    size_t realsize = size * nmemb;
+    printf("%.*s", (int)realsize, (char*)contents);
+    return realsize;
 }
