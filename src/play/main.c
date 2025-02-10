@@ -18,7 +18,10 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
     newList(&players);
     newList(&playersAfterMatch);
 
-    requestPlayerNames(&players);
+    if (!requestPlayerNames(&players)) {
+        printf("> Error! An error occurred on get player names.");
+        return 0;
+    };
 
     randomSort(&players);
 
