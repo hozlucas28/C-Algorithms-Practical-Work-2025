@@ -30,10 +30,16 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="./cURL/include" />
 		</Compiler>
+		<ResourceCompiler>
+			<Add directory="./cURL/include" />
+		</ResourceCompiler>
 		<Linker>
 			<Add library="../libs/bin/Debug/libs.a" />
 			<Add library="../libs/bin/Release/libs.a" />
+			<Add library="./cURL/lib/libcurl.dll.a" />
+			<Add directory="./cURL/lib" />
 		</Linker>
 		<Unit filename="api/main.c">
 			<Option compilerVar="CC" />
