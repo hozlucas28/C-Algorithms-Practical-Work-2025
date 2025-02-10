@@ -41,6 +41,10 @@
 		<Unit filename="macros.h" />
 		<Unit filename="main.h" />
 		<Unit filename="structs.h" />
+		<Unit filename="time/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="time/main.h" />
 		<Unit filename="utilities.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -19,6 +19,9 @@ void destroyList(List* _list);
 // Getters
 unsigned char getHead(const List* _list, void* store, const size_t sizeOfStore);
 
+unsigned char getElement(const List* _list, void* store, const size_t sizeOfStore,
+                         const size_t index);
+
 unsigned char isListEmpty(List* _list);
 
 unsigned char isListFull(List* _list, const size_t sizeOfStore);

@@ -40,6 +40,22 @@ unsigned char getHead(const List* _list, void* store, const size_t sizeOfStore) 
     return 1;
 }
 
+unsigned char getElement(const List* _list, void* store, const size_t sizeOfStore,
+                         const size_t index) {
+    size_t length = 0;
+
+    while ((*_list) != NULL && length != index) {
+        _list = &(*_list)->__next;
+        length++;
+    }
+
+    if (length != index) return 1;
+
+    memcpy(store, (*_list)->__data, MIN(sizeOfStore, (*_list)->__sizeOfData));
+
+    return 0;
+}
+
 unsigned char isListEmpty(List* _list) { return (*_list) == NULL; }
 
 unsigned char isListFull(List* _list, const size_t sizeOfStore) {
