@@ -40,7 +40,7 @@ void isPlayerReady() {
         scanf("%c", &letter);
         puts("");
 
-    } while (letter != 'Y');
+    } while (letter != 'y' && letter != 'Y');
 }
 
 void playGame(Player* player) {
