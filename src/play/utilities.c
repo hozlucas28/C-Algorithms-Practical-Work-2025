@@ -14,7 +14,17 @@ unsigned char requestPlayerNames(List* players) {
     player.points = 0;
     player.assignedForm = ' ';
 
-    do {
+    printf("> Enter a player name (0 to exit): ");
+    fflush(stdin);
+    fgets(player.name, PLAYER_NAME_LENGTH, stdin);
+    puts("");
+
+    lineBreak = strrchr(player.name, '\n');
+    if (lineBreak != NULL) *lineBreak = '\0';
+
+    if (*(player.name) == '0' || !pushElement(players, &player, sizeof(player))) return 0;
+
+    while (*(player.name) != '0') {
         printf("> Enter a player name (0 to exit): ");
         fflush(stdin);
         fgets(player.name, PLAYER_NAME_LENGTH, stdin);
@@ -23,10 +33,9 @@ unsigned char requestPlayerNames(List* players) {
         lineBreak = strrchr(player.name, '\n');
         if (lineBreak != NULL) *lineBreak = '\0';
 
-        if (*(player.name) == '0') continue;
+        if (*(player.name) == '0') break;
         if (!pushElement(players, &player, sizeof(player))) return 0;
-
-    } while (*(player.name) != '0');
+    };
 
     return 1;
 }
