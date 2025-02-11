@@ -81,6 +81,7 @@ size_t getLength(List* _list) {
 
     return length;
 }
+
 // Methods
 unsigned char pushElement(List* _list, void* data, const size_t sizeOfData) {
     Node* newNode;
@@ -172,4 +173,11 @@ void randomSort(List* _list) {
         _list = &(*_list)->__next;
         index++;
     }
+}
+
+void map(List* _list, action _action, void* punt) {
+    while (*_list) {
+        _action((*_list)->__data, punt);
+        _list = &(*_list)->__next;
+    };
 }

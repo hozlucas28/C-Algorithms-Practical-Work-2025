@@ -41,10 +41,19 @@
 			<Add library="./cURL/lib/libcurl.dll.a" />
 			<Add directory="./cURL/lib" />
 		</Linker>
+		<Unit filename="api/cJSON/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="api/cJSON/main.h" />
+		<Unit filename="api/macros.h" />
 		<Unit filename="api/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="api/main.h" />
+		<Unit filename="api/utilities.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="api/utilities.h" />
 		<Unit filename="configuration/functions.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -68,6 +77,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="play/utilities.h" />
+		<Unit filename="show-ranking/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="show-ranking/main.h" />
 		<Unit filename="statics/configuration.txt" />
 		<Unit filename="structs.h" />
 		<Unit filename="utilities.c">

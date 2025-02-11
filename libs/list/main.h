@@ -35,4 +35,8 @@ unsigned char popElement(List* _list, void* store, const size_t sizeOfStore);
 
 void randomSort(List* _list);
 
+typedef void (*action)(void* data, void* data2);
+
+void map(List* _list, action _action, void* punt);
+
 #endif  // LIBS__LIST_H_INCLUDED
