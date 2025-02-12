@@ -25,9 +25,6 @@ int main(const int argsLength, char* args[]) {
         return 1;
     };
 
-    // reprConfiguration(&config);
-    // printf("\n");
-
     strcpy(team.name, config.teamName);
 
     printf("> %s team - A Tic-Tac-Toe game developed with C...", DEVELOPMENT_TEAM);
@@ -35,7 +32,8 @@ int main(const int argsLength, char* args[]) {
     printf("\n\n> Available options:\n\n%s%s%s", " 1 - Play Tic-Tac-Toe.\n", " 2 - Show ranking.\n",
            " 0 - Exit.\n");
 
-    printf("\n> Select a option: ");
+    printf("\n> Select an option: ");
+    fflush(stdin);
     scanf("%d", &userInput);
 
     while (userInput != 0) {
@@ -48,13 +46,14 @@ int main(const int argsLength, char* args[]) {
                 printf("\n> [Showing ranking...]");
                 break;
             default:
-                printf("\n> [Invalid operation! Try again...]");
+                printf("\n> Invalid option! Try again...");
         };
 
         printf("\n\n> Available options:\n\n%s%s%s", " 1 - Play Tic-Tac-Toe.\n",
                " 2 - Show ranking.\n", " 0 - Exit.\n");
 
-        printf("\n> Select a option: ");
+        printf("\n> Select an option: ");
+        fflush(stdin);
         scanf("%d", &userInput);
     };
 
