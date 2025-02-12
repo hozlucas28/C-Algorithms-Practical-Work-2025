@@ -121,6 +121,10 @@ unsigned char popElement(List* _list, void* store, const size_t sizeOfStore) {
     return 1;
 }
 
+void sort(List* _list, int (*cmp)(const void* a, const void* b)) {
+    // TODO
+}
+
 void randomSort(List* _list) {
     size_t length = 0;
     size_t index = 0;
