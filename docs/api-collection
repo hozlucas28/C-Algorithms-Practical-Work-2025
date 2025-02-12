@@ -1,0 +1,113 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "API - Practical work",
+    "collectionId": "212b429f-9214-4e9f-85e6-728264ec519f",
+    "dateExported": "2025-02-12T00:49:06.462Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "9b195cb5-bff6-4549-b9e7-8c66e92a34dc",
+            "colId": "212b429f-9214-4e9f-85e6-728264ec519f",
+            "containerId": "",
+            "name": "Get team players",
+            "url": "https://algoritmos-api.azurewebsites.net/api/TaCTi/TABACO",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2025-02-12T00:37:47.155Z",
+            "modified": "2025-02-12T00:38:58.583Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "auth": {
+                "type": "none"
+            },
+            "preReq": {
+                "options": {
+                    "clearCookies": true
+                }
+            }
+        },
+        {
+            "_id": "871e64c4-d367-42e3-871e-7f240632264b",
+            "colId": "212b429f-9214-4e9f-85e6-728264ec519f",
+            "containerId": "",
+            "name": "Delete team",
+            "url": "https://algoritmos-api.azurewebsites.net/api/TaCTi/TABACO",
+            "method": "DELETE",
+            "sortNum": 15000,
+            "created": "2025-02-12T00:45:33.645Z",
+            "modified": "2025-02-12T00:46:02.940Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "auth": {
+                "type": "none"
+            },
+            "preReq": {
+                "options": {
+                    "clearCookies": true
+                }
+            }
+        },
+        {
+            "_id": "325b04a0-3bb8-4ea9-82bc-9dd8c268ab76",
+            "colId": "212b429f-9214-4e9f-85e6-728264ec519f",
+            "containerId": "",
+            "name": "Add new player to the team",
+            "url": "https://algoritmos-api.azurewebsites.net/api/TaCTi",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2025-02-12T00:40:15.062Z",
+            "modified": "2025-02-12T00:48:19.560Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"CodigoGrupo\": \"TABACO\",\n  \"Jugadores\": [\n    {\n      \"nombre\": \"Jugador 01\",\n      \"puntos\": 10\n    },\n    {\n      \"nombre\": \"Jugador 02\",\n      \"puntos\": 20\n    }\n  ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "none"
+            },
+            "preReq": {
+                "options": {
+                    "clearCookies": true
+                }
+            }
+        }
+    ],
+    "ref": "NLNWonK1bk0mdAJkwBnE7G-GzdJrBSSeWHvZ81ylUt3cNLxMhTXRxm_uJLa0ktcMLwKSHtgXe3Ps0Lzs1fv1VQ"
+}
