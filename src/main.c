@@ -11,6 +11,7 @@
 #include "./structs.h"
 #include "./utilities.h"
 
+
 int main(const int argsLength, char* args[]) {
     unsigned char error;
 
