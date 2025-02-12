@@ -40,9 +40,8 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
 
         printf("> You won/lose the match! Your final score is %d.\n\n", player.points);
 
+        printf("> ");
         system("pause");
-
-        puts("");
 
         if (!pushElement(&playersAfterMatch, &player, sizeof(player))) return 0;
     }
