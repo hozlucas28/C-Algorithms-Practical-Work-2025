@@ -48,6 +48,8 @@ unsigned char showRanking(const Configuration* config) {
                player.lastGamePlayed);
     };
 
+    puts("");
+
     return 1;
 }
 

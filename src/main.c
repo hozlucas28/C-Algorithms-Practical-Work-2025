@@ -50,7 +50,7 @@ int main(const int argsLength, char* args[]) {
                 printf("\n> Invalid option! Try again...");
         };
 
-        printf("\n> Available options:\n\n%s%s%s", " 1 - Play Tic-Tac-Toe.\n",
+        printf("> Available options:\n\n%s%s%s", " 1 - Play Tic-Tac-Toe.\n",
                " 2 - Show ranking.\n", " 0 - Exit.\n");
 
         printf("\n> Select an option: ");
