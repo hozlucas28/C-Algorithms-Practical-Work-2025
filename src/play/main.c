@@ -26,7 +26,7 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
     randomSort(&players);
 
     while (popElement(&players, &player, sizeof(player))) {
-        printf("> Hello %s, the game is about to start...\n\n", player.name);
+        printf("> Hi %s, now it's your turn to play...\n\n", player.name);
 
         games = config->gamesPerPlayer;
         while (games > 0) {
@@ -40,8 +40,8 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
 
         printf("> You won/lose the match! Your final score is %d.\n\n", player.points);
 
+        printf("> ");
         system("pause");
-
         puts("");
 
         if (!pushElement(&playersAfterMatch, &player, sizeof(player))) return 0;

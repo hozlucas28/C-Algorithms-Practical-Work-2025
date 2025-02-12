@@ -81,6 +81,7 @@ size_t getLength(List* _list) {
 
     return length;
 }
+
 // Methods
 unsigned char pushElement(List* _list, void* data, const size_t sizeOfData) {
     Node* newNode;
@@ -120,6 +121,34 @@ unsigned char popElement(List* _list, void* store, const size_t sizeOfStore) {
     return 1;
 }
 
+void selectionSort(List* _list, int (*cmp)(const void* a, const void* b)) {
+    void* aux;
+    unsigned tam;
+    List *minor, *iterator;
+
+    if (!(*_list)) return;
+
+    while ((*_list)->__next) {
+        iterator = &(*_list)->__next;
+        minor = _list;
+        while (*iterator) {
+            if (cmp((*minor)->__data, (*iterator)->__data) > 0) minor = iterator;
+            iterator = &(*iterator)->__next;
+        }
+        if (*minor != *_list) {
+            aux = (*_list)->__data;
+            tam = (*_list)->__sizeOfData;
+
+            (*_list)->__data = (*minor)->__data;
+            (*_list)->__sizeOfData = (*minor)->__sizeOfData;
+
+            (*minor)->__data = aux;
+            (*minor)->__sizeOfData = tam;
+        }
+        _list = &(*_list)->__next;
+    }
+}
+
 void randomSort(List* _list) {
     size_t length = 0;
     size_t index = 0;
@@ -138,6 +167,25 @@ void randomSort(List* _list) {
 
     _list = head;
 
+    if (length == 1) {
+        return;
+    }
+    if (length == 2) {
+        rndIndex = (rand() % (length));
+
+        if (rndIndex == index) return;
+
+        helper = __getElementAt(head, rndIndex);
+        auxPointer = (*_list)->__data;
+        elementSize = (*_list)->__sizeOfData;
+
+        (*_list)->__data = helper->__data;
+        (*_list)->__sizeOfData = helper->__sizeOfData;
+
+        helper->__data = auxPointer;
+        helper->__sizeOfData = elementSize;
+        return;
+    }
     while ((*_list) != NULL) {
         while ((rndIndex = (rand() % (length))) == index);
         helper = __getElementAt(head, rndIndex);
@@ -153,4 +201,11 @@ void randomSort(List* _list) {
         _list = &(*_list)->__next;
         index++;
     }
+}
+
+void map(List* _list, action _action, void* punt) {
+    while (*_list) {
+        _action((*_list)->__data, punt);
+        _list = &(*_list)->__next;
+    };
 }

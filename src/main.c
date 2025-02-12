@@ -7,6 +7,7 @@
 #include "./configuration/main.h"
 #include "./macros.h"
 #include "./play/main.h"
+#include "./show-ranking/main.h"
 #include "./structs.h"
 #include "./utilities.h"
 
@@ -43,13 +44,13 @@ int main(const int argsLength, char* args[]) {
                 playTicTacToe(&config, localFilePath);
                 break;
             case 2:
-                printf("\n> [Showing ranking...]");
+                showRanking(&config);
                 break;
             default:
                 printf("\n> Invalid option! Try again...");
         };
 
-        printf("\n\n> Available options:\n\n%s%s%s", " 1 - Play Tic-Tac-Toe.\n",
+        printf("> Available options:\n\n%s%s%s", " 1 - Play Tic-Tac-Toe.\n",
                " 2 - Show ranking.\n", " 0 - Exit.\n");
 
         printf("\n> Select an option: ");

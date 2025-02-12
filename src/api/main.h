@@ -3,8 +3,12 @@
 
 #include "../../libs/main.h"
 #include "../configuration/main.h"
+#include "./macros.h"
+#include "./utilities.h"
 
-unsigned char postAPI(const Configuration* config, List* list);
+unsigned char getAPI(const char* endpoint, List* players);
+
+unsigned char postAPI(const Configuration* config, List* players);
 
 unsigned char createLocalRecord(const Configuration* config, List* players, char* localFilePath);
 
