@@ -32,10 +32,10 @@ extern "C" {
 #endif /* defined(__cplusplus) */
 
 #ifdef WIN32
-#  ifndef WIN32_LEAN_AND_MEAN
-#    define WIN32_LEAN_AND_MEAN
-#  endif /* !defined(WIN32_LEAN_AND_MEAN) */
-#  include <ws2tcpip.h>
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif /* !defined(WIN32_LEAN_AND_MEAN) */
+#include <ws2tcpip.h>
 #endif /* defined(WIN32) */
 
 /**
@@ -96,8 +96,8 @@ NGTCP2_EXTERN ngtcp2_crypto_ctx *ngtcp2_crypto_ctx_tls(ngtcp2_crypto_ctx *ctx,
  * If libngtcp2_crypto_quictls is linked, |tls_native_handle| must be
  * a pointer to SSL object.
  */
-NGTCP2_EXTERN ngtcp2_crypto_ctx *
-ngtcp2_crypto_ctx_tls_early(ngtcp2_crypto_ctx *ctx, void *tls_native_handle);
+NGTCP2_EXTERN ngtcp2_crypto_ctx *ngtcp2_crypto_ctx_tls_early(ngtcp2_crypto_ctx *ctx,
+                                                             void *tls_native_handle);
 
 /**
  * @function
@@ -114,8 +114,7 @@ ngtcp2_crypto_ctx_tls_early(ngtcp2_crypto_ctx *ctx, void *tls_native_handle);
  * If libngtcp2_crypto_boringssl is linked, |md_native_handle| must be
  * a pointer to EVP_MD.
  */
-NGTCP2_EXTERN ngtcp2_crypto_md *ngtcp2_crypto_md_init(ngtcp2_crypto_md *md,
-                                                      void *md_native_handle);
+NGTCP2_EXTERN ngtcp2_crypto_md *ngtcp2_crypto_md_init(ngtcp2_crypto_md *md, void *md_native_handle);
 
 /**
  * @function
@@ -137,8 +136,7 @@ NGTCP2_EXTERN size_t ngtcp2_crypto_aead_keylen(const ngtcp2_crypto_aead *aead);
  * `ngtcp2_crypto_aead_noncelen` returns the length of nonce for
  * |aead|.
  */
-NGTCP2_EXTERN size_t
-ngtcp2_crypto_aead_noncelen(const ngtcp2_crypto_aead *aead);
+NGTCP2_EXTERN size_t ngtcp2_crypto_aead_noncelen(const ngtcp2_crypto_aead *aead);
 
 /**
  * @function
@@ -152,10 +150,9 @@ ngtcp2_crypto_aead_noncelen(const ngtcp2_crypto_aead *aead);
  *
  * This function returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN int
-ngtcp2_crypto_hkdf_extract(uint8_t *dest, const ngtcp2_crypto_md *md,
-                           const uint8_t *secret, size_t secretlen,
-                           const uint8_t *salt, size_t saltlen);
+NGTCP2_EXTERN int ngtcp2_crypto_hkdf_extract(uint8_t *dest, const ngtcp2_crypto_md *md,
+                                             const uint8_t *secret, size_t secretlen,
+                                             const uint8_t *salt, size_t saltlen);
 
 /**
  * @function
@@ -166,9 +163,9 @@ ngtcp2_crypto_hkdf_extract(uint8_t *dest, const ngtcp2_crypto_md *md,
  *
  * This function returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_hkdf_expand(
-  uint8_t *dest, size_t destlen, const ngtcp2_crypto_md *md,
-  const uint8_t *secret, size_t secretlen, const uint8_t *info, size_t infolen);
+NGTCP2_EXTERN int ngtcp2_crypto_hkdf_expand(uint8_t *dest, size_t destlen,
+                                            const ngtcp2_crypto_md *md, const uint8_t *secret,
+                                            size_t secretlen, const uint8_t *info, size_t infolen);
 
 /**
  * @function
@@ -179,11 +176,9 @@ NGTCP2_EXTERN int ngtcp2_crypto_hkdf_expand(
  *
  * This function returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_hkdf(uint8_t *dest, size_t destlen,
-                                     const ngtcp2_crypto_md *md,
-                                     const uint8_t *secret, size_t secretlen,
-                                     const uint8_t *salt, size_t saltlen,
-                                     const uint8_t *info, size_t infolen);
+NGTCP2_EXTERN int ngtcp2_crypto_hkdf(uint8_t *dest, size_t destlen, const ngtcp2_crypto_md *md,
+                                     const uint8_t *secret, size_t secretlen, const uint8_t *salt,
+                                     size_t saltlen, const uint8_t *info, size_t infolen);
 
 /**
  * @function
@@ -191,8 +186,7 @@ NGTCP2_EXTERN int ngtcp2_crypto_hkdf(uint8_t *dest, size_t destlen,
  * `ngtcp2_crypto_packet_protection_ivlen` returns the length of IV
  * used to encrypt QUIC packet.
  */
-NGTCP2_EXTERN size_t
-ngtcp2_crypto_packet_protection_ivlen(const ngtcp2_crypto_aead *aead);
+NGTCP2_EXTERN size_t ngtcp2_crypto_packet_protection_ivlen(const ngtcp2_crypto_aead *aead);
 
 /**
  * @function
@@ -206,13 +200,11 @@ ngtcp2_crypto_packet_protection_ivlen(const ngtcp2_crypto_aead *aead);
  *
  * This function returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_encrypt(uint8_t *dest,
-                                        const ngtcp2_crypto_aead *aead,
+NGTCP2_EXTERN int ngtcp2_crypto_encrypt(uint8_t *dest, const ngtcp2_crypto_aead *aead,
                                         const ngtcp2_crypto_aead_ctx *aead_ctx,
-                                        const uint8_t *plaintext,
-                                        size_t plaintextlen,
-                                        const uint8_t *nonce, size_t noncelen,
-                                        const uint8_t *aad, size_t aadlen);
+                                        const uint8_t *plaintext, size_t plaintextlen,
+                                        const uint8_t *nonce, size_t noncelen, const uint8_t *aad,
+                                        size_t aadlen);
 
 /**
  * @function
@@ -224,12 +216,11 @@ NGTCP2_EXTERN int ngtcp2_crypto_encrypt(uint8_t *dest,
  * This function returns 0 if it succeeds, or
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE`.
  */
-NGTCP2_EXTERN int
-ngtcp2_crypto_encrypt_cb(uint8_t *dest, const ngtcp2_crypto_aead *aead,
-                         const ngtcp2_crypto_aead_ctx *aead_ctx,
-                         const uint8_t *plaintext, size_t plaintextlen,
-                         const uint8_t *nonce, size_t noncelen,
-                         const uint8_t *aad, size_t aadlen);
+NGTCP2_EXTERN int ngtcp2_crypto_encrypt_cb(uint8_t *dest, const ngtcp2_crypto_aead *aead,
+                                           const ngtcp2_crypto_aead_ctx *aead_ctx,
+                                           const uint8_t *plaintext, size_t plaintextlen,
+                                           const uint8_t *nonce, size_t noncelen,
+                                           const uint8_t *aad, size_t aadlen);
 
 /**
  * @function
@@ -243,13 +234,11 @@ ngtcp2_crypto_encrypt_cb(uint8_t *dest, const ngtcp2_crypto_aead *aead,
  *
  * This function returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_decrypt(uint8_t *dest,
-                                        const ngtcp2_crypto_aead *aead,
+NGTCP2_EXTERN int ngtcp2_crypto_decrypt(uint8_t *dest, const ngtcp2_crypto_aead *aead,
                                         const ngtcp2_crypto_aead_ctx *aead_ctx,
-                                        const uint8_t *ciphertext,
-                                        size_t ciphertextlen,
-                                        const uint8_t *nonce, size_t noncelen,
-                                        const uint8_t *aad, size_t aadlen);
+                                        const uint8_t *ciphertext, size_t ciphertextlen,
+                                        const uint8_t *nonce, size_t noncelen, const uint8_t *aad,
+                                        size_t aadlen);
 
 /**
  * @function
@@ -261,12 +250,11 @@ NGTCP2_EXTERN int ngtcp2_crypto_decrypt(uint8_t *dest,
  * This function returns 0 if it succeeds, or
  * :macro:`NGTCP2_ERR_TLS_DECRYPT`.
  */
-NGTCP2_EXTERN int
-ngtcp2_crypto_decrypt_cb(uint8_t *dest, const ngtcp2_crypto_aead *aead,
-                         const ngtcp2_crypto_aead_ctx *aead_ctx,
-                         const uint8_t *ciphertext, size_t ciphertextlen,
-                         const uint8_t *nonce, size_t noncelen,
-                         const uint8_t *aad, size_t aadlen);
+NGTCP2_EXTERN int ngtcp2_crypto_decrypt_cb(uint8_t *dest, const ngtcp2_crypto_aead *aead,
+                                           const ngtcp2_crypto_aead_ctx *aead_ctx,
+                                           const uint8_t *ciphertext, size_t ciphertextlen,
+                                           const uint8_t *nonce, size_t noncelen,
+                                           const uint8_t *aad, size_t aadlen);
 
 /**
  * @function
@@ -282,8 +270,7 @@ ngtcp2_crypto_decrypt_cb(uint8_t *dest, const ngtcp2_crypto_aead *aead,
  *
  * This function returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_hp_mask(uint8_t *dest,
-                                        const ngtcp2_crypto_cipher *hp,
+NGTCP2_EXTERN int ngtcp2_crypto_hp_mask(uint8_t *dest, const ngtcp2_crypto_cipher *hp,
                                         const ngtcp2_crypto_cipher_ctx *hp_ctx,
                                         const uint8_t *sample);
 
@@ -297,10 +284,9 @@ NGTCP2_EXTERN int ngtcp2_crypto_hp_mask(uint8_t *dest,
  * This function returns 0 if it succeeds, or
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE`.
  */
-NGTCP2_EXTERN int
-ngtcp2_crypto_hp_mask_cb(uint8_t *dest, const ngtcp2_crypto_cipher *hp,
-                         const ngtcp2_crypto_cipher_ctx *hp_ctx,
-                         const uint8_t *sample);
+NGTCP2_EXTERN int ngtcp2_crypto_hp_mask_cb(uint8_t *dest, const ngtcp2_crypto_cipher *hp,
+                                           const ngtcp2_crypto_cipher_ctx *hp_ctx,
+                                           const uint8_t *sample);
 
 /**
  * @function
@@ -345,9 +331,10 @@ ngtcp2_crypto_hp_mask_cb(uint8_t *dest, const ngtcp2_crypto_cipher *hp,
  *
  * This function returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_derive_and_install_rx_key(
-  ngtcp2_conn *conn, uint8_t *key, uint8_t *iv, uint8_t *hp,
-  ngtcp2_encryption_level level, const uint8_t *secret, size_t secretlen);
+NGTCP2_EXTERN int ngtcp2_crypto_derive_and_install_rx_key(ngtcp2_conn *conn, uint8_t *key,
+                                                          uint8_t *iv, uint8_t *hp,
+                                                          ngtcp2_encryption_level level,
+                                                          const uint8_t *secret, size_t secretlen);
 
 /**
  * @function
@@ -392,9 +379,10 @@ NGTCP2_EXTERN int ngtcp2_crypto_derive_and_install_rx_key(
  *
  * This function returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_derive_and_install_tx_key(
-  ngtcp2_conn *conn, uint8_t *key, uint8_t *iv, uint8_t *hp,
-  ngtcp2_encryption_level level, const uint8_t *secret, size_t secretlen);
+NGTCP2_EXTERN int ngtcp2_crypto_derive_and_install_tx_key(ngtcp2_conn *conn, uint8_t *key,
+                                                          uint8_t *iv, uint8_t *hp,
+                                                          ngtcp2_encryption_level level,
+                                                          const uint8_t *secret, size_t secretlen);
 
 /**
  * @function
@@ -432,12 +420,12 @@ NGTCP2_EXTERN int ngtcp2_crypto_derive_and_install_tx_key(
  *
  * This function returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_update_key(
-  ngtcp2_conn *conn, uint8_t *rx_secret, uint8_t *tx_secret,
-  ngtcp2_crypto_aead_ctx *rx_aead_ctx, uint8_t *rx_key, uint8_t *rx_iv,
-  ngtcp2_crypto_aead_ctx *tx_aead_ctx, uint8_t *tx_key, uint8_t *tx_iv,
-  const uint8_t *current_rx_secret, const uint8_t *current_tx_secret,
-  size_t secretlen);
+NGTCP2_EXTERN int ngtcp2_crypto_update_key(ngtcp2_conn *conn, uint8_t *rx_secret,
+                                           uint8_t *tx_secret, ngtcp2_crypto_aead_ctx *rx_aead_ctx,
+                                           uint8_t *rx_key, uint8_t *rx_iv,
+                                           ngtcp2_crypto_aead_ctx *tx_aead_ctx, uint8_t *tx_key,
+                                           uint8_t *tx_iv, const uint8_t *current_rx_secret,
+                                           const uint8_t *current_tx_secret, size_t secretlen);
 
 /**
  * @function
@@ -449,12 +437,13 @@ NGTCP2_EXTERN int ngtcp2_crypto_update_key(
  * This function returns 0 if it succeeds, or
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE`.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_update_key_cb(
-  ngtcp2_conn *conn, uint8_t *rx_secret, uint8_t *tx_secret,
-  ngtcp2_crypto_aead_ctx *rx_aead_ctx, uint8_t *rx_iv,
-  ngtcp2_crypto_aead_ctx *tx_aead_ctx, uint8_t *tx_iv,
-  const uint8_t *current_rx_secret, const uint8_t *current_tx_secret,
-  size_t secretlen, void *user_data);
+NGTCP2_EXTERN int ngtcp2_crypto_update_key_cb(ngtcp2_conn *conn, uint8_t *rx_secret,
+                                              uint8_t *tx_secret,
+                                              ngtcp2_crypto_aead_ctx *rx_aead_ctx, uint8_t *rx_iv,
+                                              ngtcp2_crypto_aead_ctx *tx_aead_ctx, uint8_t *tx_iv,
+                                              const uint8_t *current_rx_secret,
+                                              const uint8_t *current_tx_secret, size_t secretlen,
+                                              void *user_data);
 
 /**
  * @function
@@ -469,8 +458,7 @@ NGTCP2_EXTERN int ngtcp2_crypto_update_key_cb(
  * This function returns 0 if it succeeds, or
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE`.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_client_initial_cb(ngtcp2_conn *conn,
-                                                  void *user_data);
+NGTCP2_EXTERN int ngtcp2_crypto_client_initial_cb(ngtcp2_conn *conn, void *user_data);
 
 /**
  * @function
@@ -485,8 +473,7 @@ NGTCP2_EXTERN int ngtcp2_crypto_client_initial_cb(ngtcp2_conn *conn,
  * This function returns 0 if it succeeds, or
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE`.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_recv_retry_cb(ngtcp2_conn *conn,
-                                              const ngtcp2_pkt_hd *hd,
+NGTCP2_EXTERN int ngtcp2_crypto_recv_retry_cb(ngtcp2_conn *conn, const ngtcp2_pkt_hd *hd,
                                               void *user_data);
 
 /**
@@ -503,8 +490,7 @@ NGTCP2_EXTERN int ngtcp2_crypto_recv_retry_cb(ngtcp2_conn *conn,
  * This function returns 0 if it succeeds, or
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE`.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_recv_client_initial_cb(ngtcp2_conn *conn,
-                                                       const ngtcp2_cid *dcid,
+NGTCP2_EXTERN int ngtcp2_crypto_recv_client_initial_cb(ngtcp2_conn *conn, const ngtcp2_cid *dcid,
                                                        void *user_data);
 
 /**
@@ -523,10 +509,9 @@ NGTCP2_EXTERN int ngtcp2_crypto_recv_client_initial_cb(ngtcp2_conn *conn,
  * underlying TLS implementation.  For quictls, the error codes are
  * defined in *ngtcp2_crypto_quictls.h*.
  */
-NGTCP2_EXTERN int
-ngtcp2_crypto_read_write_crypto_data(ngtcp2_conn *conn,
-                                     ngtcp2_encryption_level encryption_level,
-                                     const uint8_t *data, size_t datalen);
+NGTCP2_EXTERN int ngtcp2_crypto_read_write_crypto_data(ngtcp2_conn *conn,
+                                                       ngtcp2_encryption_level encryption_level,
+                                                       const uint8_t *data, size_t datalen);
 
 /**
  * @function
@@ -541,9 +526,10 @@ ngtcp2_crypto_read_write_crypto_data(ngtcp2_conn *conn,
  * application wishes to use the TLS implementation specific error
  * codes.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_recv_crypto_data_cb(
-  ngtcp2_conn *conn, ngtcp2_encryption_level encryption_level, uint64_t offset,
-  const uint8_t *data, size_t datalen, void *user_data);
+NGTCP2_EXTERN int ngtcp2_crypto_recv_crypto_data_cb(ngtcp2_conn *conn,
+                                                    ngtcp2_encryption_level encryption_level,
+                                                    uint64_t offset, const uint8_t *data,
+                                                    size_t datalen, void *user_data);
 
 /**
  * @function
@@ -556,9 +542,10 @@ NGTCP2_EXTERN int ngtcp2_crypto_recv_crypto_data_cb(
  *
  * This function returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_generate_stateless_reset_token(
-  uint8_t *token, const uint8_t *secret, size_t secretlen,
-  const ngtcp2_cid *cid);
+NGTCP2_EXTERN int ngtcp2_crypto_generate_stateless_reset_token(uint8_t *token,
+                                                               const uint8_t *secret,
+                                                               size_t secretlen,
+                                                               const ngtcp2_cid *cid);
 
 /**
  * @macro
@@ -600,10 +587,9 @@ NGTCP2_EXTERN int ngtcp2_crypto_generate_stateless_reset_token(
  * :macro:`NGTCP2_CRYPTO_MAX_RETRY_TOKENLEN` is the maximum length of
  * a token generated by `ngtcp2_crypto_generate_retry_token`.
  */
-#define NGTCP2_CRYPTO_MAX_RETRY_TOKENLEN                                       \
-  (/* magic = */ 1 + /* cid len = */ 1 + NGTCP2_MAX_CIDLEN +                   \
-   sizeof(ngtcp2_tstamp) + /* aead tag = */ 16 +                               \
-   NGTCP2_CRYPTO_TOKEN_RAND_DATALEN)
+#define NGTCP2_CRYPTO_MAX_RETRY_TOKENLEN                                               \
+    (/* magic = */ 1 + /* cid len = */ 1 + NGTCP2_MAX_CIDLEN + sizeof(ngtcp2_tstamp) + \
+     /* aead tag = */ 16 + NGTCP2_CRYPTO_TOKEN_RAND_DATALEN)
 
 /**
  * @macro
@@ -611,10 +597,9 @@ NGTCP2_EXTERN int ngtcp2_crypto_generate_stateless_reset_token(
  * :macro:`NGTCP2_CRYPTO_MAX_RETRY_TOKENLEN2` is the maximum length of
  * a token generated by `ngtcp2_crypto_generate_retry_token2`.
  */
-#define NGTCP2_CRYPTO_MAX_RETRY_TOKENLEN2                                      \
-  (/* magic = */ 1 + sizeof(ngtcp2_sockaddr_union) + /* cid len = */ 1 +       \
-   NGTCP2_MAX_CIDLEN + sizeof(ngtcp2_tstamp) + /* aead tag = */ 16 +           \
-   NGTCP2_CRYPTO_TOKEN_RAND_DATALEN)
+#define NGTCP2_CRYPTO_MAX_RETRY_TOKENLEN2                                                      \
+    (/* magic = */ 1 + sizeof(ngtcp2_sockaddr_union) + /* cid len = */ 1 + NGTCP2_MAX_CIDLEN + \
+     sizeof(ngtcp2_tstamp) + /* aead tag = */ 16 + NGTCP2_CRYPTO_TOKEN_RAND_DATALEN)
 
 /**
  * @macro
@@ -622,9 +607,9 @@ NGTCP2_EXTERN int ngtcp2_crypto_generate_stateless_reset_token(
  * :macro:`NGTCP2_CRYPTO_MAX_REGULAR_TOKENLEN` is the maximum length
  *  of a token generated by `ngtcp2_crypto_generate_regular_token`.
  */
-#define NGTCP2_CRYPTO_MAX_REGULAR_TOKENLEN                                     \
-  (/* magic = */ 1 + sizeof(ngtcp2_tstamp) + /* aead tag = */ 16 +             \
-   NGTCP2_CRYPTO_TOKEN_RAND_DATALEN)
+#define NGTCP2_CRYPTO_MAX_REGULAR_TOKENLEN                           \
+    (/* magic = */ 1 + sizeof(ngtcp2_tstamp) + /* aead tag = */ 16 + \
+     NGTCP2_CRYPTO_TOKEN_RAND_DATALEN)
 
 /**
  * @function
@@ -648,9 +633,9 @@ NGTCP2_EXTERN int ngtcp2_crypto_generate_stateless_reset_token(
  * or -1.
  */
 NGTCP2_EXTERN ngtcp2_ssize ngtcp2_crypto_generate_retry_token(
-  uint8_t *token, const uint8_t *secret, size_t secretlen, uint32_t version,
-  const ngtcp2_sockaddr *remote_addr, ngtcp2_socklen remote_addrlen,
-  const ngtcp2_cid *retry_scid, const ngtcp2_cid *odcid, ngtcp2_tstamp ts);
+    uint8_t *token, const uint8_t *secret, size_t secretlen, uint32_t version,
+    const ngtcp2_sockaddr *remote_addr, ngtcp2_socklen remote_addrlen, const ngtcp2_cid *retry_scid,
+    const ngtcp2_cid *odcid, ngtcp2_tstamp ts);
 
 /**
  * @function
@@ -670,11 +655,13 @@ NGTCP2_EXTERN ngtcp2_ssize ngtcp2_crypto_generate_retry_token(
  *
  * This function returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_verify_retry_token(
-  ngtcp2_cid *odcid, const uint8_t *token, size_t tokenlen,
-  const uint8_t *secret, size_t secretlen, uint32_t version,
-  const ngtcp2_sockaddr *remote_addr, ngtcp2_socklen remote_addrlen,
-  const ngtcp2_cid *dcid, ngtcp2_duration timeout, ngtcp2_tstamp ts);
+NGTCP2_EXTERN int ngtcp2_crypto_verify_retry_token(ngtcp2_cid *odcid, const uint8_t *token,
+                                                   size_t tokenlen, const uint8_t *secret,
+                                                   size_t secretlen, uint32_t version,
+                                                   const ngtcp2_sockaddr *remote_addr,
+                                                   ngtcp2_socklen remote_addrlen,
+                                                   const ngtcp2_cid *dcid, ngtcp2_duration timeout,
+                                                   ngtcp2_tstamp ts);
 
 /**
  * @function
@@ -701,9 +688,9 @@ NGTCP2_EXTERN int ngtcp2_crypto_verify_retry_token(
  * or -1.
  */
 NGTCP2_EXTERN ngtcp2_ssize ngtcp2_crypto_generate_retry_token2(
-  uint8_t *token, const uint8_t *secret, size_t secretlen, uint32_t version,
-  const ngtcp2_sockaddr *remote_addr, ngtcp2_socklen remote_addrlen,
-  const ngtcp2_cid *retry_scid, const ngtcp2_cid *odcid, ngtcp2_tstamp ts);
+    uint8_t *token, const uint8_t *secret, size_t secretlen, uint32_t version,
+    const ngtcp2_sockaddr *remote_addr, ngtcp2_socklen remote_addrlen, const ngtcp2_cid *retry_scid,
+    const ngtcp2_cid *odcid, ngtcp2_tstamp ts);
 
 /**
  * @function
@@ -736,11 +723,13 @@ NGTCP2_EXTERN ngtcp2_ssize ngtcp2_crypto_generate_retry_token2(
  * :macro:`NGTCP2_CRYPTO_ERR_INTERNAL`
  *     Internal error occurred.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_verify_retry_token2(
-  ngtcp2_cid *odcid, const uint8_t *token, size_t tokenlen,
-  const uint8_t *secret, size_t secretlen, uint32_t version,
-  const ngtcp2_sockaddr *remote_addr, ngtcp2_socklen remote_addrlen,
-  const ngtcp2_cid *dcid, ngtcp2_duration timeout, ngtcp2_tstamp ts);
+NGTCP2_EXTERN int ngtcp2_crypto_verify_retry_token2(ngtcp2_cid *odcid, const uint8_t *token,
+                                                    size_t tokenlen, const uint8_t *secret,
+                                                    size_t secretlen, uint32_t version,
+                                                    const ngtcp2_sockaddr *remote_addr,
+                                                    ngtcp2_socklen remote_addrlen,
+                                                    const ngtcp2_cid *dcid, ngtcp2_duration timeout,
+                                                    ngtcp2_tstamp ts);
 
 /**
  * @function
@@ -759,9 +748,8 @@ NGTCP2_EXTERN int ngtcp2_crypto_verify_retry_token2(
  * or -1.
  */
 NGTCP2_EXTERN ngtcp2_ssize ngtcp2_crypto_generate_regular_token(
-  uint8_t *token, const uint8_t *secret, size_t secretlen,
-  const ngtcp2_sockaddr *remote_addr, ngtcp2_socklen remote_addrlen,
-  ngtcp2_tstamp ts);
+    uint8_t *token, const uint8_t *secret, size_t secretlen, const ngtcp2_sockaddr *remote_addr,
+    ngtcp2_socklen remote_addrlen, ngtcp2_tstamp ts);
 
 /**
  * @function
@@ -775,10 +763,11 @@ NGTCP2_EXTERN ngtcp2_ssize ngtcp2_crypto_generate_regular_token(
  *
  * This function returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_verify_regular_token(
-  const uint8_t *token, size_t tokenlen, const uint8_t *secret,
-  size_t secretlen, const ngtcp2_sockaddr *remote_addr,
-  ngtcp2_socklen remote_addrlen, ngtcp2_duration timeout, ngtcp2_tstamp ts);
+NGTCP2_EXTERN int ngtcp2_crypto_verify_regular_token(const uint8_t *token, size_t tokenlen,
+                                                     const uint8_t *secret, size_t secretlen,
+                                                     const ngtcp2_sockaddr *remote_addr,
+                                                     ngtcp2_socklen remote_addrlen,
+                                                     ngtcp2_duration timeout, ngtcp2_tstamp ts);
 
 /**
  * @function
@@ -800,9 +789,8 @@ NGTCP2_EXTERN int ngtcp2_crypto_verify_regular_token(
  * This function returns 0 if it succeeds, or -1.
  */
 NGTCP2_EXTERN ngtcp2_ssize ngtcp2_crypto_write_connection_close(
-  uint8_t *dest, size_t destlen, uint32_t version, const ngtcp2_cid *dcid,
-  const ngtcp2_cid *scid, uint64_t error_code, const uint8_t *reason,
-  size_t reasonlen);
+    uint8_t *dest, size_t destlen, uint32_t version, const ngtcp2_cid *dcid, const ngtcp2_cid *scid,
+    uint64_t error_code, const uint8_t *reason, size_t reasonlen);
 
 /**
  * @function
@@ -819,10 +807,11 @@ NGTCP2_EXTERN ngtcp2_ssize ngtcp2_crypto_write_connection_close(
  *
  * This function returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN ngtcp2_ssize ngtcp2_crypto_write_retry(
-  uint8_t *dest, size_t destlen, uint32_t version, const ngtcp2_cid *dcid,
-  const ngtcp2_cid *scid, const ngtcp2_cid *odcid, const uint8_t *token,
-  size_t tokenlen);
+NGTCP2_EXTERN ngtcp2_ssize ngtcp2_crypto_write_retry(uint8_t *dest, size_t destlen,
+                                                     uint32_t version, const ngtcp2_cid *dcid,
+                                                     const ngtcp2_cid *scid,
+                                                     const ngtcp2_cid *odcid, const uint8_t *token,
+                                                     size_t tokenlen);
 
 /**
  * @function
@@ -834,10 +823,9 @@ NGTCP2_EXTERN ngtcp2_ssize ngtcp2_crypto_write_retry(
  *
  * This function returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN int
-ngtcp2_crypto_aead_ctx_encrypt_init(ngtcp2_crypto_aead_ctx *aead_ctx,
-                                    const ngtcp2_crypto_aead *aead,
-                                    const uint8_t *key, size_t noncelen);
+NGTCP2_EXTERN int ngtcp2_crypto_aead_ctx_encrypt_init(ngtcp2_crypto_aead_ctx *aead_ctx,
+                                                      const ngtcp2_crypto_aead *aead,
+                                                      const uint8_t *key, size_t noncelen);
 
 /**
  * @function
@@ -849,10 +837,9 @@ ngtcp2_crypto_aead_ctx_encrypt_init(ngtcp2_crypto_aead_ctx *aead_ctx,
  *
  * This function returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN int
-ngtcp2_crypto_aead_ctx_decrypt_init(ngtcp2_crypto_aead_ctx *aead_ctx,
-                                    const ngtcp2_crypto_aead *aead,
-                                    const uint8_t *key, size_t noncelen);
+NGTCP2_EXTERN int ngtcp2_crypto_aead_ctx_decrypt_init(ngtcp2_crypto_aead_ctx *aead_ctx,
+                                                      const ngtcp2_crypto_aead *aead,
+                                                      const uint8_t *key, size_t noncelen);
 
 /**
  * @function
@@ -861,8 +848,7 @@ ngtcp2_crypto_aead_ctx_decrypt_init(ngtcp2_crypto_aead_ctx *aead_ctx,
  * |aead_ctx|.  This function does not free the memory pointed by
  * |aead_ctx| itself.
  */
-NGTCP2_EXTERN void
-ngtcp2_crypto_aead_ctx_free(ngtcp2_crypto_aead_ctx *aead_ctx);
+NGTCP2_EXTERN void ngtcp2_crypto_aead_ctx_free(ngtcp2_crypto_aead_ctx *aead_ctx);
 
 /**
  * @function
@@ -873,8 +859,9 @@ ngtcp2_crypto_aead_ctx_free(ngtcp2_crypto_aead_ctx *aead_ctx);
  * This function can be directly passed to
  * :member:`ngtcp2_callbacks.delete_crypto_aead_ctx` field.
  */
-NGTCP2_EXTERN void ngtcp2_crypto_delete_crypto_aead_ctx_cb(
-  ngtcp2_conn *conn, ngtcp2_crypto_aead_ctx *aead_ctx, void *user_data);
+NGTCP2_EXTERN void ngtcp2_crypto_delete_crypto_aead_ctx_cb(ngtcp2_conn *conn,
+                                                           ngtcp2_crypto_aead_ctx *aead_ctx,
+                                                           void *user_data);
 
 /**
  * @function
@@ -885,8 +872,9 @@ NGTCP2_EXTERN void ngtcp2_crypto_delete_crypto_aead_ctx_cb(
  * This function can be directly passed to
  * :member:`ngtcp2_callbacks.delete_crypto_cipher_ctx` field.
  */
-NGTCP2_EXTERN void ngtcp2_crypto_delete_crypto_cipher_ctx_cb(
-  ngtcp2_conn *conn, ngtcp2_crypto_cipher_ctx *cipher_ctx, void *user_data);
+NGTCP2_EXTERN void ngtcp2_crypto_delete_crypto_cipher_ctx_cb(ngtcp2_conn *conn,
+                                                             ngtcp2_crypto_cipher_ctx *cipher_ctx,
+                                                             void *user_data);
 
 /**
  * @function
@@ -898,8 +886,7 @@ NGTCP2_EXTERN void ngtcp2_crypto_delete_crypto_cipher_ctx_cb(
  * This function can be directly passed to
  * :member:`ngtcp2_callbacks.get_path_challenge_data` field.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_get_path_challenge_data_cb(ngtcp2_conn *conn,
-                                                           uint8_t *data,
+NGTCP2_EXTERN int ngtcp2_crypto_get_path_challenge_data_cb(ngtcp2_conn *conn, uint8_t *data,
                                                            void *user_data);
 
 /**
@@ -913,10 +900,9 @@ NGTCP2_EXTERN int ngtcp2_crypto_get_path_challenge_data_cb(ngtcp2_conn *conn,
  * This function can be directly passed to
  * :member:`ngtcp2_callbacks.version_negotiation` field.
  */
-NGTCP2_EXTERN int
-ngtcp2_crypto_version_negotiation_cb(ngtcp2_conn *conn, uint32_t version,
-                                     const ngtcp2_cid *client_dcid,
-                                     void *user_data);
+NGTCP2_EXTERN int ngtcp2_crypto_version_negotiation_cb(ngtcp2_conn *conn, uint32_t version,
+                                                       const ngtcp2_cid *client_dcid,
+                                                       void *user_data);
 
 typedef struct ngtcp2_crypto_conn_ref ngtcp2_crypto_conn_ref;
 
@@ -927,8 +913,7 @@ typedef struct ngtcp2_crypto_conn_ref ngtcp2_crypto_conn_ref;
  * pointer to :type:`ngtcp2_conn` from |conn_ref|.  The implementation
  * must return non-NULL :type:`ngtcp2_conn` object.
  */
-typedef ngtcp2_conn *(*ngtcp2_crypto_get_conn)(
-  ngtcp2_crypto_conn_ref *conn_ref);
+typedef ngtcp2_conn *(*ngtcp2_crypto_get_conn)(ngtcp2_crypto_conn_ref *conn_ref);
 
 /**
  * @struct
@@ -938,15 +923,15 @@ typedef ngtcp2_conn *(*ngtcp2_crypto_get_conn)(
  * an application specific data (e.g. SSL_set_app_data in quictls).
  */
 typedef struct ngtcp2_crypto_conn_ref {
-  /**
-   * :member:`get_conn` is a callback function to get a pointer to
-   * :type:`ngtcp2_conn` object.
-   */
-  ngtcp2_crypto_get_conn get_conn;
-  /**
-   * :member:`user_data` is a pointer to arbitrary user data.
-   */
-  void *user_data;
+    /**
+     * :member:`get_conn` is a callback function to get a pointer to
+     * :type:`ngtcp2_conn` object.
+     */
+    ngtcp2_crypto_get_conn get_conn;
+    /**
+     * :member:`user_data` is a pointer to arbitrary user data.
+     */
+    void *user_data;
 } ngtcp2_crypto_conn_ref;
 
 #ifdef __cplusplus

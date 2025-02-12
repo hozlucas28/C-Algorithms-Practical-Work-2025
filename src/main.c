@@ -11,10 +11,6 @@
 #include "./structs.h"
 #include "./utilities.h"
 
-
-
-
-
 int main(const int argsLength, char* args[]) {
     unsigned char error;
 
@@ -54,8 +50,8 @@ int main(const int argsLength, char* args[]) {
                 printf("\n> Invalid option! Try again...");
         };
 
-        printf("> Available options:\n\n%s%s%s", " 1 - Play Tic-Tac-Toe.\n",
-               " 2 - Show ranking.\n", " 0 - Exit.\n");
+        printf("> Available options:\n\n%s%s%s", " 1 - Play Tic-Tac-Toe.\n", " 2 - Show ranking.\n",
+               " 0 - Exit.\n");
 
         printf("\n> Select an option: ");
         fflush(stdin);
