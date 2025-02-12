@@ -33,5 +33,5 @@ jobs:
               uses: ad-m/github-push-action@v0.8.0
               with:
                   branch: ${{ github.ref }}
-                  force_with_lease: true
+                  force: true
                   github_token: ${{ secrets.ADMIN }}
