@@ -15,6 +15,11 @@ unsigned char showRanking(const Configuration* config) {
     char endpoint[MAXIMUM_API_URL_LENGTH];
 
     List players;
+    size_t playersLength;
+
+    int i;
+    APIPlayer player;
+
     newList(&players);
 
     error = __concatEndpoint(config->apiURL, config->teamName, endpoint);
@@ -23,15 +28,25 @@ unsigned char showRanking(const Configuration* config) {
         return 0;
     }
 
-    printf("\n\n> %s\n\n", endpoint);
-
     error = getAPI(endpoint, &players);
     if (!error) {
         printf("> Error! An error occurred on get players.\n\n");
         return 0;
     }
 
-    // TODO: sort by points and print ranking
+    sort(&players, &cmpPlayers);
+
+    playersLength = getLength(&players);
+
+    playersLength ? puts("")
+                  : printf("\n> There are no players inside the %s team.\n", config->teamName);
+
+    for (i = 0; i < playersLength; i++) {
+        if (getElement(&players, &player, sizeof(player), i)) break;
+        printf("> #%02d: [ %-*s | %06d points | %-*s (last game played) ]\n", i + 1,
+               PLAYER_NAME_LENGTH, player.name, player.points, PLAYER_LAST_GAME_PLAYED_LENGTH,
+               player.lastGamePlayed);
+    };
 
     return 1;
 }
