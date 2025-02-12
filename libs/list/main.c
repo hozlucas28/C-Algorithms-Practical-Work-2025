@@ -121,8 +121,32 @@ unsigned char popElement(List* _list, void* store, const size_t sizeOfStore) {
     return 1;
 }
 
-void sort(List* _list, int (*cmp)(const void* a, const void* b)) {
-    // TODO
+void selectionSort(List* _list, int (*cmp)(const void* a, const void* b)) {
+    void* aux;
+    unsigned tam;
+    List *minor, *iterator;
+
+    if (!(*_list)) return;
+
+    while ((*_list)->__next) {
+        iterator = &(*_list)->__next;
+        minor = _list;
+        while (*iterator) {
+            if (cmp((*minor)->__data, (*iterator)->__data) > 0) minor = iterator;
+            iterator = &(*iterator)->__next;
+        }
+        if (*minor != *_list) {
+            aux = (*_list)->__data;
+            tam = (*_list)->__sizeOfData;
+
+            (*_list)->__data = (*minor)->__data;
+            (*_list)->__sizeOfData = (*minor)->__sizeOfData;
+
+            (*minor)->__data = aux;
+            (*minor)->__sizeOfData = tam;
+        }
+        _list = &(*_list)->__next;
+    }
 }
 
 void randomSort(List* _list) {

@@ -33,7 +33,7 @@ unsigned char pushElement(List* _list, void* data, const size_t sizeOfData);
 
 unsigned char popElement(List* _list, void* store, const size_t sizeOfStore);
 
-void sort(List* _list, int (*cmp)(const void* a, const void* b));
+void selectionSort(List* _list, int (*cmp)(const void* a, const void* b));
 
 void randomSort(List* _list);
 

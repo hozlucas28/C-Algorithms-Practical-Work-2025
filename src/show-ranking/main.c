@@ -34,7 +34,7 @@ unsigned char showRanking(const Configuration* config) {
         return 0;
     }
 
-    sort(&players, &cmpPlayers);
+    selectionSort(&players, &cmpPlayers);
 
     playersLength = getLength(&players);
 
