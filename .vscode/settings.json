@@ -9,9 +9,25 @@
     "editor.formatOnSave": true,
     "editor.minimap.renderCharacters": false,
     "emojisense.unicodeCompletionsEnabled": false,
-    "files.associations": {"*.c": "c", "*.h": "c"},
+    "files.associations": {
+        "*.c": "c",
+        "*.h": "c",
+        "array": "c",
+        "deque": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "vector": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "functional": "c"
+    },
     "files.trimTrailingWhitespace": true,
     "markdown-preview-github-styles.colorTheme": "dark",
     "terminal.integrated.defaultProfile.windows": "Command Prompt",
-    "workbench.startupEditor": "none"
+    "workbench.startupEditor": "none",
+    "cSpell.words": [
+        "columniterator",
+        "TATETI",
+        "whowon"
+    ]
 }

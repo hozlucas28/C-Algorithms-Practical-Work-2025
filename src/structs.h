@@ -18,6 +18,8 @@ typedef struct {
     char name[PLAYER_NAME_LENGTH];  // TODO: use a dynamic method.
     int points;
     char assignedForm;
+    int _assignedForm;
+    int turn;
 } Player;
 
 typedef struct {

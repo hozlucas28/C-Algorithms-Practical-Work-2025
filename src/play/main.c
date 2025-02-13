@@ -33,7 +33,7 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
             printf("> %d games remaining...\n\n", games);
 
             isPlayerReady(&player);
-            playGame(&player);  //  TODO: agregar printf() ganaste/perdiste.
+            //playGame(&player);  //  TODO: agregar printf() ganaste/perdiste.
 
             games--;
         }
