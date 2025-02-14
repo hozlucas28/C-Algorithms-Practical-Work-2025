@@ -26,6 +26,7 @@
     "terminal.integrated.defaultProfile.windows": "Command Prompt",
     "workbench.startupEditor": "none",
     "cSpell.words": [
+        "aivalue",
         "columniterator",
         "TATETI",
         "whowon"

@@ -9,13 +9,13 @@
 /* --------------------------------- Common --------------------------------- */
 
 typedef struct {
-    char name[TEAM_NAME_LENGTH];  // TODO: use a dynamic method.
+    char name[TEAM_NAME_LENGTH];
 } Team;
 
 /* --------------------------------- Player --------------------------------- */
 
 typedef struct {
-    char name[PLAYER_NAME_LENGTH];  // TODO: use a dynamic method.
+    char name[PLAYER_NAME_LENGTH];
     int points;
     char assignedForm;
     int _assignedForm;
@@ -23,9 +23,9 @@ typedef struct {
 } Player;
 
 typedef struct {
-    char name[PLAYER_NAME_LENGTH];  // TODO: use a dynamic method.
+    char name[PLAYER_NAME_LENGTH];
     int points;
-    char lastGamePlayed[PLAYER_LAST_GAME_PLAYED_LENGTH];  // TODO: use a dynamic method.
+    char lastGamePlayed[PLAYER_LAST_GAME_PLAYED_LENGTH];
 } APIPlayer;
 
 #endif  // SRC_STRUCTS_H_INCLUDED

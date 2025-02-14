@@ -1,4 +1,6 @@
 
+#include "./utilities.h"
+
 #include <stdio.h>
 #include <string.h>
 
