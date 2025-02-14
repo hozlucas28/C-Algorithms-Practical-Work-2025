@@ -8,7 +8,6 @@
     <strong>- <a href="https://www.unlam.edu.ar/">UNLaM</a> (National University of La Matanza) -</strong>
 </p>
 
-
 <p align="center">
     <a href="#summary">Summary</a> •
     <a href="#features">Features</a> •
@@ -30,13 +29,7 @@
 </p>
 
 <p align="center">
-    <a href="#"> <!-- TODO -->
-        <img src="./docs/statics/preview.png" width="800" alt="Preview"> <!-- TODO -->
-    </a>
-</p>
-
-<p align="center">
-    <a href="#" target="_blank">(demonstration video)</a> <!-- TODO -->
+    <img src="./docs/statics/preview.png" width="800" alt="Preview"> <!-- TODO -->
 </p>
 
 ## Summary

@@ -29,13 +29,7 @@
 </p>
 
 <p align="center">
-    <a href="#"> <!-- TODO -->
-        <img src="../../statics/preview.png" width="800" alt="Vista previa">
-    </a>
-</p>
-
-<p align="center">
-    <a href="#" target="_blank">(video demostrativo)</a> <!-- TODO -->
+    <img src="../../statics/preview.png" width="800" alt="Vista previa">
 </p>
 
 ## Resumen
