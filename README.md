@@ -43,7 +43,7 @@ This repository contains the practical work for the Algorithms and Data Structur
 -   Code conventions and standards.
 -   Code documentation using [Doxygen](https://www.doxygen.nl/) syntax.
 -   Commits following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
--   Communication with APIs (GET and POST).
+-   Communication with [APIs](https://simple.wikipedia.org/wiki/Application_programming_interface) (GET and POST).
 -   Continuous integration with [GitHub Actions](https://docs.github.com/en/actions).
 -   Deployment of releases.
 -   Dynamic memory.
@@ -93,7 +93,7 @@ TODO. <!-- TODO -->
 
 To change the configuration, open the file [configuration.txt](./src/statics/configuration.txt).
 
--   To change the API base endpoint, replace `https://algoritmos-api.azurewebsites.net/api/TaCTi` with your desired endpoint.
+-   To change the [API](https://simple.wikipedia.org/wiki/Application_programming_interface) base endpoint, replace `https://algoritmos-api.azurewebsites.net/api/TaCTi` with your desired endpoint.
 -   To change the team name, replace `TABACO` with your preferred team name.
 -   To change the number of games per player, replace `3` with the desired number of games.
 

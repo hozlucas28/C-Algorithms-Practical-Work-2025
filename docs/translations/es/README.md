@@ -39,7 +39,7 @@ Este repositorio contiene el trabajo práctico de la materia Algoritmos y Estruc
 ## Características
 
 -   Almacenamiento local de registros.
--   Comunicación con APIs (GET y POST).
+-   Comunicación con [APIs](https://en.wikipedia.org/wiki/API) (GET y POST).
 -   Confirmaciones siguiendo la guía de los [Commits Convencionales](https://www.conventionalcommits.org/es/v1.0.0/).
 -   Control de entradas utilizando validaciones.
 -   Convenciones y estándares de código.
@@ -93,7 +93,7 @@ TODO. <!-- TODO -->
 
 Para cambiar la configuración, abre el archivo [configuration.txt](../../../src/statics/configuration.txt).
 
--   Para cambiar el endpoint base de la API, reemplaza `https://algoritmos-api.azurewebsites.net/api/TaCTi` con el endpoint que desees.
+-   Para cambiar el endpoint base de la [API](https://en.wikipedia.org/wiki/API), reemplaza `https://algoritmos-api.azurewebsites.net/api/TaCTi` con el endpoint que desees.
 -   Para cambiar el nombre del equipo, reemplaza `TABACO` con el nombre del equipo que prefieras.
 -   Para cambiar el número de juegos por jugador, reemplaza `3` con la cantidad de juegos que desees.
 
