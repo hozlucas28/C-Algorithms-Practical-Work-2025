@@ -91,7 +91,14 @@ TODO. <!-- TODO -->
 <details>
 <summary>¿Cómo puedo cambiar la configuración del juego?</summary>
 
-TODO. <!-- TODO -->
+Para cambiar la configuración, abre el archivo [configuration.txt](../../../src/statics/configuration.txt).
+
+-   Para cambiar el endpoint base de la API, reemplaza `https://algoritmos-api.azurewebsites.net/api/TaCTi` con el endpoint que desees.
+-   Para cambiar el nombre del equipo, reemplaza `TABACO` con el nombre del equipo que prefieras.
+-   Para cambiar el número de juegos por jugador, reemplaza `3` con la cantidad de juegos que desees.
+
+> [!IMPORTANTE]
+> Si falta el archivo [configuration.txt](../../../src/statics/configuration.txt), el programa no iniciará y mostrará un error en la consola.
 
 </details>
 

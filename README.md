@@ -91,7 +91,14 @@ TODO. <!-- TODO -->
 <details>
 <summary>How can I change the game configuration?</summary>
 
-TODO. <!-- TODO -->
+To change the configuration, open the file [configuration.txt](./src/statics/configuration.txt).
+
+-   To change the API base endpoint, replace `https://algoritmos-api.azurewebsites.net/api/TaCTi` with your desired endpoint.
+-   To change the team name, replace `TABACO` with your preferred team name.
+-   To change the number of games per player, replace `3` with the desired number of games.
+
+> [!IMPORTANT]
+> If [configuration.txt](./src/statics/configuration.txt) is missing, the program won't start and will throw an error in the console.
 
 </details>
 
