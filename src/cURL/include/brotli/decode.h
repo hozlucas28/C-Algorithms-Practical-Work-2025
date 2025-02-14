@@ -101,33 +101,27 @@ typedef enum {
                                                              -20) SEPARATOR                               \
                                                                                                           \
                             /* Memory allocation problems */                                              \
-                            BROTLI_ERROR_CODE(                                                            \
-                                _ERROR_ALLOC_, CONTEXT_MODES,                                             \
-                                -21) SEPARATOR /* Literal, insert and distance trees together */          \
-                                BROTLI_ERROR_CODE(_ERROR_ALLOC_, TREE_GROUPS, -22)                        \
-                                    SEPARATOR /* -23..-24 codes are reserved for distinct tree            \
-                                                 groups */                                                \
-                                                  BROTLI_ERROR_CODE(                                      \
-                                                      _ERROR_ALLOC_, CONTEXT_MAP,                         \
-                                                      -25) SEPARATOR BROTLI_ERROR_CODE(_ERROR_ALLOC_,     \
-                                                                                       RING_BUFFER_1,     \
-                                                                                       -26)               \
-                                                      SEPARATOR BROTLI_ERROR_CODE(                        \
-                                                          _ERROR_ALLOC_, RING_BUFFER_2, -27)              \
-                                                          SEPARATOR /* -28..-29 codes are reserved        \
-                                                                       for dynamic ring-buffer            \
-                                                                       allocation */                      \
-                                                                        BROTLI_ERROR_CODE(                \
-                                                                            _ERROR_ALLOC_,                \
-                                                                            BLOCK_TYPE_TREES,             \
-                                                                            -30) SEPARATOR                \
+                            BROTLI_ERROR_CODE(_ERROR_ALLOC_, CONTEXT_MODES, -21)                          \
+                                SEPARATOR /* Literal, insert and distance trees together */               \
+                                    BROTLI_ERROR_CODE(_ERROR_ALLOC_, TREE_GROUPS, -22)                    \
+                                        SEPARATOR /* -23..-24 codes are reserved for distinct tree        \
+                                                     groups */                                            \
+                                            BROTLI_ERROR_CODE(_ERROR_ALLOC_, CONTEXT_MAP, -25)            \
+                                                SEPARATOR BROTLI_ERROR_CODE(_ERROR_ALLOC_,                \
+                                                                            RING_BUFFER_1, -26)           \
+                                                    SEPARATOR BROTLI_ERROR_CODE(                          \
+                                                        _ERROR_ALLOC_, RING_BUFFER_2, -27)                \
+                                                        SEPARATOR /* -28..-29 codes are reserved          \
+                                                                     for dynamic ring-buffer              \
+                                                                     allocation */                        \
+                                                            BROTLI_ERROR_CODE(_ERROR_ALLOC_,              \
+                                                                              BLOCK_TYPE_TREES,           \
+                                                                              -30) SEPARATOR              \
                                                                                                           \
-                                                                            /* "Impossible" states        \
-                                                                             */                           \
-                                                                                BROTLI_ERROR_CODE(        \
-                                                                                    _ERROR_,              \
-                                                                                    UNREACHABLE,          \
-                                                                                    -31)
+                                                                /* "Impossible" states                    \
+                                                                 */                                       \
+                                                                BROTLI_ERROR_CODE(                        \
+                                                                    _ERROR_, UNREACHABLE, -31)
 
 /**
  * Error code for detailed logging / production debugging.
