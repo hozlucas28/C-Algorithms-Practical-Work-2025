@@ -7,5 +7,12 @@
 
 
 void greetFromSrc() {  // TODO: delete function.
+
+
+
+    
     printf("> Hello world from \"src\" project!");
+
+
+    
 }
