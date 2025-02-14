@@ -262,17 +262,17 @@ C-Algorithms-Practical-Work-2025/
 
 ### Tags
 
--   `vMAJOR.MINOR.PATCH`: This tag indicates a release of the practical work following [Semantic Versioning](https://semver.org/), and will only be present in the `Master` branch commits.
+-   `vMAJOR.MINOR.PATCH`: This tag indicates a [release](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/releases) of the practical work following [Semantic Versioning](https://semver.org/), and will only be present in the `Master` branch commits.
 
 ### Branches
 
--   `Master`: Branch containing the development versions of the practical work, where team members will introduce new changes (commits).
+-   `Master`: Branch containing the development versions of the practical work, where team members will introduce new changes (commits) through [pull requests](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/pulls?q=is%3Apr).
 
 > [!IMPORTANT]
 > Stable versions are only available as [releases](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/releases).
 
 > [!NOTE]
-> The other branches are fictional and represent individual contributions from each member to the `Master` branch.
+> The other branches are fictional and represent individual contributions from each member through [pull requests](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/pulls?q=is%3Apr) to the `Master` branch.
 
 ## Development team
 

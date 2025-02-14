@@ -262,17 +262,17 @@ C-Algorithms-Practical-Work-2025/
 
 ### Etiquetas
 
--   `vMAYOR.MINOR.PATCH`: Esta etiqueta indica la publicación de un Release del trabajo práctico siguiendo el [Semantic Versioning](https://semver.org/), y solo estará presente en las confirmaciones de la rama `Master`.
+-   `vMAYOR.MINOR.PATCH`: Esta etiqueta indica la publicación de una [Release](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/releases) del trabajo práctico siguiendo el [Semantic Versioning](https://semver.org/), y solo estará presente en las confirmaciones de la rama `Master`.
 
 ### Ramas
 
--   `Master`: Rama que alberga las versiones en desarrollo del trabajo práctico, donde los miembros del equipo incorporarán nuevos cambios (confirmaciones).
+-   `Master`: Rama que alberga las versiones en desarrollo del trabajo práctico, donde los miembros del equipo incorporarán nuevos cambios (confirmaciones) a través de [Pull Requests](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/pulls?q=is%3Apr).
 
 > [!IMPORTANT]
 > Las versiones estables solo están disponibles como [lanzamientos](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/releases).
 
 > [!NOTE]
-> Las demás ramas son ficticias y representan las contribuciones individuales que cada miembro hará sobre la rama `Master`.
+> Las demás ramas son ficticias y representan las contribuciones individuales de cada miembro a través de [Pull Requests](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/pulls?q=is%3Apr) a la rama `Master`.
 
 ## Equipo de desarrollo
 
