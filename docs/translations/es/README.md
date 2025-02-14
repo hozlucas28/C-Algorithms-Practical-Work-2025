@@ -38,14 +38,19 @@ Este repositorio contiene el trabajo práctico de la materia Algoritmos y Estruc
 
 ## Características
 
+-   Almacenamiento local de registros.
+-   Comunicación con APIs (GET y POST).
 -   Confirmaciones siguiendo la guía de los [Commits Convencionales](https://www.conventionalcommits.org/es/v1.0.0/).
+-   Control de entradas utilizando validaciones.
 -   Convenciones y estándares de código.
 -   Despliegue de entregables.
 -   Documentación del código utilizando la sintaxis de [Doxygen](https://www.doxygen.nl/).
+-   Implementación de lista enlazada simple.
 -   Integración continua con [GitHub Actions](https://docs.github.com/es/actions).
+-   Inteligencia artificial (IA).
+-   Memoria dinámica.
 -   Planificación de la arquitectura.
 -   Planificación del flujo de trabajo del equipo (ramas, etiquetas y versionado).
--   TODO. <!-- TODO -->
 
 ## Instalación
 
