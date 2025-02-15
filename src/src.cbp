@@ -30,16 +30,16 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="./cURL/include" />
+			<Add directory="./api/cURL/include" />
 		</Compiler>
 		<ResourceCompiler>
-			<Add directory="./cURL/include" />
+			<Add directory="./api/cURL/include" />
 		</ResourceCompiler>
 		<Linker>
 			<Add library="../libs/bin/Debug/libs.a" />
 			<Add library="../libs/bin/Release/libs.a" />
-			<Add library="./cURL/lib/libcurl.dll.a" />
-			<Add directory="./cURL/lib" />
+			<Add library="./api/cURL/lib/libcurl.dll.a" />
+			<Add directory="./api/cURL/lib" />
 		</Linker>
 		<Unit filename="api/cJSON/main.c">
 			<Option compilerVar="CC" />

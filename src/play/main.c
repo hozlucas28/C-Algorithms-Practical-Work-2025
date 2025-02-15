@@ -7,6 +7,7 @@
 #include "../api/main.h"
 #include "../configuration/main.h"
 #include "../structs.h"
+#include "../utilities.h"
 #include "./tateti/main.h"
 #include "./utilities.h"
 
