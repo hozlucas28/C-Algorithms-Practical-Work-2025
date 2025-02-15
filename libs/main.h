@@ -5,7 +5,6 @@
 // Root
 #include "./macros.h"
 #include "./structs.h"
-#include "./utilities.h"
 
 // List
 #include "./list/main.h"

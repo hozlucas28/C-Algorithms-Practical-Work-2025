@@ -34,7 +34,7 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
         while (games > 0) {
             printf("> %d games remaining...\n\n", games);
 
-            playGame(&player);  //  TODO: agregar printf() ganaste/perdiste.
+            playGame(&player);  //  TODO
 
             games--;
         }
