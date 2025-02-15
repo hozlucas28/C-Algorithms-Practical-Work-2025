@@ -4,10 +4,12 @@
 
 Node* __getElementAt(List* _list, const size_t index);
 
-// Constructor
+/* ------------------------------- Constructor ------------------------------ */
+
 void newList(List* list) { *list = NULL; }
 
-// Destroyer
+/* ------------------------------- Destructor ------------------------------- */
+
 void destroyList(List* _list) {
     Node* nextNode;
 
@@ -20,7 +22,8 @@ void destroyList(List* _list) {
     }
 }
 
-// Getters
+/* --------------------------------- Getters -------------------------------- */
+
 Node* __getElementAt(List* _list, const size_t index) {
     size_t length = 0;
 
@@ -30,14 +33,6 @@ Node* __getElementAt(List* _list, const size_t index) {
     }
 
     return *_list;
-}
-
-unsigned char getHead(const List* _list, void* store, const size_t sizeOfStore) {
-    if ((*_list) == NULL) return 0;
-
-    memcpy(store, (*_list)->__data, MIN(sizeOfStore, (*_list)->__sizeOfData));
-
-    return 1;
 }
 
 unsigned char getElement(const List* _list, void* store, const size_t sizeOfStore,
@@ -56,6 +51,25 @@ unsigned char getElement(const List* _list, void* store, const size_t sizeOfStor
     return 0;
 }
 
+size_t getLength(List* _list) {
+    size_t length = 0;
+
+    while ((*_list) != NULL) {
+        length++;
+        _list = &(*_list)->__next;
+    }
+
+    return length;
+}
+
+unsigned char getHead(const List* _list, void* store, const size_t sizeOfStore) {
+    if ((*_list) == NULL) return 0;
+
+    memcpy(store, (*_list)->__data, MIN(sizeOfStore, (*_list)->__sizeOfData));
+
+    return 1;
+}
+
 unsigned char isListEmpty(List* _list) { return (*_list) == NULL; }
 
 unsigned char isListFull(List* _list, const size_t sizeOfStore) {
@@ -71,18 +85,25 @@ unsigned char isListFull(List* _list, const size_t sizeOfStore) {
     return ((newNode == NULL) || (newNodeData == NULL));
 }
 
-size_t getLength(List* _list) {
-    size_t length = 0;
+/* --------------------------------- Methods -------------------------------- */
 
-    while ((*_list) != NULL) {
-        length++;
+unsigned char popElement(List* _list, void* store, const size_t sizeOfStore) {
+    if ((*_list) == NULL) {
+        return 0;
+    }
+
+    while ((*_list)->__next != NULL) {
         _list = &(*_list)->__next;
     }
 
-    return length;
+    memcpy(store, (*_list)->__data, MIN(sizeOfStore, (*_list)->__sizeOfData));
+    free((*_list)->__data);
+    free(*_list);
+    *_list = NULL;
+
+    return 1;
 }
 
-// Methods
 unsigned char pushElement(List* _list, void* data, const size_t sizeOfData) {
     Node* newNode;
 
@@ -104,49 +125,11 @@ unsigned char pushElement(List* _list, void* data, const size_t sizeOfData) {
     return 1;
 }
 
-unsigned char popElement(List* _list, void* store, const size_t sizeOfStore) {
-    if ((*_list) == NULL) {
-        return 0;
-    }
-
-    while ((*_list)->__next != NULL) {
+void map(List* _list, void (*callback)(void* element)) {
+    while (*_list) {
+        callback((*_list)->__data);
         _list = &(*_list)->__next;
-    }
-
-    memcpy(store, (*_list)->__data, MIN(sizeOfStore, (*_list)->__sizeOfData));
-    free((*_list)->__data);
-    free(*_list);
-    *_list = NULL;
-
-    return 1;
-}
-
-void selectionSort(List* _list, int (*cmp)(const void* a, const void* b)) {
-    void* aux;
-    unsigned tam;
-    List *minor, *iterator;
-
-    if (!(*_list)) return;
-
-    while ((*_list)->__next) {
-        iterator = &(*_list)->__next;
-        minor = _list;
-        while (*iterator) {
-            if (cmp((*minor)->__data, (*iterator)->__data) > 0) minor = iterator;
-            iterator = &(*iterator)->__next;
-        }
-        if (*minor != *_list) {
-            aux = (*_list)->__data;
-            tam = (*_list)->__sizeOfData;
-
-            (*_list)->__data = (*minor)->__data;
-            (*_list)->__sizeOfData = (*minor)->__sizeOfData;
-
-            (*minor)->__data = aux;
-            (*minor)->__sizeOfData = tam;
-        }
-        _list = &(*_list)->__next;
-    }
+    };
 }
 
 void randomSort(List* _list) {
@@ -203,9 +186,30 @@ void randomSort(List* _list) {
     }
 }
 
-void map(List* _list, action _action, void* punt) {
-    while (*_list) {
-        _action((*_list)->__data, punt);
+void selectionSort(List* _list, int (*cmp)(const void* a, const void* b)) {
+    void* aux;
+    unsigned tam;
+    List *minor, *iterator;
+
+    if (!(*_list)) return;
+
+    while ((*_list)->__next) {
+        iterator = &(*_list)->__next;
+        minor = _list;
+        while (*iterator) {
+            if (cmp((*minor)->__data, (*iterator)->__data) > 0) minor = iterator;
+            iterator = &(*iterator)->__next;
+        }
+        if (*minor != *_list) {
+            aux = (*_list)->__data;
+            tam = (*_list)->__sizeOfData;
+
+            (*_list)->__data = (*minor)->__data;
+            (*_list)->__sizeOfData = (*minor)->__sizeOfData;
+
+            (*minor)->__data = aux;
+            (*minor)->__sizeOfData = tam;
+        }
         _list = &(*_list)->__next;
-    };
+    }
 }

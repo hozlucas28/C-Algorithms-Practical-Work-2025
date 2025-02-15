@@ -8,7 +8,6 @@
     <strong>- <a href="https://www.unlam.edu.ar/">UNLaM</a> (National University of La Matanza) -</strong>
 </p>
 
-
 <p align="center">
     <a href="#summary">Summary</a> •
     <a href="#features">Features</a> •
@@ -30,13 +29,7 @@
 </p>
 
 <p align="center">
-    <a href="#"> <!-- TODO -->
-        <img src="./docs/statics/preview.png" width="800" alt="Preview"> <!-- TODO -->
-    </a>
-</p>
-
-<p align="center">
-    <a href="#" target="_blank">(demonstration video)</a> <!-- TODO -->
+    <img src="./docs/statics/preview.png" width="800" alt="Preview">
 </p>
 
 ## Summary
@@ -46,13 +39,18 @@ This repository contains the practical work for the Algorithms and Data Structur
 ## Features
 
 -   Architecture planning.
+-   Artificial intelligence (AI).
 -   Code conventions and standards.
 -   Code documentation using [Doxygen](https://www.doxygen.nl/) syntax.
 -   Commits following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+-   Communication with [APIs](https://simple.wikipedia.org/wiki/Application_programming_interface) (GET and POST).
 -   Continuous integration with [GitHub Actions](https://docs.github.com/en/actions).
 -   Deployment of releases.
+-   Dynamic memory.
+-   Inputs control using validations.
+-   local storage of records.
+-   Singly linked list implementation.
 -   Team Workflow planning (branches, tags, and releases).
--   TODO. <!-- TODO -->
 
 ## Installation
 
@@ -77,7 +75,43 @@ This repository contains the practical work for the Algorithms and Data Structur
 
 ## How to play
 
-TODO. <!-- TODO -->
+1. Start the game
+
+    When the program starts, a menu with three options will appear.
+
+    - [A] Play Tic-Tac-Toe: Starts a game of [Tic-Tac-Toe](https://en.wikipedia.org/wiki/Tic-tac-toe).
+    - [B] Show ranking: Displays the current ranking of the group of players.
+    - [C] Exit: Ends the program.
+
+2. Start a match
+
+    - Players are asked to enter their names. Any number of names can be entered.
+    - The play order is determined randomly and displayed on the screen.
+    - Each player will be asked if they are ready to start.
+
+3. During the match
+
+    - Each player will play a specified number of games, defined in the [configuration file](./src/statics/configuration.txt).
+    - In each game, it is randomly assigned whether the player will be `X` or `O`.
+    - The 3x3 board will be displayed, and the player must enter the position where they want to place their symbol.
+    - The AI makes its move strategically:
+        - Blocks the player's victory if possible.
+        - Wins if it has the opportunity.
+        - Plays randomly if there are no clear moves.
+    - The turn alternates between the player and the AI until someone wins or a tie is declared.
+
+4. End of the match
+    - Points are assigned for each game as follows:
+        - If the player wins, they receive 3 points.
+        - If a tie is declared, the player receives 2 points.
+        - If the AI wins, the player loses 1 point.
+    - Once all games are completed, a report is generated with:
+        - Details of the games (including the final state of the board).
+        - Winner of each game.
+        - Total score of each player.
+        - Final result indicating the players with the highest score.
+    - The report is saved in a text file with the format `game-report_YYYY-MM-DD-HH-mm.txt`.
+    - The results are sent to an [API](https://simple.wikipedia.org/wiki/Application_programming_interface).
 
 ### Rules
 
@@ -93,24 +127,29 @@ TODO. <!-- TODO -->
 <details>
 <summary>How can I change the game configuration?</summary>
 
-TODO. <!-- TODO -->
+To change the configuration, open the file [configuration.txt](./src/statics/configuration.txt).
+
+-   To change the [API](https://simple.wikipedia.org/wiki/Application_programming_interface) base endpoint, replace `https://algoritmos-api.azurewebsites.net/api/TaCTi` with your desired endpoint.
+-   To change the team name, replace `TABACO` with your preferred team name.
+-   To change the number of games per player, replace `3` with the desired number of games.
+
+> [!IMPORTANT]
+> If [configuration.txt](./src/statics/configuration.txt) is missing, the program won't start and will throw an error in the console.
 
 </details>
 
 ### Use cases
 
-<!-- TODO -->
-
-| N°  | Description | Expected result | Received result |
-| :-: | :---------- | :-------------- | :-------------- |
-|  1  | TODO.       | TODO.           | TODO.           |
-|  2  | TODO.       | TODO.           | TODO.           |
-|  3  | TODO.       | TODO.           | TODO.           |
-|  4  | TODO.       | TODO.           | TODO.           |
-|  5  | TODO.       | TODO.           | TODO.           |
-|  6  | TODO.       | TODO.           | TODO.           |
-|  7  | TODO.       | TODO.           | TODO.           |
-|  8  | TODO.       | TODO.           | TODO.           |
+| N°  | Description                                  | Expected result                                                   | Received result                                                                                                                |
+| :-: | :------------------------------------------- | :---------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------- |
+|  1  | Start the game and select `Play Tic-Tac-Toe` | Prompts for player names and starts the game with a random player | Players take turns randomly to play.                                                                                           |
+|  2  | Enter player names                           | Entered players are registered correctly                          | Player names are registered and assigned `0` initial points.                                                                   |
+|  3  | Play a turn and win against the AI           | The player receives 3 points                                      | 3 points are added to the `points` field of the player structure.                                                              |
+|  4  | Play a turn and tie against the AI           | The player receives 2 points                                      | 2 points are added to the `points` field of the player structure.                                                              |
+|  5  | Play a turn and lose against the AI          | The player loses 1 point                                          | 1 point is subtracted from the `points` field of the player structure.                                                         |
+|  6  | Complete all games and generate a report     | A `.txt` file is generated with the total score                   | A `.txt` file is generated with the game statistics.                                                                           |
+|  7  | Check group ranking                          | The group ranking is displayed                                    | The [API](https://simple.wikipedia.org/wiki/Application_programming_interface) is queried, and the group ranking is displayed. |
+|  8  | End the game                                 | The program ends without errors                                   | The program ends without errors.                                                                                               |
 
 ## Application structure
 
@@ -223,17 +262,17 @@ C-Algorithms-Practical-Work-2025/
 
 ### Tags
 
--   `vMAJOR.MINOR.PATCH`: This tag indicates a release of the practical work following [Semantic Versioning](https://semver.org/), and will only be present in the `Master` branch commits.
+-   `vMAJOR.MINOR.PATCH`: This tag indicates a [release](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/releases) of the practical work following [Semantic Versioning](https://semver.org/), and will only be present in the `Master` branch commits.
 
 ### Branches
 
--   `Master`: Branch containing the development versions of the practical work, where team members will introduce new changes (commits).
+-   `Master`: Branch containing the development versions of the practical work, where team members will introduce new changes (commits) through [pull requests](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/pulls?q=is%3Apr).
 
 > [!IMPORTANT]
 > Stable versions are only available as [releases](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/releases).
 
 > [!NOTE]
-> The other branches are fictional and represent individual contributions from each member to the `Master` branch.
+> The other branches are fictional and represent individual contributions from each member through [pull requests](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/pulls?q=is%3Apr) to the `Master` branch.
 
 ## Development team
 

@@ -4,12 +4,18 @@
 
 #include <stdlib.h>
 
+/**
+ * @struct Node
+ *
+ * @brief Node allocated in the HEAP memory.
+ */
 typedef struct Node {
-    void* __data;
-    size_t __sizeOfData;
-    struct Node* __next;
+    void* __data;        /** Pointer to the data stored. */
+    size_t __sizeOfData; /** Size in bytes of the stored data. */
+    struct Node* __next; /** Pointer to the next linked node. */
 } Node;
 
+// TODO: create doxygen documentation
 typedef struct {
     size_t x;
     size_t y;
