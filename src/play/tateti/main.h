@@ -9,22 +9,12 @@
 // PROPERTIES: SIZE
 #define RAWS 3
 #define COLUMNS 3
-
-// TURNS OF THE PLAYERS
-#define NEXT 1
-#define WAIT 0
-
 //
 #define NORMAL_DIAG 1
 #define SECOND_DIAG 0
+#define DEF_VALUE_COORDINATES -2
 
 
-
-typedef struct {
-    int whowon;
-    int draw;
-    int movements;
-} BoardAnalysis;
 
 typedef struct {
     int raw;       // indicates if what raw is a winning-loosing movement
@@ -44,7 +34,7 @@ typedef struct {
 struct IPlayer;
 struct Board;
 
-typedef int (*move)(struct IPlayer *player, struct Board *_board, int internalvalue);
+
 
 typedef struct{
     char name[PLAYER_NAME_LENGTH];
@@ -53,14 +43,14 @@ typedef struct{
     char _assignedForm;
     int turn;
     unsigned char isAI;
-    move movement;
+    void * func_movement;
 } IPlayer;
 
 typedef struct Board{
-    int array2D[3][3];
+    int** array2D;
     int emptySpaces;
 } Board;
 
-
+typedef int (*move)(IPlayer *player, Board *_board, int internalvalue);
 
 #endif  // SRC__PLAY__TATETI_H_INCLUDED
