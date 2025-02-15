@@ -133,7 +133,7 @@ int playGame(Player *player) {
     }
     if (player02Won) {
         printf("\n>GANO PJ 02 %s \n", getNamePlayer(&player02));  // TODO. improve output
-        if (strcmp(getNamePlayer(&player01), "AI") == 0) {
+        if (strcmp(getNamePlayer(&player02), "AI") == 0) {
             addPlayerPoints(player, DEFEAT);
             addPlayerLostGames(player);
 
