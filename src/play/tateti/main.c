@@ -86,7 +86,7 @@ int playGame(Player *player) {
     if (!boardConstructor(&_board)) return 0;
 
     iPlayerConstructor(&AI, "AI", 1, 0);
-    iPlayerConstructor(&_player, player->name, 0, player->points);
+    iPlayerConstructor(&_player, getPlayerName(player), 0, getPlayerPoints(player));
 
     newSList(&players);
 
@@ -116,30 +116,30 @@ int playGame(Player *player) {
 
     if (!player01Won && !player02Won) {
         puts(">TIE");  // TODO. improve output
-        addPlayerPoints(player, TIE);
-        addPlayerTiedGames(player);
+        appendPlayerPoints(player, TIE);
+        appendPlayerTiedGames(player, 1);
         return 1;
     }
     if (player01Won) {
         printf(">GANO: %s", getNamePlayer(&player01));  // TODO. improve output
         if (strcmp(getNamePlayer(&player01), "AI") == 0) {
-            addPlayerPoints(player, DEFEAT);
-            addPlayerLostGames(player);
+            appendPlayerPoints(player, DEFEAT);
+            appendPlayerLostGames(player, 1);
         } else {
-            addPlayerPoints(player, VICTORY);
-            addPlayerGamesWons(player);
+            appendPlayerPoints(player, VICTORY);
+            appendPlayerGamesWon(player, 1);
         }
         return 1;
     }
     if (player02Won) {
         printf("\n>GANO PJ 02 %s \n", getNamePlayer(&player02));  // TODO. improve output
         if (strcmp(getNamePlayer(&player02), "AI") == 0) {
-            addPlayerPoints(player, DEFEAT);
-            addPlayerLostGames(player);
+            appendPlayerPoints(player, DEFEAT);
+            appendPlayerLostGames(player, 1);
 
         } else {
-            addPlayerPoints(player, VICTORY);
-            addPlayerGamesWons(player);
+            appendPlayerPoints(player, VICTORY);
+            appendPlayerGamesWon(player, 1);
         }
     }
 

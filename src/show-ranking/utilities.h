@@ -3,6 +3,6 @@
 
 #include "../configuration/main.h"
 
-int cmpPlayers(const void* playerA, const void* playerB);
+int cmpAPIPlayersAsc(const void* playerA, const void* playerB);
 
 #endif  // SRC__RANKING_UTILITIES_H_INCLUDED

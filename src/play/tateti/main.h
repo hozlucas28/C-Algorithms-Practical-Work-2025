@@ -1,7 +1,9 @@
 #ifndef SRC__PLAY__TATETI_H_INCLUDED
 #define SRC__PLAY__TATETI_H_INCLUDED
 
+#include "../../player/main.h"
 #include "../../structs.h"
+
 // LOCAL VALUES OF THE BOARD
 #define VALUE_1 2
 #define VALUE_2 3
@@ -43,11 +45,8 @@ typedef struct IPlayer {
     char assignedForm;
     char _assignedForm;
     unsigned char isAI;
-    // void *func_movement;
     int (*move)(struct IPlayer *player, Board *_board, int internalvalue);
 } IPlayer;
-
-// typedef int (*move)(IPlayer *player, Board *_board, int internalvalue);
 
 int playGame(Player *player);
 

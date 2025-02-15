@@ -50,6 +50,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="api/main.h" />
+		<Unit filename="api/structs.h" />
 		<Unit filename="api/utilities.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -81,6 +82,11 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="play/utilities.h" />
+		<Unit filename="player/macros.h" />
+		<Unit filename="player/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="player/main.h" />
 		<Unit filename="show-ranking/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -90,11 +96,6 @@
 		</Unit>
 		<Unit filename="show-ranking/utilities.h" />
 		<Unit filename="statics/configuration.txt" />
-		<Unit filename="structs.h" />
-		<Unit filename="utilities.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="utilities.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

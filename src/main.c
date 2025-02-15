@@ -8,7 +8,6 @@
 #include "./macros.h"
 #include "./play/main.h"
 #include "./show-ranking/main.h"
-#include "./structs.h"
 
 int main(const int argsLength, char* args[]) {
     unsigned char error;

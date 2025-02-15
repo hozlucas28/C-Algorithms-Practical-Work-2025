@@ -1,7 +1,15 @@
 #ifndef SRC__API_MACROS_H_INCLUDED
 #define SRC__API_MACROS_H_INCLUDED
 
+#include "../player/macros.h"
+
 #define TEMPORAL_BINARY_FILE "./json.temp.dat"
+
+/* ------------------------------- Structures ------------------------------- */
+
+#define API_PLAYER_NAME_LENGTH PLAYER_NAME_LENGTH
+
+#define API_PLAYER_LAST_GAME_PLAYED_LENGTH 19
 
 /* ---------------------------- JSON Fields - GET --------------------------- */
 

@@ -4,6 +4,7 @@
 #include "../../libs/main.h"
 #include "../configuration/main.h"
 #include "./macros.h"
+#include "./structs.h"
 #include "./utilities.h"
 
 unsigned char getAPI(const char* endpoint, SList* players);

@@ -6,7 +6,6 @@
 
 #include "../../libs/main.h"
 #include "../api/main.h"
-#include "../structs.h"
 
 unsigned char __concatEndpoint(const char* base, const char* endpoint, char* store);
 
@@ -34,7 +33,7 @@ unsigned char showRanking(const Configuration* config) {
         return 0;
     }
 
-    selectionSortSList(&players, &cmpPlayers);
+    selectionSortSList(&players, &cmpAPIPlayersAsc);
 
     playersLength = getSListLength(&players);
 
@@ -44,8 +43,8 @@ unsigned char showRanking(const Configuration* config) {
     for (i = 0; i < playersLength; i++) {
         if (getSListElement(&players, &player, sizeof(player), i)) break;
         printf("> #%02d: [ %-*s | %06d points | %-*s (last game played) ]\n", i + 1,
-               PLAYER_NAME_LENGTH, player.name, player.points, PLAYER_LAST_GAME_PLAYED_LENGTH,
-               player.lastGamePlayed);
+               API_PLAYER_NAME_LENGTH, player.name, player.points,
+               API_PLAYER_LAST_GAME_PLAYED_LENGTH, player.lastGamePlayed);
     };
 
     puts("");

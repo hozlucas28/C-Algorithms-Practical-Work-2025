@@ -6,33 +6,40 @@
 
 #include "../../libs/main.h"
 #include "../macros.h"
-#include "../structs.h"
+#include "../player/main.h"
 
-unsigned char requestPlayerNames(SList* players) {
-    char* lineBreak;
+unsigned char requestPlayerNames(SList *players) {
+    char *lineBreak;
 
-    Player player = {.points = 0, .gamesWons = 0, .lostGames = 0, .tiedGames = 0};
+    Player player;
+    char playerName[PLAYER_NAME_LENGTH];
 
     printf("> Enter a player name (0 to exit): ");
     fflush(stdin);
-    fgets(player.name, PLAYER_NAME_LENGTH, stdin);
+    fgets(playerName, PLAYER_NAME_LENGTH, stdin);
     puts("");
 
-    lineBreak = strrchr(player.name, '\n');
+    lineBreak = strrchr(playerName, '\n');
     if (lineBreak != NULL) *lineBreak = '\0';
 
-    if (*(player.name) == '0' || !pushSListElement(players, &player, sizeof(player))) return 0;
+    if (*playerName == '0') return 0;
 
-    while (*(player.name) != '0') {
+    newPlayer(&player, playerName);
+
+    if (!pushSListElement(players, &player, sizeof(player))) return 0;
+
+    while (*playerName != '0') {
         printf("> Enter a player name (0 to exit): ");
         fflush(stdin);
-        fgets(player.name, PLAYER_NAME_LENGTH, stdin);
+        fgets(playerName, PLAYER_NAME_LENGTH, stdin);
         puts("");
 
-        lineBreak = strrchr(player.name, '\n');
+        lineBreak = strrchr(playerName, '\n');
         if (lineBreak != NULL) *lineBreak = '\0';
 
-        if (*(player.name) == '0') break;
+        if (*playerName == '0') break;
+
+        newPlayer(&player, playerName);
 
         if (!pushSListElement(players, &player, sizeof(player))) return 0;
     };
@@ -48,6 +55,11 @@ void isPlayerReady() {
         fflush(stdin);
         scanf("%c", &letter);
         puts("");
-
     } while (letter != 'y' && letter != 'Y');
+}
+
+int cmpPlayersPointsAsc(const void *playerA, const void *playerB) {
+    Player *_playerA = (Player *)playerA;
+    Player *_playerB = (Player *)playerB;
+    return getPlayerPoints(_playerB) - getPlayerPoints(_playerA);
 }

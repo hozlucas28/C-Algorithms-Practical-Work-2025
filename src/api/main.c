@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../structs.h"
+#include "../player/main.h"
 #include "./cJSON/main.h"
 #include "./main.h"
 #include "./utilities.h"
@@ -94,7 +94,7 @@ unsigned char createLocalRecord(Configuration* config, SList* players) {
 
     // Chars per column
     const int indexCol = 2;
-    const int nameCol = PLAYER_NAME_LENGTH;
+    const int nameCol = API_PLAYER_NAME_LENGTH;
     const int gamesWonCol = sizeof("Games won") - 1;
     const int lostGamesCol = sizeof("Lost games") - 1;
     const int tiedGamesCol = sizeof("Tied games") - 1;
@@ -150,8 +150,9 @@ unsigned char createLocalRecord(Configuration* config, SList* players) {
         if (error) break;
 
         fprintf(file, "| %0*d | %-*s | %0*d | %0*d | %0*d | %0*d |\n", indexCol, i + 1, nameCol,
-                player.name, gamesWonCol, player.gamesWons, lostGamesCol, player.lostGames,
-                tiedGamesCol, player.tiedGames, pointsCol, player.points);
+                getPlayerName(&player), gamesWonCol, getPlayerGamesWon(&player), lostGamesCol,
+                getPlayerLostGames(&player), tiedGamesCol, getPlayerTiedGames(&player), pointsCol,
+                getPlayerPoints(&player));
     };
 
     // Table - End line

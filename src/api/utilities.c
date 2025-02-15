@@ -4,9 +4,10 @@
 #include <stdio.h>
 
 #include "../../libs/main.h"
-#include "../structs.h"
 #include "./cJSON/main.h"
 #include "./macros.h"
+#include "./structs.h"
+#include "../player/main.h"
 
 char* parseToJSON(const Configuration* config, SList* players) {
     char* jsonStringified = NULL;
@@ -37,8 +38,10 @@ char* parseToJSON(const Configuration* config, SList* players) {
         if (jsonPlayer == NULL) goto end;
 
         cJSON_AddItemToArray(jsonPlayers, jsonPlayer);
-        if (cJSON_AddStringToObject(jsonPlayer, POST__PLAYER_NAME, player.name) == NULL) goto end;
-        if (cJSON_AddNumberToObject(jsonPlayer, POST__PLAYER_POINTS, player.points) == NULL)
+        if (cJSON_AddStringToObject(jsonPlayer, POST__PLAYER_NAME, getPlayerName(&player)) == NULL)
+            goto end;
+        if (cJSON_AddNumberToObject(jsonPlayer, POST__PLAYER_POINTS, getPlayerPoints(&player)) ==
+            NULL)
             goto end;
     }
 

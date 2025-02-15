@@ -6,8 +6,7 @@
 #include "../../utilities.h"
 #include "../api/main.h"
 #include "../configuration/main.h"
-#include "../structs.h"
-#include "../utilities.h"
+#include "../player/main.h"
 #include "./tateti/main.h"
 #include "./utilities.h"
 
@@ -30,25 +29,23 @@ unsigned char playTicTacToe(Configuration* config) {
     randomSortSList(&players);
 
     while (popSListElement(&players, &player, sizeof(player))) {
-        printf("> Hi %s, now it's your turn to play...\n\n", player.name);
+        printf("> Hi %s, now it's your turn to play...\n\n", getPlayerName(&player));
 
         isPlayerReady(&player);
 
         games = config->gamesPerPlayer;
         while (games > 0) {
             printf("> %d games remaining...\n\n", games);
-
-            playGame(&player);  //  TODO
-
+            playGame(&player);
             games--;
         }
 
-        printf("> Your final score is %d.\n\n", player.points);
+        printf("> Your final score is %d.\n\n", getPlayerPoints(&player));
 
         if (!pushSListElement(&playersAfterMatch, &player, sizeof(player))) return 0;
     }
 
-    selectionSortSList(&playersAfterMatch, &cmpPlayersAscPoints);
+    selectionSortSList(&playersAfterMatch, &cmpPlayersPointsAsc);
 
     if (postAPI(config, &playersAfterMatch)) {
         puts("> Error! An error occurred on post to the API.\n\n");
