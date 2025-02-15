@@ -4,10 +4,9 @@
 
 #include "../../libs/main.h"
 #include "../structs.h"
+#include "./tateti/main.h"
 
 unsigned char requestPlayerNames(List* players);
-
-void playGame(Player* player);
 
 void isPlayerReady();
 

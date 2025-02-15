@@ -73,6 +73,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="play/main.h" />
+		<Unit filename="play/tateti/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="play/tateti/main.h" />
 		<Unit filename="play/utilities.c">
 			<Option compilerVar="CC" />
 		</Unit>
