@@ -3,13 +3,14 @@
 #include <stdio.h>
 
 #include "../../libs/main.h"
+#include "../../utilities.h"
 #include "../api/main.h"
 #include "../configuration/main.h"
 #include "../structs.h"
 #include "./tateti/main.h"
 #include "./utilities.h"
 
-unsigned char playTicTacToe(const Configuration* config) {
+unsigned char playTicTacToe(Configuration* config) {
     List players;
     List playersAfterMatch;
 
@@ -19,11 +20,6 @@ unsigned char playTicTacToe(const Configuration* config) {
 
     newList(&players);
     newList(&playersAfterMatch);
-
-    if (!requestPlayerNames(&players)) {
-        printf("> Error! An error occurred on get player names.\n\n");
-        return 0;
-    };
 
     randomSort(&players);
 
@@ -45,6 +41,8 @@ unsigned char playTicTacToe(const Configuration* config) {
 
         if (!pushElement(&playersAfterMatch, &player, sizeof(player))) return 0;
     }
+
+    selectionSort(&playersAfterMatch, &cmpPlayersAscPoints);
 
     if (postAPI(config, &playersAfterMatch)) {
         puts("> Error! An error occurred on post to the API.\n\n");

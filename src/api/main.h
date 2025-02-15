@@ -10,6 +10,6 @@ unsigned char getAPI(const char* endpoint, List* players);
 
 unsigned char postAPI(const Configuration* config, List* players);
 
-unsigned char createLocalRecord(const Configuration* config, List* players);
+unsigned char createLocalRecord(Configuration* config, List* players);
 
 #endif  // SRC__API_H_INCLUDED

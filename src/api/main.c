@@ -87,7 +87,7 @@ unsigned char postAPI(const Configuration* config, List* players) {
     return error;
 }
 
-unsigned char createLocalRecord(const Configuration* config, List* players) {
+unsigned char createLocalRecord(Configuration* config, List* players) {
     unsigned char error;
 
     FILE* file;
@@ -95,11 +95,16 @@ unsigned char createLocalRecord(const Configuration* config, List* players) {
     // Chars per column
     const int indexCol = 2;
     const int nameCol = PLAYER_NAME_LENGTH;
-    const int pointsCol = 6;
-    const int columns = 3;
+    const int gamesWonCol = sizeof("Games won") - 1;
+    const int lostGamesCol = sizeof("Lost games") - 1;
+    const int tiedGamesCol = sizeof("Tied games") - 1;
+    const int pointsCol = sizeof("Points") - 1;
+    const int columns = 6;
     const int separatorsBetweenCols = columns - 1;
 
-    const int lineLength = (indexCol + nameCol + pointsCol) + (columns * 2) + separatorsBetweenCols;
+    const int lineLength =
+        (indexCol + nameCol + gamesWonCol + lostGamesCol + tiedGamesCol + pointsCol) +
+        (columns * 2) + separatorsBetweenCols;
 
     int i;
     Player player;
@@ -122,7 +127,8 @@ unsigned char createLocalRecord(const Configuration* config, List* players) {
     fprintf(file, "+\n");
 
     // Table - Titles
-    fprintf(file, "| N° | %-*s | Points |\n", nameCol, "Player name");
+    fprintf(file, "| N° | %-*s | Games won | Lost games | Tied games | Points |\n", nameCol,
+            "Player name");
 
     // Table - Separator line
     fputc('|', file);
@@ -143,8 +149,9 @@ unsigned char createLocalRecord(const Configuration* config, List* players) {
         error = getElement(players, &player, sizeof(player), i);
         if (error) break;
 
-        fprintf(file, "| %0*d | %-*s | %0*d |\n", indexCol, i + 1, nameCol, player.name, pointsCol,
-                player.points);
+        fprintf(file, "| %0*d | %-*s | %0*d | %0*d | %0*d | %0*d |\n", indexCol, i + 1, nameCol,
+                player.name, gamesWonCol, player.gamesWons, lostGamesCol, player.lostGames,
+                tiedGamesCol, player.tiedGames, pointsCol, player.points);
     };
 
     // Table - End line
