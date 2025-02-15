@@ -14,7 +14,10 @@
 #define SECOND_DIAG 0
 #define DEF_VALUE_COORDINATES -2
 
-
+// POINTS
+#define VICTORY 3
+#define TIE 2
+#define DEFEAT -1
 
 typedef struct {
     int raw;       // indicates if what raw is a winning-loosing movement
@@ -34,23 +37,27 @@ typedef struct {
 struct IPlayer;
 struct Board;
 
+typedef struct {
+    int raw, column;
+} inputValuePlayer;
 
-
-typedef struct{
+typedef struct {
     char name[PLAYER_NAME_LENGTH];
     int points;
     char assignedForm;
     char _assignedForm;
     int turn;
     unsigned char isAI;
-    void * func_movement;
+    void *func_movement;
 } IPlayer;
 
-typedef struct Board{
-    int** array2D;
+typedef struct Board {
+    int **array2D;
     int emptySpaces;
 } Board;
 
 typedef int (*move)(IPlayer *player, Board *_board, int internalvalue);
+
+int playGame(Player *player);
 
 #endif  // SRC__PLAY__TATETI_H_INCLUDED

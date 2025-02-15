@@ -1,13 +1,15 @@
 #include "./main.h"
+
 #include <stdio.h>
+
 #include "../../../libs/list/main.h"
 #include "time.h"
 
 int playComputer(IPlayer *_AI, Board *_board, int opponentValue);
 int playPlayer(IPlayer *_player, Board *_board, int opponentValue);
 int makeMove(IPlayer *_player, Board *_board, int opponentValue);
-int CreateInt2DArray(Board* _board, int columns, int raws);
-void printTicTacToe(int** _board, IPlayer* player01, IPlayer *player02);
+int CreateInt2DArray(Board *_board, int columns, int raws);
+void printTicTacToe(int **_board, IPlayer *player01, IPlayer *player02);
 
 // utilities
 int multiplyColumn(int **_board, int columnToMultiply, int maxRaw);
@@ -24,11 +26,25 @@ void insertInColumn(int **_board, int columnToSearch, int aivalue);
 void insertInDiagonal(int **_board, int aivalue);
 void insertInSecondaryDiagonal(int **_board, int aivalue);
 void randomMovement(int **_board, int valueToInsert);
+void playInCorner(int **_board, int valueToInsert);
+unsigned char isThereAnyCorner(int **_board);
+unsigned char isTheCenterFree(int **_board);
+void playInCenter(int **_board, int valueToInsert);
+unsigned char checkInputFormat(inputValuePlayer *datainput, char *_input);
+void getValidatedInput(inputValuePlayer *datainput);
+unsigned char IsThePositionFree(int **_board, inputValuePlayer *datainput);
+unsigned char checkIfThePositionIsFree(int **_board, inputValuePlayer *datainput);
+unsigned char checkTotalRaw(int **_board, int valueToWin);
+unsigned char checkTotalColumn(int **_board, int valueToWin);
+unsigned char checkTotalDiagonal(int **_board, int valueToWin);
+unsigned char checkIfPlayerWon(int **_board, int userForm);
+void showGameInformation(IPlayer *player01, IPlayer *player02);
+void initializesArray2D(int ** _2dArray, int value, int raws, int columns);
 
 // CONSTRUCTORS
 void DataComputerConstructor(DataAI *data);
 void iPlayerConstructor(IPlayer *player, char *name, int isIA, int points);
-int boardConstuctor(Board * board);
+int boardConstructor(Board *board);
 
 // GETTERS
 int **getArray2D(Board *board);
@@ -41,18 +57,24 @@ int lastCcWinColumn(DataAI *data);
 int diagonalWinValue(DataAI *data);
 int getEmptySpaces(Board *_board);
 char getExternalForm(IPlayer *p);
-int getWinnigMoves(DataAI * data);
-int getDrawMoves(DataAI * data);
-char * getNamePlayer(IPlayer* p);
+int getWinnigMoves(DataAI *data);
+int getDrawMoves(DataAI *data);
+char *getNamePlayer(IPlayer *p);
+int getDataInputRaw(inputValuePlayer *datainput);
+int getDataInputColumn(inputValuePlayer *datainput);
 
 // setters
 void updateEmptySpaces(Board *_board);
 void assignForm(IPlayer *p1, IPlayer *p2);
 void increaseDrawMoves(DataAI *data);
 void increaseWinningMoves(DataAI *data);
-void saveWinCC(DataAI *data, int * raw, int *column, int *diagonal);
+void saveWinCC(DataAI *data, int *raw, int *column, int *diagonal);
 void saveDrawCC(DataAI *data, int *raw, int *column, int *diagonal);
+void insertInIntArray2D(int **_array, int raw, int column, int value);
+void updatePlayerPoints(Player *player, int points);
 // program
+
+
 int playGame(Player *player) {
     int player01Won = 0, player02Won = 0;
     IPlayer AI, _player;
@@ -60,9 +82,7 @@ int playGame(Player *player) {
     IPlayer player01;
     IPlayer player02;
     Board _board;
-    if(!boardConstuctor(&_board))
-        return 0;
-
+    if (!boardConstructor(&_board)) return 0;
 
     iPlayerConstructor(&AI, "AI", 1, 0);
     iPlayerConstructor(&_player, player->name, 0, player->points);
@@ -79,89 +99,172 @@ int playGame(Player *player) {
 
     assignForm(&player01, &player02);
 
-    while (getEmptySpaces(&_board) > 0 && !player01Won && !player02Won) {
+    showGameInformation(&player01, &player02);
+
+    printTicTacToe(getArray2D(&_board), &player01, &player02);
+
+    while (getEmptySpaces(&_board) > 1 && !player01Won && !player02Won) {
         player01Won = makeMove(&player01, &_board, getInternalForm(&player02));
+        printTicTacToe(getArray2D(&_board), &player01, &player02);
         if (player01Won) break;
 
-        printTicTacToe(getArray2D(&_board), &player01, &player02);
-
         player02Won = makeMove(&player02, &_board, getInternalForm(&player01));
+        printTicTacToe(getArray2D(&_board), &player01, &player02);
         if (player02Won) break;
-
-         printTicTacToe(getArray2D(&_board), &player01, &player02);
     }
 
-    if (getEmptySpaces(&_board) == 0) printf("EMPATE");
-    if (player01Won) printf("GANO PJ 01, %s", getNamePlayer(&player01));
-    if (player02Won) printf("GANO PJ 02 %s", getNamePlayer(&player02));
+    if (getEmptySpaces(&_board) == 1) {
+        puts("TIE");
+        updatePlayerPoints(player, TIE);
+        return 1;
+    }
+    if (player01Won) {
+        printf("GANO: %s", getNamePlayer(&player01));
+        if (strcmp(getNamePlayer(&player01), "AI") == 0) {
+            updatePlayerPoints(player, DEFEAT);
+        } else {
+            updatePlayerPoints(player, VICTORY);
+        }
+        return 1;
+    }
+    if (player02Won) {
+        printf("GANO PJ 02 %s", getNamePlayer(&player02));
+        if (strcmp(getNamePlayer(&player01), "AI") == 0) {
+            updatePlayerPoints(player, DEFEAT);
+        } else {
+            updatePlayerPoints(player, VICTORY);
+        }
+    }
 
     return 1;
 }
 
 
-//UTILITIES
 
-void printTicTacToe(int** _board, IPlayer* player01, IPlayer *player02) {
-    int i, j;
+// UTILITIES
 
-    printf("\n");
-    puts("> TABLERO:");
-    for (i = 0; i < RAWS; i++) {
-        for (j = 0; j < COLUMNS; j++) {
-            printf(" %c ",
-                   _board[i][j] == DEFAULT_VALUE?
-                   ' ' : (_board[i][j] == getInternalForm(player01))?
-                   getExternalForm(player01) : getExternalForm(player02));
-            if (j < 2) printf("|");
-        }
-        printf("\n");
-        if (i < 2) printf("---+---+---\n");
-    }
-    printf("\n");
+void showGameInformation(IPlayer *player01, IPlayer *player02) {
+    printf("\n> GAME DATA: \n\t Player Name: %s, Form: %c \n", getNamePlayer(player01),
+           getExternalForm(player01));
+    printf("\t Player Name: %s, Form: %c \n", getNamePlayer(player02), getExternalForm(player02));
+    return;
 }
 
-int CreateInt2DArray(Board* _board, int columns, int raws)
-{
-    int **itertator, **freeiterator;
-    int ** array = (int**)malloc(raws * sizeof(void*));
-    if(!array)
+int playPlayer(IPlayer *_player, Board *_board, int opponentValue) {
+    inputValuePlayer input;
+    do {
+        getValidatedInput(&input);
+    } while (!checkIfThePositionIsFree(getArray2D(_board), &input));
+
+    insertInIntArray2D(getArray2D(_board), getDataInputRaw(&input), getDataInputColumn(&input),
+                       getInternalForm(_player));
+    updateEmptySpaces(_board);
+
+    return (getEmptySpaces(_board) > 4)
+               ? 0
+               : checkIfPlayerWon(getArray2D(_board), getInternalForm(_player));
+}
+
+unsigned char checkIfPlayerWon(int **_board, int userForm) {
+    int valueToWin = userForm * userForm * userForm;
+
+    if (checkTotalRaw(_board, valueToWin) || checkTotalColumn(_board, valueToWin) ||
+        checkTotalDiagonal(_board, valueToWin)) {
+        return 1;
+    }
+    return 0;
+}
+unsigned char checkTotalDiagonal(int **_board, int valueToWin) {
+    if (multiplyDiagonalInSquareMatrix(_board, COLUMNS) == valueToWin ||
+        multiplySecondaryDiagonalInSquareMatrix(_board, COLUMNS) == valueToWin)
+        return 1;
+    return 0;
+}
+
+unsigned char checkTotalColumn(int **_board, int valueToWin) {
+    int iterator;
+
+    for (iterator = 0; iterator < COLUMNS; iterator++) {
+        if (multiplyColumn(_board, iterator, RAWS) == valueToWin) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+unsigned char checkTotalRaw(int **_board, int valueToWin) {
+    int iterator;
+
+    for (iterator = 0; iterator < RAWS; iterator++) {
+        if (multiplyRaw(_board, iterator, COLUMNS) == valueToWin) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+unsigned char checkIfThePositionIsFree(int **_board, inputValuePlayer *datainput) {
+    if (IsThePositionFree(_board, datainput)) {
+        puts("\n> Sorry, the position is already taken. Choose another one.\n ");
         return 0;
-
-    for(itertator = array; itertator < array + columns; itertator ++)
-    {
-        *itertator = (int*)malloc(sizeof(int)*columns);
-        if(!*itertator)
-        {
-            for(freeiterator = itertator; freeiterator >= array; freeiterator --)
-            {
-                free(*freeiterator);
-            }
-            free(freeiterator);
-            return 0;
-        }
     }
-    _board ->array2D = array;
     return 1;
 }
 
-int makeMove(IPlayer *_player,  Board *_board, int opponentValue) {
-    move func = (move)_player->func_movement;
-    return func(_player, _board, opponentValue);
+unsigned char IsThePositionFree(int **_board, inputValuePlayer *datainput) {
+    return (_board[getDataInputRaw(datainput)][getDataInputColumn(datainput)] != DEFAULT_VALUE) ? 1
+                                                                                                : 0;
 }
 
-int playPlayer(IPlayer *_player, Board *_board, int opponentValue) {return 0;}
+void getValidatedInput(inputValuePlayer *datainput) {
+    char _input[4];
+
+    do {
+        puts("\n> Enter a coordinate to play. (ex: 0,0) \n WARNING:\n\t(maximum is (2,2)\n");
+        fflush(stdin);
+        fgets(_input, sizeof(_input), stdin);
+        fflush(stdin);
+    } while (!checkInputFormat(datainput, _input));
+    return;
+}
+unsigned char checkInputFormat(inputValuePlayer *datainput, char *_input) {
+    char *pointer = _input;
+    int raw, column;
+
+    raw = atoi(pointer);
+    if (raw < 0 || raw > 3) {
+        puts("\n> No valid Format. Try Again \n");
+        return 0;
+    }
+    pointer++;
+    pointer++;
+    column = atoi(pointer);
+    if (column < 0 || column > 3) {
+        puts("\n> No valid Format. Try Again \n");
+        return 0;
+    }
+    datainput->column = column;
+    datainput->raw = raw;
+    return 1;
+}
 
 int playComputer(IPlayer *_AI, Board *_board, int opponentValue) {
     DataAI _AIdata;
+
+    if (getEmptySpaces(_board) > 5) {
+        randomMovement(getArray2D(_board), getInternalForm(_AI));
+        updateEmptySpaces(_board);
+        return 0;
+    }
 
     DataComputerConstructor(&_AIdata);
 
     int winThis = getInternalForm(_AI) * getInternalForm(_AI);
     int drawThis = opponentValue * opponentValue;
 
-    checkRaws( getArray2D(_board), &_AIdata, winThis, drawThis);
-    checkColumns( getArray2D(_board), &_AIdata, winThis, drawThis);
-    checkDiagonals( getArray2D(_board), &_AIdata, winThis, drawThis);
+    checkRaws(getArray2D(_board), &_AIdata, winThis, drawThis);
+    checkColumns(getArray2D(_board), &_AIdata, winThis, drawThis);
+    checkDiagonals(getArray2D(_board), &_AIdata, winThis, drawThis);
 
     if (getWinnigMoves(&_AIdata)) {
         winMovement(getArray2D(_board), &_AIdata, getInternalForm(_AI));
@@ -172,13 +275,99 @@ int playComputer(IPlayer *_AI, Board *_board, int opponentValue) {
         updateEmptySpaces(_board);
         return 0;
     }
+
+    if (isThereAnyCorner(getArray2D(_board))) {
+        playInCorner(getArray2D(_board), getInternalForm(_AI));
+        updateEmptySpaces(_board);
+        return 0;
+    }
+    if (isTheCenterFree(getArray2D(_board))) {
+        playInCenter(getArray2D(_board), getInternalForm(_AI));
+        updateEmptySpaces(_board);
+        return 0;
+    }
+
     randomMovement(getArray2D(_board), getInternalForm(_AI));
     updateEmptySpaces(_board);
     return 0;
 }
 
-void randomMovement(int **_board, int valueToInsert)
-{
+void playInCenter(int **_board, int valueToInsert) {
+    _board[1][1] = valueToInsert;
+    return;
+}
+
+unsigned char isTheCenterFree(int **_board) { return (_board[1][1] == DEFAULT_VALUE) ? 1 : 0; }
+
+unsigned char isThereAnyCorner(int **_board) {
+    if (_board[0][0] == DEFAULT_VALUE) return 1;
+    if (_board[0][2] == DEFAULT_VALUE) return 1;
+    if (_board[2][0] == DEFAULT_VALUE) return 1;
+    if (_board[2][2] == DEFAULT_VALUE) return 1;
+    return 0;
+}
+void playInCorner(int **_board, int valueToInsert) {
+    if (_board[0][0] == DEFAULT_VALUE) {
+        _board[0][0] = valueToInsert;
+        return;
+    }
+    if (_board[0][2] == DEFAULT_VALUE) {
+        _board[0][2] = valueToInsert;
+        return;
+    }
+    if (_board[2][0] == DEFAULT_VALUE) {
+        _board[2][0] = valueToInsert;
+        return;
+    }
+
+    _board[2][2] = valueToInsert;
+    return;
+}
+
+void printTicTacToe(int **_board, IPlayer *player01, IPlayer *player02) {
+    int i, j;
+
+    printf("\n");
+    puts("> BOARD:");
+    for (i = 0; i < RAWS; i++) {
+        for (j = 0; j < COLUMNS; j++) {
+            printf(" %c ", (_board[i][j] == DEFAULT_VALUE)? ' '
+                           :  ((_board[i][j] == getInternalForm(player01))
+                               ? getExternalForm(player01)
+                               : getExternalForm(player02)) );
+            if (j < 2) printf("|");
+        }
+        printf("\n");
+        if (i < 2) printf("---+---+---\n");
+    }
+    printf("\n");
+}
+
+int CreateInt2DArray(Board *_board, int columns, int raws) {
+    int **itertator, **freeiterator;
+    int **array = (int **)malloc(raws * sizeof(void *));
+    if (!array) return 0;
+
+    for (itertator = array; itertator < array + columns; itertator++) {
+        *itertator = (int *)malloc(sizeof(int) * columns);
+        if (!*itertator) {
+            for (freeiterator = itertator; freeiterator >= array; freeiterator--) {
+                free(*freeiterator);
+            }
+            free(freeiterator);
+            return 0;
+        }
+    }
+    _board->array2D = array;
+    return 1;
+}
+
+int makeMove(IPlayer *_player, Board *_board, int opponentValue) {
+    move func = (move)_player->func_movement;
+    return func(_player, _board, opponentValue);
+}
+
+void randomMovement(int **_board, int valueToInsert) {
     int positionRaw, positionColumn;
 
     srand(time(NULL));
@@ -186,22 +375,21 @@ void randomMovement(int **_board, int valueToInsert)
     positionRaw = rand() % RAWS;
     positionColumn = rand() % COLUMNS;
 
-    while(_board[positionRaw][positionColumn] != DEFAULT_VALUE)
-    {
+    while (_board[positionRaw][positionColumn] != DEFAULT_VALUE) {
         positionRaw = rand() % RAWS;
         positionColumn = rand() % COLUMNS;
     }
 
     _board[positionRaw][positionColumn] = valueToInsert;
-    return ;
+    return;
 }
 
 void drawMovement(int **_board, DataAI *data, int aivalue) {
-    if (lastCcDrawRaw(data)) {
+    if (lastCcDrawRaw(data) != DEF_VALUE_COORDINATES) {
         insertInRaw(_board, lastCcDrawRaw(data), aivalue);
         return;
     }
-    if (lastCcDrawColumn(data)) {
+    if (lastCcDrawColumn(data) != DEF_VALUE_COORDINATES) {
         insertInColumn(_board, lastCcDrawColumn(data), aivalue);
         return;
     }
@@ -216,11 +404,11 @@ void drawMovement(int **_board, DataAI *data, int aivalue) {
 }
 
 void winMovement(int **_board, DataAI *data, int aivalue) {
-    if (lastCWinRaw(data)) {
+    if (lastCWinRaw(data) != DEF_VALUE_COORDINATES) {
         insertInRaw(_board, lastCWinRaw(data), aivalue);
         return;
     }
-    if (lastCcWinColumn(data)) {
+    if (lastCcWinColumn(data)!= DEF_VALUE_COORDINATES) {
         insertInColumn(_board, lastCcWinColumn(data), aivalue);
         return;
     }
@@ -232,6 +420,18 @@ void winMovement(int **_board, DataAI *data, int aivalue) {
         insertInSecondaryDiagonal(_board, aivalue);
     }
     return;
+}
+void initializesArray2D(int ** _2dArray, int value, int raws, int columns)
+{
+    int iteratorR, iteratorC;
+
+    for(iteratorR = 0; iteratorR < raws; iteratorR ++)
+    {
+        for(iteratorC = 0; iteratorC < columns; iteratorC ++)
+        {
+            _2dArray[iteratorR][iteratorC] = value;
+        }
+    }
 }
 
 void insertInRaw(int **_board, int rawToSearch, int aivalue) {
@@ -393,29 +593,29 @@ void iPlayerConstructor(IPlayer *player, char *name, int isIA, int points) {
     player->points = points;
     player->isAI = isIA;
     strcpy(player->name, name);
-    if (isIA) player->_assignedForm = 3;
-    player->func_movement = (void*)playComputer;
-    return;
+    if (isIA) {
+        player->_assignedForm = 3;
+        player->func_movement = (void *)playComputer;
+        return;
+    }
     player->_assignedForm = 2;
-    player->func_movement = (void*)playPlayer;
+    player->func_movement = (void *)playPlayer;
     return;
 }
 
-int boardConstuctor(Board * board)
-{
-    if(!CreateInt2DArray(board, COLUMNS, RAWS))
-        return 0;
+int boardConstructor(Board *board) {
+    if (!CreateInt2DArray(board, COLUMNS, RAWS)) return 0;
     board->emptySpaces = 9;
+    initializesArray2D(board->array2D, DEFAULT_VALUE, RAWS, COLUMNS);
     return 1;
 }
 
-
 // GETTERS
 int getEmptySpaces(Board *_board) { return _board->emptySpaces; }
-int** getArray2D(Board *board) { return board->array2D; }
+int **getArray2D(Board *board) { return board->array2D; }
 int getInternalForm(IPlayer *p) { return p->_assignedForm; }
 char getExternalForm(IPlayer *p) { return p->assignedForm; }
-char * getNamePlayer(IPlayer* p) {return p->name;}
+char *getNamePlayer(IPlayer *p) { return p->name; }
 
 int lastCcDrawRaw(DataAI *data) { return data->lastCCdraw.raw; }
 int lastCcDrawColumn(DataAI *data) { return data->lastCCdraw.column; }
@@ -423,8 +623,10 @@ int diagonalDrawValue(DataAI *data) { return data->lastCCdraw.diagonal; }
 int lastCWinRaw(DataAI *data) { return data->lastCCwin.raw; }
 int lastCcWinColumn(DataAI *data) { return data->lastCCwin.column; }
 int diagonalWinValue(DataAI *data) { return data->lastCCwin.diagonal; }
-int getWinnigMoves(DataAI * data){return data->winningMoves;}
-int getDrawMoves(DataAI * data){return data->drawMoves;}
+int getWinnigMoves(DataAI *data) { return data->winningMoves; }
+int getDrawMoves(DataAI *data) { return data->drawMoves; }
+int getDataInputRaw(inputValuePlayer *datainput) { return datainput->raw; }
+int getDataInputColumn(inputValuePlayer *datainput) { return datainput->column; }
 
 // SETTERS
 void increaseWinningMoves(DataAI *data) { data->winningMoves += 1; }
@@ -433,7 +635,7 @@ void assignForm(IPlayer *p1, IPlayer *p2) {
     p1->assignedForm = 'X';
     p2->assignedForm = 'O';
 }
-void saveWinCC(DataAI *data, int * raw, int *column, int *diagonal) {
+void saveWinCC(DataAI *data, int *raw, int *column, int *diagonal) {
     if (raw != NULL) {
         data->lastCCwin.raw = *raw;
         return;
@@ -462,6 +664,7 @@ void updateEmptySpaces(Board *_board) {
     return;
 }
 
-
-
-
+void insertInIntArray2D(int **_array, int raw, int column, int value) {
+    _array[raw][column] = value;
+}
+void updatePlayerPoints(Player *player, int points) { player->points += points; }

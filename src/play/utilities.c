@@ -14,7 +14,6 @@ unsigned char requestPlayerNames(List* players) {
     Player player;
 
     player.points = 0;
-    player.assignedForm = ' ';
 
     printf("> Enter a player name (0 to exit): ");
     fflush(stdin);

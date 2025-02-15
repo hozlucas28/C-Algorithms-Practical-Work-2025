@@ -8,6 +8,7 @@
 #include "../structs.h"
 #include "./utilities.h"
 
+
 unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
     List players;
     List playersAfterMatch;
@@ -33,7 +34,7 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
             printf("> %d games remaining...\n\n", games);
 
             isPlayerReady(&player);
-            // playGame(&player);  //  TODO: agregar printf() ganaste/perdiste.
+            playGame(&player);
 
             games--;
         }
