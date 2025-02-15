@@ -1,24 +1,18 @@
 ---
-
-name: "REPORT A BUG, HERE YOU HAVE A PATTERN"
-about: "Lets talk about bug or changes that can help us to improve the project."
-title: " 👉 - Short description of the bug"
+name: 'Report a bug'
+about: 'Basic report template with a structure to report a bug.'
+title: '<Verb in infinitive> Short title related to the bug'
 labels: bug
-assignees: ""
-
 ---
 
-## REPORT (Necessary)👀
+## Description
 
-### EXPECTED BEHAVIOR
+\<Short description of the bug>
 
-Describe lo que esperabas que ocurriera al realizar los pasos anteriores.
-Explain to us what you were expecting from the program result after you introduced the data
+## Steps to reproduce it
 
-### SCREENSHOTS OR FILE THAT SUPPLY EVIDENCE
+1. \<Steps needed to reproduce the bug>
 
-If you could, please attach the log error or a screenshot
+## Expected behavior
 
-### ADDITIONAL INFORMATIONl
-
-Any important information that you want to mention.
+\<Expected behaviour on resolve the bug>

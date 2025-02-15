@@ -29,13 +29,7 @@
 </p>
 
 <p align="center">
-    <a href="#"> <!-- TODO -->
-        <img src="../../statics/preview.png" width="800" alt="Vista previa">
-    </a>
-</p>
-
-<p align="center">
-    <a href="#" target="_blank">(video demostrativo)</a> <!-- TODO -->
+    <img src="../../statics/preview.png" width="800" alt="Vista previa">
 </p>
 
 ## Resumen
@@ -44,14 +38,19 @@ Este repositorio contiene el trabajo práctico de la materia Algoritmos y Estruc
 
 ## Características
 
+-   Almacenamiento local de registros.
+-   Comunicación con [APIs](https://en.wikipedia.org/wiki/API) (GET y POST).
 -   Confirmaciones siguiendo la guía de los [Commits Convencionales](https://www.conventionalcommits.org/es/v1.0.0/).
+-   Control de entradas utilizando validaciones.
 -   Convenciones y estándares de código.
 -   Despliegue de entregables.
 -   Documentación del código utilizando la sintaxis de [Doxygen](https://www.doxygen.nl/).
+-   Implementación de lista enlazada simple.
 -   Integración continua con [GitHub Actions](https://docs.github.com/es/actions).
+-   Inteligencia artificial (IA).
+-   Memoria dinámica.
 -   Planificación de la arquitectura.
 -   Planificación del flujo de trabajo del equipo (ramas, etiquetas y versionado).
--   TODO. <!-- TODO -->
 
 ## Instalación
 
@@ -76,7 +75,43 @@ Este repositorio contiene el trabajo práctico de la materia Algoritmos y Estruc
 
 ## Cómo jugar
 
-TODO. <!-- TODO -->
+1. Iniciar el juego
+
+    Al iniciar el programa, aparecerá un menú con tres opciones.
+
+    - [A] Jugar Tic-Tac-Toe: Comienza una partida de [Tateti (Ta-C-Ti)](https://es.wikipedia.org/wiki/Tres_en_l%C3%ADnea).
+    - [B] Mostrar ranking: Muestra el ranking actual de los jugadores del grupo.
+    - [C] Salir: Finaliza el programa.
+
+2. Iniciar una partida
+
+    - Se solicita ingresar los nombres de los jugadores. Se puede ingresar la cantidad de nombres que se desee.
+    - El orden de juego se determina aleatoriamente y se muestra en pantalla.
+    - Cada jugador será consultado si está listo para comenzar.
+
+3. Durante la partida
+
+    - Cada jugador jugará una cantidad determinada de partidas, definida en el [archivo de configuración](../../../src/statics/configuration.txt).
+    - En cada partida, se asigna aleatoriamente si el jugador será `X` o `O`.
+    - Se mostrará el tablero 3x3 y el jugador deberá ingresar la posición donde desea colocar su símbolo.
+    - La IA realiza su jugada de manera estratégica:
+        - Bloquea la victoria del jugador si es posible.
+        - Gana si tiene la oportunidad.
+        - Juega aleatoriamente si no hay jugadas claras.
+    - El turno alterna entre el jugador y la IA hasta que alguien gane o se declare empate.
+
+4. Finalización de la partida
+    - Por cada partida se asignan puntos de la siguiente manera:
+        - Si el jugador gana, recibe 3 puntos.
+        - Si declara empate, el jugador recibe 2 puntos.
+        - Si la IA gana, el jugador pierde 1 punto.
+    - Una vez finalizadas todas las partidas, se genera un informe con:
+        - Detalle de las partidas (incluyendo el estado final del tablero).
+        - Ganador de cada partida.
+        - Puntaje total de cada jugador.
+        - Resultado final indicando los jugadores con mayor puntaje.
+    - El informe se guarda en un archivo de texto con el formato `informe-juego_YYYY-MM-DD-HH-mm.txt`.
+    - Los resultados se envían a una [API](https://en.wikipedia.org/wiki/API).
 
 ### Reglas
 
@@ -92,24 +127,29 @@ TODO. <!-- TODO -->
 <details>
 <summary>¿Cómo puedo cambiar la configuración del juego?</summary>
 
-TODO. <!-- TODO -->
+Para cambiar la configuración, abre el archivo [configuration.txt](../../../src/statics/configuration.txt).
+
+-   Para cambiar el endpoint base de la [API](https://en.wikipedia.org/wiki/API), reemplaza `https://algoritmos-api.azurewebsites.net/api/TaCTi` con el endpoint que desees.
+-   Para cambiar el nombre del equipo, reemplaza `TABACO` con el nombre del equipo que prefieras.
+-   Para cambiar el número de juegos por jugador, reemplaza `3` con la cantidad de juegos que desees.
+
+> [!IMPORTANTE]
+> Si falta el archivo [configuration.txt](../../../src/statics/configuration.txt), el programa no iniciará y mostrará un error en la consola.
 
 </details>
 
 ### Casos de uso
 
-<!-- TODO -->
-
-| N°  | Descripción | Resultado esperado | Resultado recibido |
-| :-: | :---------- | :----------------- | :----------------- |
-|  1  | TODO.       | TODO.              | TODO.              |
-|  2  | TODO.       | TODO.              | TODO.              |
-|  3  | TODO.       | TODO.              | TODO.              |
-|  4  | TODO.       | TODO.              | TODO.              |
-|  5  | TODO.       | TODO.              | TODO.              |
-|  6  | TODO.       | TODO.              | TODO.              |
-|  7  | TODO.       | TODO.              | TODO.              |
-|  8  | TODO.       | TODO.              | TODO.              |
+| N°  | Descripción                                        | Resultado esperado                                                             | Resultado recibido                                                                           |
+| :-: | :------------------------------------------------- | :----------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------- |
+|  1  | Iniciar el juego y seleccionar `Jugar Tic-Tac-Toe` | Solicita los nombres de los jugadores y comienza el juego un jugador aleatorio | Los jugadores se turnan aleatoriamente para jugar.                                           |
+|  2  | Ingresar nombres de jugadores                      | Se registran correctamente los jugadores ingresados                            | Los nombres de los jugadores se registran y se les asigna `0` puntos iniciales.              |
+|  3  | Jugar un turno y ganar contra la IA                | El jugador recibe 3 puntos                                                     | Se suman 3 puntos al campo `puntos` de la estructura del jugador.                            |
+|  4  | Jugar un turno y empatar contra la IA              | El jugador recibe 2 puntos                                                     | Se suman 2 puntos al campo `puntos` de la estructura del jugador.                            |
+|  5  | Jugar un turno y perder contra la IA               | El jugador pierde 1 punto                                                      | Se resta 1 punto al campo `puntos` de la estructura del jugador.                             |
+|  6  | Completar todas las partidas y generar un informe  | Se genera un archivo `.txt` con el puntaje total                               | Se genera un archivo `.txt` con las estadísticas de las partidas.                            |
+|  7  | Consultar ranking del grupo                        | Se muestra el ranking del grupo                                                | Se consulta a la [API](https://en.wikipedia.org/wiki/API) y se muestra el ranking del grupo. |
+|  8  | Finalizar el juego                                 | El programa finaliza sin errores                                               | El programa finaliza sin errores.                                                            |
 
 ## Estructura de la aplicación
 
@@ -222,17 +262,17 @@ C-Algorithms-Practical-Work-2025/
 
 ### Etiquetas
 
--   `vMAYOR.MINOR.PATCH`: Esta etiqueta indica la publicación de un Release del trabajo práctico siguiendo el [Semantic Versioning](https://semver.org/), y solo estará presente en las confirmaciones de la rama `Master`.
+-   `vMAYOR.MINOR.PATCH`: Esta etiqueta indica la publicación de una [Release](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/releases) del trabajo práctico siguiendo el [Semantic Versioning](https://semver.org/), y solo estará presente en las confirmaciones de la rama `Master`.
 
 ### Ramas
 
--   `Master`: Rama que alberga las versiones en desarrollo del trabajo práctico, donde los miembros del equipo incorporarán nuevos cambios (confirmaciones).
+-   `Master`: Rama que alberga las versiones en desarrollo del trabajo práctico, donde los miembros del equipo incorporarán nuevos cambios (confirmaciones) a través de [Pull Requests](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/pulls?q=is%3Apr).
 
 > [!IMPORTANT]
 > Las versiones estables solo están disponibles como [lanzamientos](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/releases).
 
 > [!NOTE]
-> Las demás ramas son ficticias y representan las contribuciones individuales que cada miembro hará sobre la rama `Master`.
+> Las demás ramas son ficticias y representan las contribuciones individuales de cada miembro a través de [Pull Requests](https://github.com/hozlucas28/C-Algorithms-Practical-Work-2025/pulls?q=is%3Apr) a la rama `Master`.
 
 ## Equipo de desarrollo
 

@@ -21,7 +21,7 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
     newList(&playersAfterMatch);
 
     if (!requestPlayerNames(&players)) {
-        printf("> Error! An error occurred on get player names.");
+        printf("> Error! An error occurred on get player names.\n\n");
         return 0;
     };
 
@@ -30,12 +30,13 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
     while (popElement(&players, &player, sizeof(player))) {
         printf("> Hi %s, now it's your turn to play...\n\n", player.name);
 
+        isPlayerReady(&player);
+
         games = config->gamesPerPlayer;
         while (games > 0) {
             printf("> %d games remaining...\n\n", games);
 
-            isPlayerReady(&player);
-            playGame(&player);
+            playGame(&player);  //  TODO
 
             games--;
         }
@@ -58,6 +59,8 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
         return 0;
     };
 
+    puts("> The game statistics was sent to the API.\n");
+
     if (createLocalRecord(config, &playersAfterMatch, localFilePath)) {
         puts("> Error! An error occurred on create local record.\n\n");
 
@@ -66,6 +69,8 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
 
         return 0;
     };
+
+    puts("> The game statistics was saved as a local report.\n");
 
     return 1;
 }
