@@ -16,7 +16,7 @@ int main(const int argsLength, char* args[]) {
 
     Team team;
     Configuration config;
-    char localFilePath[LOCAL_FILE_PATH_LENGTH] = LOCAL_FILE_PATH;
+    char localFilePath[LOCAL_RECORD_PATH_LENGTH] = LOCAL_RECORD_PATH;
 
     int userInput;
 
@@ -25,6 +25,8 @@ int main(const int argsLength, char* args[]) {
         printf("> Error! An error occurred on get the configuration.");
         return 1;
     };
+
+    reprConfiguration(&config);
 
     strcpy(team.name, config.teamName);
 

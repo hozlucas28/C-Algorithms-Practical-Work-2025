@@ -9,7 +9,7 @@
 /* --------------------------------- Common --------------------------------- */
 
 typedef struct {
-    char name[TEAM_NAME_LENGTH];  // TODO: use a dynamic method.
+    char name[DEVELOPMENT_TEAM_LENGTH];  // TODO: use a dynamic method.
 } Team;
 
 /* --------------------------------- Player --------------------------------- */
