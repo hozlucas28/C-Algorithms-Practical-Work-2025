@@ -14,7 +14,6 @@ int main(const int argsLength, char* args[]) {
     unsigned char error;
 
     Configuration config;
-    char localFilePath[LOCAL_RECORD_PATH_LENGTH] = LOCAL_RECORD_PATH;
 
     int userInput;
 
@@ -37,7 +36,7 @@ int main(const int argsLength, char* args[]) {
         switch (userInput) {
             case 1:
                 printf("\n> Team %s...\n\n", config.teamName);
-                playTicTacToe(&config, localFilePath);
+                playTicTacToe(&config);
                 break;
             case 2:
                 showRanking(&config);

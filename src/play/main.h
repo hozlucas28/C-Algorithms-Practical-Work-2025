@@ -3,6 +3,6 @@
 
 #include "../configuration/main.h"
 
-unsigned char playTicTacToe(const Configuration* config, char* localFilePath);
+unsigned char playTicTacToe(const Configuration* config);
 
 #endif  // SRC__PLAY_H_INCLUDED

@@ -8,7 +8,7 @@
 #include "../structs.h"
 #include "./utilities.h"
 
-unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
+unsigned char playTicTacToe(const Configuration* config) {
     List players;
     List playersAfterMatch;
 
@@ -55,7 +55,7 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
 
     puts("> The game statistics was sent to the API.\n");
 
-    if (createLocalRecord(config, &playersAfterMatch, localFilePath)) {
+    if (createLocalRecord(config, &playersAfterMatch)) {
         puts("> Error! An error occurred on create local record.\n\n");
 
         destroyList(&players);

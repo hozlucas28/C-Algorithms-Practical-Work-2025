@@ -87,7 +87,7 @@ unsigned char postAPI(const Configuration* config, List* players) {
     return error;
 }
 
-unsigned char createLocalRecord(const Configuration* config, List* players, char* localFilePath) {
+unsigned char createLocalRecord(const Configuration* config, List* players) {
     unsigned char error;
 
     FILE* file;
@@ -105,12 +105,12 @@ unsigned char createLocalRecord(const Configuration* config, List* players, char
     Player player;
     size_t playersLength;
 
-    error = concatCurrentTime(localFilePath);
+    error = concatCurrentTime(config->localRecordPath);
     if (error) return 1;
 
-    strcat(localFilePath, ".txt");
+    strcat(config->localRecordPath, ".txt");
 
-    file = fopen(localFilePath, "wt");
+    file = fopen(config->localRecordPath, "wt");
     if (file == NULL) return 1;
 
     // Header - Team name
