@@ -6,8 +6,8 @@
 #include "./macros.h"
 #include "./structs.h"
 
-// List
-#include "./list/main.h"
+// Singly linked list
+#include "./singly-list/main.h"
 
 // Time
 #include "./time/main.h"

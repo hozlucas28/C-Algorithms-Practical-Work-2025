@@ -8,7 +8,7 @@
 #include "./cJSON/main.h"
 #include "./macros.h"
 
-char* parseToJSON(const Configuration* config, List* players) {
+char* parseToJSON(const Configuration* config, SList* players) {
     char* jsonStringified = NULL;
 
     cJSON* json = NULL;
@@ -16,7 +16,7 @@ char* parseToJSON(const Configuration* config, List* players) {
     cJSON* jsonPlayer = NULL;
 
     size_t i;
-    const size_t playersLength = getLength(players);
+    const size_t playersLength = getSListLength(players);
 
     Player player;
 
@@ -31,7 +31,7 @@ char* parseToJSON(const Configuration* config, List* players) {
     cJSON_AddItemToObject(json, POST__PLAYERS, jsonPlayers);
 
     for (i = 0; i < playersLength; i++) {
-        if (getElement(players, &player, sizeof(player), i)) break;
+        if (getSListElement(players, &player, sizeof(player), i)) break;
 
         jsonPlayer = cJSON_CreateObject();
         if (jsonPlayer == NULL) goto end;
