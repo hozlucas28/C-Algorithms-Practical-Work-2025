@@ -19,7 +19,7 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
     newList(&playersAfterMatch);
 
     if (!requestPlayerNames(&players)) {
-        printf("> Error! An error occurred on get player names.");
+        printf("> Error! An error occurred on get player names.\n\n");
         return 0;
     };
 
@@ -28,21 +28,18 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
     while (popElement(&players, &player, sizeof(player))) {
         printf("> Hi %s, now it's your turn to play...\n\n", player.name);
 
+        isPlayerReady(&player);
+
         games = config->gamesPerPlayer;
         while (games > 0) {
             printf("> %d games remaining...\n\n", games);
 
-            isPlayerReady(&player);
             playGame(&player);  //  TODO: agregar printf() ganaste/perdiste.
 
             games--;
         }
 
         printf("> You won/lose the match! Your final score is %d.\n\n", player.points);
-
-        printf("> ");
-        system("pause");
-        puts("");
 
         if (!pushElement(&playersAfterMatch, &player, sizeof(player))) return 0;
     }
