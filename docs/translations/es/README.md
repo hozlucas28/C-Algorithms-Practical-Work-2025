@@ -62,8 +62,6 @@ Este repositorio contiene el trabajo práctico de la materia Algoritmos y Estruc
 
 4. Selecciona el proyecto [src.cbp](../../../src/src.cbp) (proyecto principal), ejecútalo en modo Release y disfrútalo.
 
-> Más información dentro de la sección [Cómo jugar](#como-jugar).
-
 > [!TIP]
 > Si lo deseas, puedes usar [Visual Studio Code](https://code.visualstudio.com/) para ejecutar este proyecto. Para hacerlo, simplemente navega a [src/main.c](./src/main.c), luego haz clic en el botón _C/C++ File_ en la parte superior derecha de la ventana de [VSCode](https://code.visualstudio.com/). Toda la aplicación, incluidas las bibliotecas y archivos fuente, se compilará, y la aplicación se ejecutará automáticamente dentro del terminal integrado.
 
@@ -133,7 +131,6 @@ Para cambiar la configuración, abre el archivo [configuration.txt](../../../src
 -   Para cambiar el nombre del equipo, reemplaza `TABACO` con el nombre del equipo que prefieras.
 -   Para cambiar el número de juegos por jugador, reemplaza `3` con la cantidad de juegos que desees.
 
-> [!IMPORTANTE]
 > Si falta el archivo [configuration.txt](../../../src/statics/configuration.txt), el programa no iniciará y mostrará un error en la consola.
 
 </details>

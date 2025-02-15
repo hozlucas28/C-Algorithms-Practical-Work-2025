@@ -62,8 +62,6 @@ This repository contains the practical work for the Algorithms and Data Structur
 
 4. Select the [src.cbp](./src/src.cbp) project (main project), run it in Release mode, and enjoy it.
 
-> More information inside [How to play](#how-to-play) section.
-
 > [!TIP]
 > If you want, you can use [Visual Studio Code](https://code.visualstudio.com/) to run this project. To do this, simply navigate to [src/main.c](./src/main.c), then click the _C/C++ File_ button at the top right of the [VSCode](https://code.visualstudio.com/) window. The entire application, including libraries and source files, will be compiled, and the application will run automatically inside the integrated terminal.
 
@@ -133,7 +131,6 @@ To change the configuration, open the file [configuration.txt](./src/statics/con
 -   To change the team name, replace `TABACO` with your preferred team name.
 -   To change the number of games per player, replace `3` with the desired number of games.
 
-> [!IMPORTANT]
 > If [configuration.txt](./src/statics/configuration.txt) is missing, the program won't start and will throw an error in the console.
 
 </details>
