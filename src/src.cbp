@@ -91,6 +91,10 @@
 		<Unit filename="show-ranking/utilities.h" />
 		<Unit filename="statics/configuration.txt" />
 		<Unit filename="structs.h" />
+		<Unit filename="utilities.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="utilities.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
