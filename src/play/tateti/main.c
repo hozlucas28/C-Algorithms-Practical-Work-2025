@@ -105,10 +105,6 @@ int playGame(Player *player) {
     printTicTacToe(getArray2D(&_board), &player01, &player02);
 
     while (getEmptySpaces(&_board) >= 1 && !player01Won && !player02Won) {
-        printf("\n\n --> %d \n\n", getEmptySpaces(&_board));
-        printf("\n\n --> PJ01 %s \n\n", player01.name);
-        printf("\n\n --> PJ02 %s \n\n", player02.name);
-
         player01Won = makeMove(&player01, &_board, getInternalForm(&player02));
         printTicTacToe(getArray2D(&_board), &player01, &player02);
         if (getEmptySpaces(&_board) < 1 || player01Won) break;
@@ -373,8 +369,6 @@ int CreateInt2DArray(Board *_board, int columns, int raws) {
 }
 
 int makeMove(IPlayer *_player, Board *_board, int opponentValue) {
-    // move func = (move)_player->func_movement;
-    // return func(_player, _board, opponentValue);
     return _player->move(_player, _board, opponentValue);
 }
 
