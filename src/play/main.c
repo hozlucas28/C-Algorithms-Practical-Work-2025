@@ -53,6 +53,8 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
         return 0;
     };
 
+    puts("> The game statistics was sent to the API.\n");
+
     if (createLocalRecord(config, &playersAfterMatch, localFilePath)) {
         puts("> Error! An error occurred on create local record.\n\n");
 
@@ -61,6 +63,8 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
 
         return 0;
     };
+
+    puts("> The game statistics was saved as a local report.\n");
 
     return 1;
 }
