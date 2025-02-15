@@ -11,9 +11,7 @@
 unsigned char requestPlayerNames(List* players) {
     char* lineBreak;
 
-    Player player;
-
-    player.points = 0;
+    Player player = {.points = 0, .gamesWons = 0, .lostGames = 0, .tiedGames = 0};
 
     printf("> Enter a player name (0 to exit): ");
     fflush(stdin);
@@ -35,6 +33,7 @@ unsigned char requestPlayerNames(List* players) {
         if (lineBreak != NULL) *lineBreak = '\0';
 
         if (*(player.name) == '0') break;
+
         if (!pushElement(players, &player, sizeof(player))) return 0;
     };
 

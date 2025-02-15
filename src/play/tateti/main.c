@@ -1,9 +1,11 @@
 #include "./main.h"
 
 #include <stdio.h>
+#include <time.h>
 
 #include "../../../libs/list/main.h"
-#include "time.h"
+#include "../../configuration/main.h"
+#include "../../utilities.h"
 
 int playComputer(IPlayer *_AI, Board *_board, int opponentValue);
 int playPlayer(IPlayer *_player, Board *_board, int opponentValue);
@@ -39,7 +41,7 @@ unsigned char checkTotalColumn(int **_board, int valueToWin);
 unsigned char checkTotalDiagonal(int **_board, int valueToWin);
 unsigned char checkIfPlayerWon(int **_board, int userForm);
 void showGameInformation(IPlayer *player01, IPlayer *player02);
-void initializesArray2D(int ** _2dArray, int value, int raws, int columns);
+void initializesArray2D(int **_2dArray, int value, int raws, int columns);
 
 // CONSTRUCTORS
 void DataComputerConstructor(DataAI *data);
@@ -71,9 +73,8 @@ void increaseWinningMoves(DataAI *data);
 void saveWinCC(DataAI *data, int *raw, int *column, int *diagonal);
 void saveDrawCC(DataAI *data, int *raw, int *column, int *diagonal);
 void insertInIntArray2D(int **_array, int raw, int column, int value);
-void updatePlayerPoints(Player *player, int points);
-// program
 
+// program
 
 int playGame(Player *player) {
     int player01Won = 0, player02Won = 0;
@@ -92,7 +93,7 @@ int playGame(Player *player) {
     if (!pushElement(&players, &AI, sizeof(AI))) return 0;
     if (!pushElement(&players, &_player, sizeof(_player))) return 0;
 
-    randomSort(&players);  // [PJ, AI]
+    randomSort(&players);
 
     if (!popElement(&players, &player01, sizeof(player01))) return 0;
     if (!popElement(&players, &player02, sizeof(player02))) return 0;
@@ -114,32 +115,36 @@ int playGame(Player *player) {
     }
 
     if (getEmptySpaces(&_board) == 1) {
-        puts("TIE");
-        updatePlayerPoints(player, TIE);
+        puts(">TIE");
+        addPlayerPoints(player, TIE);
+        addPlayerTiedGames(player);
         return 1;
     }
     if (player01Won) {
-        printf("GANO: %s", getNamePlayer(&player01));
+        printf(">GANO: %s", getNamePlayer(&player01));
         if (strcmp(getNamePlayer(&player01), "AI") == 0) {
-            updatePlayerPoints(player, DEFEAT);
+            addPlayerPoints(player, DEFEAT);
+            addPlayerLostGames(player);
         } else {
-            updatePlayerPoints(player, VICTORY);
+            addPlayerPoints(player, VICTORY);
+            addPlayerGamesWons(player);
         }
         return 1;
     }
     if (player02Won) {
-        printf("GANO PJ 02 %s", getNamePlayer(&player02));
+        printf("\n>GANO PJ 02 %s \n", getNamePlayer(&player02));
         if (strcmp(getNamePlayer(&player01), "AI") == 0) {
-            updatePlayerPoints(player, DEFEAT);
+            addPlayerPoints(player, DEFEAT);
+            addPlayerLostGames(player);
+
         } else {
-            updatePlayerPoints(player, VICTORY);
+            addPlayerPoints(player, VICTORY);
+            addPlayerGamesWons(player);
         }
     }
 
     return 1;
 }
-
-
 
 // UTILITIES
 
@@ -331,10 +336,11 @@ void printTicTacToe(int **_board, IPlayer *player01, IPlayer *player02) {
     puts("> BOARD:");
     for (i = 0; i < RAWS; i++) {
         for (j = 0; j < COLUMNS; j++) {
-            printf(" %c ", (_board[i][j] == DEFAULT_VALUE)? ' '
-                           :  ((_board[i][j] == getInternalForm(player01))
-                               ? getExternalForm(player01)
-                               : getExternalForm(player02)) );
+            printf(" %c ",
+                   (_board[i][j] == DEFAULT_VALUE)
+                       ? ' '
+                       : ((_board[i][j] == getInternalForm(player01)) ? getExternalForm(player01)
+                                                                      : getExternalForm(player02)));
             if (j < 2) printf("|");
         }
         printf("\n");
@@ -408,7 +414,7 @@ void winMovement(int **_board, DataAI *data, int aivalue) {
         insertInRaw(_board, lastCWinRaw(data), aivalue);
         return;
     }
-    if (lastCcWinColumn(data)!= DEF_VALUE_COORDINATES) {
+    if (lastCcWinColumn(data) != DEF_VALUE_COORDINATES) {
         insertInColumn(_board, lastCcWinColumn(data), aivalue);
         return;
     }
@@ -421,14 +427,11 @@ void winMovement(int **_board, DataAI *data, int aivalue) {
     }
     return;
 }
-void initializesArray2D(int ** _2dArray, int value, int raws, int columns)
-{
+void initializesArray2D(int **_2dArray, int value, int raws, int columns) {
     int iteratorR, iteratorC;
 
-    for(iteratorR = 0; iteratorR < raws; iteratorR ++)
-    {
-        for(iteratorC = 0; iteratorC < columns; iteratorC ++)
-        {
+    for (iteratorR = 0; iteratorR < raws; iteratorR++) {
+        for (iteratorC = 0; iteratorC < columns; iteratorC++) {
             _2dArray[iteratorR][iteratorC] = value;
         }
     }
@@ -667,4 +670,3 @@ void updateEmptySpaces(Board *_board) {
 void insertInIntArray2D(int **_array, int raw, int column, int value) {
     _array[raw][column] = value;
 }
-void updatePlayerPoints(Player *player, int points) { player->points += points; }

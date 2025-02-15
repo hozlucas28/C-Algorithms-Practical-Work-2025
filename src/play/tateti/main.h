@@ -14,14 +14,9 @@
 #define SECOND_DIAG 0
 #define DEF_VALUE_COORDINATES -2
 
-// POINTS
-#define VICTORY 3
-#define TIE 2
-#define DEFEAT -1
-
 typedef struct {
-    int raw;       // indicates if what raw is a winning-loosing movement
-    int column;    // same
+    int raw;       // indicates in what raw is a winning-loosing movement
+    int column;    // same but with column
     int diagonal;  // 1 or 0, if its 1 normal diagonal, if its 0, secondary diagonal
     // is a winning-loosing movement
 } Coordinates;
@@ -33,10 +28,6 @@ typedef struct {
     Coordinates lastCCdraw;
 } DataAI;
 
-//
-struct IPlayer;
-struct Board;
-
 typedef struct {
     int raw, column;
 } inputValuePlayer;
@@ -46,7 +37,6 @@ typedef struct {
     int points;
     char assignedForm;
     char _assignedForm;
-    int turn;
     unsigned char isAI;
     void *func_movement;
 } IPlayer;

@@ -6,14 +6,15 @@
 #include "../api/main.h"
 #include "../configuration/main.h"
 #include "../structs.h"
+#include "./tateti/main.h"
 #include "./utilities.h"
-
 
 unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
     List players;
     List playersAfterMatch;
 
     Player player;
+
     unsigned games = 0;
 
     newList(&players);
@@ -39,7 +40,7 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
             games--;
         }
 
-        printf("> You won/lose the match! Your final score is %d.\n\n", player.points);
+        printf("> Your final score is %d.\n\n", player.points);
 
         printf("> ");
         system("pause");

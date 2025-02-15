@@ -17,9 +17,9 @@ typedef struct {
 typedef struct {
     char name[PLAYER_NAME_LENGTH];
     int points;
-    // char assignedForm;
-    // int _assignedForm;
-    // int turn;
+    int gamesWons;
+    int lostGames;
+    int tiedGames;
 } Player;
 
 typedef struct {

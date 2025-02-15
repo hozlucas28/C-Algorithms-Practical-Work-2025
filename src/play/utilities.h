@@ -8,8 +8,6 @@
 
 unsigned char requestPlayerNames(List* players);
 
-int playGame(Player* player);
-
 void isPlayerReady();
 
 #endif  // SRC_PLAY_UTILITIES_H_INCLUDED

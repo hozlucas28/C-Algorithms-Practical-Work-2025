@@ -5,4 +5,9 @@
 
 #define CONFIGURATION_LINE_LENGTH 256
 
+// POINTS
+#define VICTORY 3
+#define TIE 2
+#define DEFEAT -1
+
 #endif  // SRC__CONFIG_MACRO_H_INCLUDED
