@@ -13,8 +13,8 @@ typedef struct {
 } Game;
 
 typedef struct {
-    List* players;
-    List* games;
+    SList* players;
+    SList* games;
 } TicTacToeGame;
 
 #endif  // SRC__PLAY_STRUCTS_H_INCLUDED

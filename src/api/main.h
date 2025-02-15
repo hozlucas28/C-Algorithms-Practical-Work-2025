@@ -6,10 +6,10 @@
 #include "./macros.h"
 #include "./utilities.h"
 
-unsigned char getAPI(const char* endpoint, List* players);
+unsigned char getAPI(const char* endpoint, SList* players);
 
-unsigned char postAPI(const Configuration* config, List* players);
+unsigned char postAPI(const Configuration* config, SList* players);
 
-unsigned char createLocalRecord(Configuration* config, List* players);
+unsigned char createLocalRecord(Configuration* config, SList* players);
 
 #endif  // SRC__API_H_INCLUDED

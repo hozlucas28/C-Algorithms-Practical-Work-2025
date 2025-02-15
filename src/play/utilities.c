@@ -8,7 +8,7 @@
 #include "../macros.h"
 #include "../structs.h"
 
-unsigned char requestPlayerNames(List* players) {
+unsigned char requestPlayerNames(SList* players) {
     char* lineBreak;
 
     Player player = {.points = 0, .gamesWons = 0, .lostGames = 0, .tiedGames = 0};
@@ -21,7 +21,7 @@ unsigned char requestPlayerNames(List* players) {
     lineBreak = strrchr(player.name, '\n');
     if (lineBreak != NULL) *lineBreak = '\0';
 
-    if (*(player.name) == '0' || !pushElement(players, &player, sizeof(player))) return 0;
+    if (*(player.name) == '0' || !pushSListElement(players, &player, sizeof(player))) return 0;
 
     while (*(player.name) != '0') {
         printf("> Enter a player name (0 to exit): ");
@@ -34,7 +34,7 @@ unsigned char requestPlayerNames(List* players) {
 
         if (*(player.name) == '0') break;
 
-        if (!pushElement(players, &player, sizeof(player))) return 0;
+        if (!pushSListElement(players, &player, sizeof(player))) return 0;
     };
 
     return 1;

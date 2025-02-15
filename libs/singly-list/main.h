@@ -6,7 +6,7 @@
 
 #include "../structs.h"
 
-typedef Node* List; /** Singly linked list */
+typedef Node* SList; /** Singly linked list */
 
 /* ------------------------------- Constructor ------------------------------ */
 
@@ -15,9 +15,9 @@ typedef Node* List; /** Singly linked list */
  *
  * This function sets the given singly linked list to `NULL`.
  *
- * @param list Singly linked list structure to be initialized.
+ * @param _list Singly linked list structure to be initialized.
  */
-void newList(List* list);
+void newSList(SList* _list);
 
 /* ------------------------------- Destructor ------------------------------- */
 
@@ -29,7 +29,7 @@ void newList(List* list);
  *
  * @param _list Singly linked list to be destroyed.
  */
-void destroyList(List* _list);
+void destroySList(SList* _list);
 
 /* --------------------------------- Getters -------------------------------- */
 
@@ -49,8 +49,8 @@ void destroyList(List* _list);
  * @warning Ensure that the storage provided is large enough to hold the data from the specified
  * index.
  */
-unsigned char getElement(const List* _list, void* store, const size_t sizeOfStore,
-                         const size_t index);
+unsigned char getSListElement(const SList* _list, void* store, const size_t sizeOfStore,
+                              const size_t index);
 
 /**
  * @brief Retrieves the length of the singly linked list.
@@ -59,7 +59,7 @@ unsigned char getElement(const List* _list, void* store, const size_t sizeOfStor
  *
  * @return Length of the singly linked list.
  */
-size_t getLength(List* _list);
+size_t getSListLength(SList* _list);
 
 /**
  * @brief Retrieves a copy of the top data inside the singly linked list.
@@ -75,7 +75,7 @@ size_t getLength(List* _list);
  *
  * @warning Ensure that the storage provided is large enough to hold the top data.
  */
-unsigned char getHead(const List* _list, void* store, const size_t sizeOfStore);
+unsigned char getSListHead(const SList* _list, void* store, const size_t sizeOfStore);
 
 /**
  * @brief Checks if the singly linked list is empty.
@@ -84,7 +84,7 @@ unsigned char getHead(const List* _list, void* store, const size_t sizeOfStore);
  *
  * @return 1 if the list is empty, 0 otherwise.
  */
-unsigned char isListEmpty(List* _list);
+unsigned char isSListEmpty(SList* _list);
 
 /**
  * @brief Checks if the singly linked list can accommodate more data.
@@ -100,7 +100,7 @@ unsigned char isListEmpty(List* _list);
  * @warning This function temporarily allocates memory to check for fullness and immediately frees
  * it.
  */
-unsigned char isListFull(List* _list, const size_t sizeOfStore);
+unsigned char isSListFull(SList* _list, const size_t sizeOfStore);
 
 /* --------------------------------- Methods -------------------------------- */
 
@@ -118,7 +118,7 @@ unsigned char isListFull(List* _list, const size_t sizeOfStore);
  *
  * @warning Ensure that the storage provided is large enough to hold data.
  */
-unsigned char popElement(List* _list, void* store, const size_t sizeOfStore);
+unsigned char popSListElement(SList* _list, void* store, const size_t sizeOfStore);
 
 /**
  * @brief Adds a new data to the end of the singly linked list.
@@ -129,7 +129,7 @@ unsigned char popElement(List* _list, void* store, const size_t sizeOfStore);
  *
  * @return 1 if the data was successfully added, 0 otherwise.
  */
-unsigned char pushElement(List* _list, void* data, const size_t sizeOfData);
+unsigned char pushSListElement(SList* _list, void* data, const size_t sizeOfData);
 
 /**
  * @brief Applies a callback function to each data in the singly linked list.
@@ -140,14 +140,14 @@ unsigned char pushElement(List* _list, void* data, const size_t sizeOfData);
  * @param _list Singly linked list whose data will be processed.
  * @param callback Function that will be applied to each data.
  */
-void map(List* _list, void (*callback)(void* element));
+void mapSList(SList* _list, void (*callback)(void* element));
 
 /**
  * @brief Randomly shuffles the data of the singly linked list.
  *
  * @param _list Singly linked list to be shuffled.
  */
-void randomSort(List* _list);
+void randomSortSList(SList* _list);
 
 /**
  * @brief Sorts the singly linked list using the selection sort algorithm.
@@ -160,6 +160,6 @@ void randomSort(List* _list);
  * @param _list Singly linked list to be sorted.
  * @param cmp Comparison function.
  */
-void selectionSort(List* _list, int (*cmp)(const void* a, const void* b));
+void selectionSortSList(SList* _list, int (*cmp)(const void* a, const void* b));
 
 #endif  // LIBS__LIST_H_INCLUDED

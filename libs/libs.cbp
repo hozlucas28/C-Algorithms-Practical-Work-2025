@@ -34,12 +34,12 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="list/main.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="list/main.h" />
 		<Unit filename="macros.h" />
 		<Unit filename="main.h" />
+		<Unit filename="singly-list/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="singly-list/main.h" />
 		<Unit filename="structs.h" />
 		<Unit filename="time/main.c">
 			<Option compilerVar="CC" />

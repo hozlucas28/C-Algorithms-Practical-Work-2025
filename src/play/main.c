@@ -11,19 +11,24 @@
 #include "./utilities.h"
 
 unsigned char playTicTacToe(Configuration* config) {
-    List players;
-    List playersAfterMatch;
+    SList players;
+    SList playersAfterMatch;
 
     Player player;
 
     unsigned games = 0;
 
-    newList(&players);
-    newList(&playersAfterMatch);
+    newSList(&players);
+    newSList(&playersAfterMatch);
 
-    randomSort(&players);
+    if (!requestPlayerNames(&players)) {
+        printf("> Error! An error occurred on get player names.\n\n");
+        return 0;
+    };
 
-    while (popElement(&players, &player, sizeof(player))) {
+    randomSortSList(&players);
+
+    while (popSListElement(&players, &player, sizeof(player))) {
         printf("> Hi %s, now it's your turn to play...\n\n", player.name);
 
         isPlayerReady(&player);
@@ -39,16 +44,16 @@ unsigned char playTicTacToe(Configuration* config) {
 
         printf("> Your final score is %d.\n\n", player.points);
 
-        if (!pushElement(&playersAfterMatch, &player, sizeof(player))) return 0;
+        if (!pushSListElement(&playersAfterMatch, &player, sizeof(player))) return 0;
     }
 
-    selectionSort(&playersAfterMatch, &cmpPlayersAscPoints);
+    selectionSortSList(&playersAfterMatch, &cmpPlayersAscPoints);
 
     if (postAPI(config, &playersAfterMatch)) {
         puts("> Error! An error occurred on post to the API.\n\n");
 
-        destroyList(&players);
-        destroyList(&playersAfterMatch);
+        destroySList(&players);
+        destroySList(&playersAfterMatch);
 
         return 0;
     };
@@ -58,8 +63,8 @@ unsigned char playTicTacToe(Configuration* config) {
     if (createLocalRecord(config, &playersAfterMatch)) {
         puts("> Error! An error occurred on create local record.\n\n");
 
-        destroyList(&players);
-        destroyList(&playersAfterMatch);
+        destroySList(&players);
+        destroySList(&playersAfterMatch);
 
         return 0;
     };

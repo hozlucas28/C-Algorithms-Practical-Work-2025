@@ -6,7 +6,7 @@
 #include "../structs.h"
 #include "./tateti/main.h"
 
-unsigned char requestPlayerNames(List* players);
+unsigned char requestPlayerNames(SList* players);
 
 void isPlayerReady();
 

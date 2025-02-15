@@ -10,7 +10,7 @@
 #include "./main.h"
 #include "./utilities.h"
 
-unsigned char getAPI(const char* endpoint, List* players) {
+unsigned char getAPI(const char* endpoint, SList* players) {
     unsigned char error = 1;
 
     CURL* curl;
@@ -41,7 +41,7 @@ unsigned char getAPI(const char* endpoint, List* players) {
     if (file == NULL) return 1;
 
     while (fread(&apiPlayer, sizeof(apiPlayer), 1, file) &&
-           pushElement(players, &apiPlayer, sizeof(apiPlayer)));
+           pushSListElement(players, &apiPlayer, sizeof(apiPlayer)));
 
     fclose(file);
 
@@ -50,7 +50,7 @@ unsigned char getAPI(const char* endpoint, List* players) {
     return error;
 }
 
-unsigned char postAPI(const Configuration* config, List* players) {
+unsigned char postAPI(const Configuration* config, SList* players) {
     char* json = NULL;
     unsigned char error = 0;
 
@@ -87,7 +87,7 @@ unsigned char postAPI(const Configuration* config, List* players) {
     return error;
 }
 
-unsigned char createLocalRecord(Configuration* config, List* players) {
+unsigned char createLocalRecord(Configuration* config, SList* players) {
     unsigned char error;
 
     FILE* file;
@@ -142,11 +142,11 @@ unsigned char createLocalRecord(Configuration* config, List* players) {
     };
     fprintf(file, "|\n");
 
-    playersLength = getLength(players);
+    playersLength = getSListLength(players);
 
     // Table - Content
     for (i = 0; i < playersLength; i++) {
-        error = getElement(players, &player, sizeof(player), i);
+        error = getSListElement(players, &player, sizeof(player), i);
         if (error) break;
 
         fprintf(file, "| %0*d | %-*s | %0*d | %0*d | %0*d | %0*d |\n", indexCol, i + 1, nameCol,

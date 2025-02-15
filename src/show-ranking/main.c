@@ -14,13 +14,13 @@ unsigned char showRanking(const Configuration* config) {
     unsigned char error = 1;
     char endpoint[API_URL_LENGTH];
 
-    List players;
+    SList players;
     size_t playersLength;
 
     int i;
     APIPlayer player;
 
-    newList(&players);
+    newSList(&players);
 
     error = __concatEndpoint(config->apiURL, config->teamName, endpoint);
     if (!error) {
@@ -34,15 +34,15 @@ unsigned char showRanking(const Configuration* config) {
         return 0;
     }
 
-    selectionSort(&players, &cmpPlayers);
+    selectionSortSList(&players, &cmpPlayers);
 
-    playersLength = getLength(&players);
+    playersLength = getSListLength(&players);
 
     playersLength ? puts("")
                   : printf("\n> There are no players inside the %s team.\n", config->teamName);
 
     for (i = 0; i < playersLength; i++) {
-        if (getElement(&players, &player, sizeof(player), i)) break;
+        if (getSListElement(&players, &player, sizeof(player), i)) break;
         printf("> #%02d: [ %-*s | %06d points | %-*s (last game played) ]\n", i + 1,
                PLAYER_NAME_LENGTH, player.name, player.points, PLAYER_LAST_GAME_PLAYED_LENGTH,
                player.lastGamePlayed);

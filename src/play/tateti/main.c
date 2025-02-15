@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#include "../../../libs/list/main.h"
+#include "../../../libs/main.h"
 #include "../../configuration/main.h"
 #include "../../utilities.h"
 
@@ -79,7 +79,7 @@ void insertInIntArray2D(int **_array, int raw, int column, int value);
 int playGame(Player *player) {
     int player01Won = 0, player02Won = 0;
     IPlayer AI, _player;
-    List players;
+    SList players;
     IPlayer player01;
     IPlayer player02;
     Board _board;
@@ -88,15 +88,15 @@ int playGame(Player *player) {
     iPlayerConstructor(&AI, "AI", 1, 0);
     iPlayerConstructor(&_player, player->name, 0, player->points);
 
-    newList(&players);
+    newSList(&players);
 
-    if (!pushElement(&players, &AI, sizeof(AI))) return 0;
-    if (!pushElement(&players, &_player, sizeof(_player))) return 0;
+    if (!pushSListElement(&players, &AI, sizeof(AI))) return 0;
+    if (!pushSListElement(&players, &_player, sizeof(_player))) return 0;
 
-    randomSort(&players);
+    randomSortSList(&players);
 
-    if (!popElement(&players, &player01, sizeof(player01))) return 0;
-    if (!popElement(&players, &player02, sizeof(player02))) return 0;
+    if (!popSListElement(&players, &player01, sizeof(player01))) return 0;
+    if (!popSListElement(&players, &player02, sizeof(player02))) return 0;
 
     assignForm(&player01, &player02);
 
