@@ -6,12 +6,6 @@
 
 #include "./macros.h"
 
-/* --------------------------------- Common --------------------------------- */
-
-typedef struct {
-    char name[DEVELOPMENT_TEAM_LENGTH];  // TODO: use a dynamic method.
-} Team;
-
 /* --------------------------------- Player --------------------------------- */
 
 typedef struct {
