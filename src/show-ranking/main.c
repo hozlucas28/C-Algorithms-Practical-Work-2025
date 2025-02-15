@@ -12,7 +12,7 @@ unsigned char __concatEndpoint(const char* base, const char* endpoint, char* sto
 
 unsigned char showRanking(const Configuration* config) {
     unsigned char error = 1;
-    char endpoint[MAXIMUM_API_URL_LENGTH];
+    char endpoint[API_URL_LENGTH];
 
     List players;
     size_t playersLength;

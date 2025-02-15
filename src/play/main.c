@@ -3,13 +3,14 @@
 #include <stdio.h>
 
 #include "../../libs/main.h"
+#include "../../utilities.h"
 #include "../api/main.h"
 #include "../configuration/main.h"
 #include "../structs.h"
 #include "./tateti/main.h"
 #include "./utilities.h"
 
-unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
+unsigned char playTicTacToe(Configuration* config) {
     List players;
     List playersAfterMatch;
 
@@ -19,11 +20,6 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
 
     newList(&players);
     newList(&playersAfterMatch);
-
-    if (!requestPlayerNames(&players)) {
-        printf("> Error! An error occurred on get player names.\n\n");
-        return 0;
-    };
 
     randomSort(&players);
 
@@ -43,12 +39,10 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
 
         printf("> Your final score is %d.\n\n", player.points);
 
-        printf("> ");
-        system("pause");
-        puts("");
-
         if (!pushElement(&playersAfterMatch, &player, sizeof(player))) return 0;
     }
+
+    selectionSort(&playersAfterMatch, &cmpPlayersAscPoints);
 
     if (postAPI(config, &playersAfterMatch)) {
         puts("> Error! An error occurred on post to the API.\n\n");
@@ -61,7 +55,7 @@ unsigned char playTicTacToe(const Configuration* config, char* localFilePath) {
 
     puts("> The game statistics was sent to the API.\n");
 
-    if (createLocalRecord(config, &playersAfterMatch, localFilePath)) {
+    if (createLocalRecord(config, &playersAfterMatch)) {
         puts("> Error! An error occurred on create local record.\n\n");
 
         destroyList(&players);

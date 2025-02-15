@@ -32,21 +32,22 @@ typedef struct {
     int raw, column;
 } inputValuePlayer;
 
-typedef struct {
-    char name[PLAYER_NAME_LENGTH];
-    int points;
-    char assignedForm;
-    char _assignedForm;
-    unsigned char isAI;
-    void *func_movement;
-} IPlayer;
-
 typedef struct Board {
     int **array2D;
     int emptySpaces;
 } Board;
 
-typedef int (*move)(IPlayer *player, Board *_board, int internalvalue);
+typedef struct IPlayer {
+    char name[PLAYER_NAME_LENGTH];
+    int points;
+    char assignedForm;
+    char _assignedForm;
+    unsigned char isAI;
+    // void *func_movement;
+    int (*move)(struct IPlayer *player, Board *_board, int internalvalue);
+} IPlayer;
+
+// typedef int (*move)(IPlayer *player, Board *_board, int internalvalue);
 
 int playGame(Player *player);
 

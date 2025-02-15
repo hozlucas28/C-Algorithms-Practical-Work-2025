@@ -104,24 +104,24 @@ int playGame(Player *player) {
 
     printTicTacToe(getArray2D(&_board), &player01, &player02);
 
-    while (getEmptySpaces(&_board) > 1 && !player01Won && !player02Won) {
+    while (getEmptySpaces(&_board) >= 1 && !player01Won && !player02Won) {
         player01Won = makeMove(&player01, &_board, getInternalForm(&player02));
         printTicTacToe(getArray2D(&_board), &player01, &player02);
-        if (player01Won) break;
+        if (getEmptySpaces(&_board) < 1 || player01Won) break;
 
         player02Won = makeMove(&player02, &_board, getInternalForm(&player01));
         printTicTacToe(getArray2D(&_board), &player01, &player02);
         if (player02Won) break;
     }
 
-    if (getEmptySpaces(&_board) == 1) {
-        puts(">TIE");
+    if (!player01Won && !player02Won) {
+        puts(">TIE");  // TODO. improve output
         addPlayerPoints(player, TIE);
         addPlayerTiedGames(player);
         return 1;
     }
     if (player01Won) {
-        printf(">GANO: %s", getNamePlayer(&player01));
+        printf(">GANO: %s", getNamePlayer(&player01));  // TODO. improve output
         if (strcmp(getNamePlayer(&player01), "AI") == 0) {
             addPlayerPoints(player, DEFEAT);
             addPlayerLostGames(player);
@@ -132,7 +132,7 @@ int playGame(Player *player) {
         return 1;
     }
     if (player02Won) {
-        printf("\n>GANO PJ 02 %s \n", getNamePlayer(&player02));
+        printf("\n>GANO PJ 02 %s \n", getNamePlayer(&player02));  // TODO. improve output
         if (strcmp(getNamePlayer(&player01), "AI") == 0) {
             addPlayerPoints(player, DEFEAT);
             addPlayerLostGames(player);
@@ -148,7 +148,7 @@ int playGame(Player *player) {
 
 // UTILITIES
 
-void showGameInformation(IPlayer *player01, IPlayer *player02) {
+void showGameInformation(IPlayer *player01, IPlayer *player02) {  // TODO: improve output
     printf("\n> GAME DATA: \n\t Player Name: %s, Form: %c \n", getNamePlayer(player01),
            getExternalForm(player01));
     printf("\t Player Name: %s, Form: %c \n", getNamePlayer(player02), getExternalForm(player02));
@@ -165,7 +165,7 @@ int playPlayer(IPlayer *_player, Board *_board, int opponentValue) {
                        getInternalForm(_player));
     updateEmptySpaces(_board);
 
-    return (getEmptySpaces(_board) > 4)
+    return (getEmptySpaces(_board) > 6)
                ? 0
                : checkIfPlayerWon(getArray2D(_board), getInternalForm(_player));
 }
@@ -227,7 +227,7 @@ void getValidatedInput(inputValuePlayer *datainput) {
     do {
         puts("\n> Enter a coordinate to play. (ex: 0,0) \n WARNING:\n\t(maximum is (2,2)\n");
         fflush(stdin);
-        fgets(_input, sizeof(_input), stdin);
+        fgets(_input, sizeof(_input), stdin);  // TODO: prevent negative or out range
         fflush(stdin);
     } while (!checkInputFormat(datainput, _input));
     return;
@@ -256,7 +256,7 @@ unsigned char checkInputFormat(inputValuePlayer *datainput, char *_input) {
 int playComputer(IPlayer *_AI, Board *_board, int opponentValue) {
     DataAI _AIdata;
 
-    if (getEmptySpaces(_board) > 5) {
+    if (getEmptySpaces(_board) > 6) {
         randomMovement(getArray2D(_board), getInternalForm(_AI));
         updateEmptySpaces(_board);
         return 0;
@@ -333,7 +333,7 @@ void printTicTacToe(int **_board, IPlayer *player01, IPlayer *player02) {
     int i, j;
 
     printf("\n");
-    puts("> BOARD:");
+    puts("> BOARD:");  // TODO: improve output
     for (i = 0; i < RAWS; i++) {
         for (j = 0; j < COLUMNS; j++) {
             printf(" %c ",
@@ -369,8 +369,7 @@ int CreateInt2DArray(Board *_board, int columns, int raws) {
 }
 
 int makeMove(IPlayer *_player, Board *_board, int opponentValue) {
-    move func = (move)_player->func_movement;
-    return func(_player, _board, opponentValue);
+    return _player->move(_player, _board, opponentValue);
 }
 
 void randomMovement(int **_board, int valueToInsert) {
@@ -598,11 +597,11 @@ void iPlayerConstructor(IPlayer *player, char *name, int isIA, int points) {
     strcpy(player->name, name);
     if (isIA) {
         player->_assignedForm = 3;
-        player->func_movement = (void *)playComputer;
+        player->move = &playComputer;
         return;
     }
     player->_assignedForm = 2;
-    player->func_movement = (void *)playPlayer;
+    player->move = &playPlayer;
     return;
 }
 

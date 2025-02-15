@@ -13,9 +13,7 @@
 int main(const int argsLength, char* args[]) {
     unsigned char error;
 
-    Team team;
     Configuration config;
-    char localFilePath[LOCAL_FILE_PATH_LENGTH] = LOCAL_FILE_PATH;
 
     int userInput;
 
@@ -24,8 +22,6 @@ int main(const int argsLength, char* args[]) {
         printf("> Error! An error occurred on get the configuration.");
         return 1;
     };
-
-    strcpy(team.name, config.teamName);
 
     printf("> %s team - A Tic-Tac-Toe game developed with C...", DEVELOPMENT_TEAM);
 
@@ -39,8 +35,8 @@ int main(const int argsLength, char* args[]) {
     while (userInput != 0) {
         switch (userInput) {
             case 1:
-                printf("\n> Team %s...\n\n", team.name);
-                playTicTacToe(&config, localFilePath);
+                printf("\n> Team %s...\n\n", config.teamName);
+                playTicTacToe(&config);
                 break;
             case 2:
                 showRanking(&config);

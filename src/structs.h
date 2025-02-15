@@ -6,12 +6,6 @@
 
 #include "./macros.h"
 
-/* --------------------------------- Common --------------------------------- */
-
-typedef struct {
-    char name[TEAM_NAME_LENGTH];
-} Team;
-
 /* --------------------------------- Player --------------------------------- */
 
 typedef struct {

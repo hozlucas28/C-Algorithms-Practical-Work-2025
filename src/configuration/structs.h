@@ -6,7 +6,8 @@
 #include "./macros.h"
 
 typedef struct {
-    char apiURL[MAXIMUM_API_URL_LENGTH];
+    char apiURL[API_URL_LENGTH];
+    char localRecordPath[LOCAL_RECORD_PATH_LENGTH];
     char teamName[TEAM_NAME_LENGTH];
     int gamesPerPlayer;
 } Configuration;
