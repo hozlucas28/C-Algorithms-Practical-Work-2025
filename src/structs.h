@@ -9,15 +9,15 @@
 /* --------------------------------- Player --------------------------------- */
 
 typedef struct {
-    char name[PLAYER_NAME_LENGTH];  // TODO: use a dynamic method.
+    char name[PLAYER_NAME_LENGTH];
     int points;
     char assignedForm;
 } Player;
 
 typedef struct {
-    char name[PLAYER_NAME_LENGTH];  // TODO: use a dynamic method.
+    char name[PLAYER_NAME_LENGTH];
     int points;
-    char lastGamePlayed[PLAYER_LAST_GAME_PLAYED_LENGTH];  // TODO: use a dynamic method.
+    char lastGamePlayed[PLAYER_LAST_GAME_PLAYED_LENGTH];
 } APIPlayer;
 
 #endif  // SRC_STRUCTS_H_INCLUDED

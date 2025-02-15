@@ -9,7 +9,6 @@
 #include "./play/main.h"
 #include "./show-ranking/main.h"
 #include "./structs.h"
-#include "./utilities.h"
 
 int main(const int argsLength, char* args[]) {
     unsigned char error;
