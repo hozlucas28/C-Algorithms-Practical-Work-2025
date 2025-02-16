@@ -3,7 +3,6 @@
 #define SRC_PLAY_UTILITIES_H_INCLUDED
 
 #include "../../libs/main.h"
-#include "./tateti/main.h"
 
 unsigned char requestPlayerNames(SList *players);
 

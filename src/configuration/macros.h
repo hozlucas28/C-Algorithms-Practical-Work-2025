@@ -1,5 +1,5 @@
-#ifndef SRC__CONFIG_MACRO_H_INCLUDED
-#define SRC__CONFIG_MACRO_H_INCLUDED
+#ifndef SRC__CONFIG_MACROS_H_INCLUDED
+#define SRC__CONFIG_MACROS_H_INCLUDED
 
 #define CONFIGURATION_PATH "./statics/configuration.txt"
 
@@ -14,9 +14,4 @@
 
 #define CONFIGURATION_LINE_LENGTH 256
 
-// POINTS
-#define VICTORY 3
-#define TIE 2
-#define DEFEAT -1
-
-#endif  // SRC__CONFIG_MACRO_H_INCLUDED
+#endif  // SRC__CONFIG_MACROS_H_INCLUDED

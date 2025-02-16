@@ -7,7 +7,7 @@
 #include "../api/main.h"
 #include "../configuration/main.h"
 #include "../player/main.h"
-#include "./tateti/main.h"
+#include "./tic-tac-toe/main.h"
 #include "./utilities.h"
 
 unsigned char playTicTacToe(Configuration* config) {
@@ -36,7 +36,12 @@ unsigned char playTicTacToe(Configuration* config) {
         games = config->gamesPerPlayer;
         while (games > 0) {
             printf("> %d games remaining...\n\n", games);
-            playGame(&player);
+
+            if (!playGame(&player)) {
+                printf("> Error! An error occurred on try to play.\n\n");
+                return 0;
+            };
+
             games--;
         }
 

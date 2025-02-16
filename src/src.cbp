@@ -74,10 +74,24 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="play/main.h" />
-		<Unit filename="play/tateti/main.c">
+		<Unit filename="play/tic-tac-toe/AI/macros.h" />
+		<Unit filename="play/tic-tac-toe/AI/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="play/tateti/main.h" />
+		<Unit filename="play/tic-tac-toe/AI/main.h" />
+		<Unit filename="play/tic-tac-toe/board/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="play/tic-tac-toe/board/main.h" />
+		<Unit filename="play/tic-tac-toe/macros.h" />
+		<Unit filename="play/tic-tac-toe/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="play/tic-tac-toe/main.h" />
+		<Unit filename="play/tic-tac-toe/utilities.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="play/tic-tac-toe/utilities.h" />
 		<Unit filename="play/utilities.c">
 			<Option compilerVar="CC" />
 		</Unit>
