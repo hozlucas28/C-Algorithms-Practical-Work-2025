@@ -25,58 +25,63 @@
  * Extract lots of TLS certificate info.
  * </DESC>
  */
-#include <curl/curl.h>
 #include <stdio.h>
 
-static size_t wrfu(void *ptr, size_t size, size_t nmemb, void *stream) {
-    (void)stream;
-    (void)ptr;
-    return size * nmemb;
+#include <curl/curl.h>
+
+static size_t wrfu(void *ptr,  size_t  size,  size_t  nmemb,  void *stream)
+{
+  (void)stream;
+  (void)ptr;
+  return size * nmemb;
 }
 
-int main(void) {
-    CURL *curl;
-    CURLcode res;
+int main(void)
+{
+  CURL *curl;
+  CURLcode res;
 
-    curl_global_init(CURL_GLOBAL_DEFAULT);
+  curl_global_init(CURL_GLOBAL_DEFAULT);
 
-    curl = curl_easy_init();
-    if (curl) {
-        curl_easy_setopt(curl, CURLOPT_URL, "https://www.example.com/");
+  curl = curl_easy_init();
+  if(curl) {
+    curl_easy_setopt(curl, CURLOPT_URL, "https://www.example.com/");
 
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, wrfu);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, wrfu);
 
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
 
-        curl_easy_setopt(curl, CURLOPT_VERBOSE, 0L);
-        curl_easy_setopt(curl, CURLOPT_CERTINFO, 1L);
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 0L);
+    curl_easy_setopt(curl, CURLOPT_CERTINFO, 1L);
 
-        res = curl_easy_perform(curl);
+    res = curl_easy_perform(curl);
 
-        if (!res) {
-            struct curl_certinfo *certinfo;
+    if(!res) {
+      struct curl_certinfo *certinfo;
 
-            res = curl_easy_getinfo(curl, CURLINFO_CERTINFO, &certinfo);
+      res = curl_easy_getinfo(curl, CURLINFO_CERTINFO, &certinfo);
 
-            if (!res && certinfo) {
-                int i;
+      if(!res && certinfo) {
+        int i;
 
-                printf("%d certs!\n", certinfo->num_of_certs);
+        printf("%d certs!\n", certinfo->num_of_certs);
 
-                for (i = 0; i < certinfo->num_of_certs; i++) {
-                    struct curl_slist *slist;
+        for(i = 0; i < certinfo->num_of_certs; i++) {
+          struct curl_slist *slist;
 
-                    for (slist = certinfo->certinfo[i]; slist; slist = slist->next)
-                        printf("%s\n", slist->data);
-                }
-            }
+          for(slist = certinfo->certinfo[i]; slist; slist = slist->next)
+            printf("%s\n", slist->data);
+
         }
+      }
 
-        curl_easy_cleanup(curl);
     }
 
-    curl_global_cleanup();
+    curl_easy_cleanup(curl);
+  }
 
-    return 0;
+  curl_global_cleanup();
+
+  return 0;
 }

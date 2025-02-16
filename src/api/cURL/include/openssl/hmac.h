@@ -70,33 +70,35 @@
 
 #include <openssl/evp.h>
 
-#define HMAC_MAX_MD_CBLOCK 144 /* largest known is SHA3-224 */
+#define HMAC_MAX_MD_CBLOCK	144	/* largest known is SHA3-224 */
 
-#ifdef __cplusplus
+#ifdef  __cplusplus
 extern "C" {
 #endif
 
-#define HMAC_size(e) (EVP_MD_size(HMAC_CTX_get_md((e))))
+#define HMAC_size(e)	(EVP_MD_size(HMAC_CTX_get_md((e))))
 
 HMAC_CTX *HMAC_CTX_new(void);
 void HMAC_CTX_free(HMAC_CTX *ctx);
 int HMAC_CTX_reset(HMAC_CTX *ctx);
 
-int HMAC_Init_ex(HMAC_CTX *ctx, const void *key, int len, const EVP_MD *md, ENGINE *impl)
-    __attribute__((__bounded__(__buffer__, 2, 3)));
+int HMAC_Init_ex(HMAC_CTX *ctx, const void *key, int len, const EVP_MD *md,
+    ENGINE *impl)
+    __attribute__ ((__bounded__(__buffer__, 2, 3)));
 int HMAC_Update(HMAC_CTX *ctx, const unsigned char *data, size_t len)
-    __attribute__((__bounded__(__buffer__, 2, 3)));
+    __attribute__ ((__bounded__(__buffer__, 2, 3)));
 int HMAC_Final(HMAC_CTX *ctx, unsigned char *md, unsigned int *len);
-unsigned char *HMAC(const EVP_MD *evp_md, const void *key, int key_len, const unsigned char *d,
-                    size_t n, unsigned char *md, unsigned int *md_len)
-    __attribute__((__bounded__(__buffer__, 2, 3))) __attribute__((__bounded__(__buffer__, 4, 5)))
-    __attribute__((__nonnull__(6)));
+unsigned char *HMAC(const EVP_MD *evp_md, const void *key, int key_len,
+    const unsigned char *d, size_t n, unsigned char *md, unsigned int *md_len)
+    __attribute__ ((__bounded__(__buffer__, 2, 3)))
+    __attribute__ ((__bounded__(__buffer__, 4, 5)))
+    __attribute__((__nonnull__ (6)));
 int HMAC_CTX_copy(HMAC_CTX *dctx, HMAC_CTX *sctx);
 
 void HMAC_CTX_set_flags(HMAC_CTX *ctx, unsigned long flags);
 const EVP_MD *HMAC_CTX_get_md(const HMAC_CTX *ctx);
 
-#ifdef __cplusplus
+#ifdef  __cplusplus
 }
 #endif
 

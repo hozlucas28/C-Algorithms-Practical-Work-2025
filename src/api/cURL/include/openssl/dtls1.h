@@ -66,41 +66,42 @@
 #include <sys/time.h>
 #endif
 
-#include <openssl/buffer.h>
-#include <openssl/opensslconf.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef __cplusplus
+#include <openssl/opensslconf.h>
+#include <openssl/buffer.h>
+
+#ifdef  __cplusplus
 extern "C" {
 #endif
 
-#define DTLS1_VERSION 0xFEFF
-#define DTLS1_2_VERSION 0xFEFD
-#define DTLS1_VERSION_MAJOR 0xFE
+#define DTLS1_VERSION			0xFEFF
+#define DTLS1_2_VERSION			0xFEFD
+#define DTLS1_VERSION_MAJOR		0xFE
 
 /* lengths of messages */
-#define DTLS1_COOKIE_LENGTH 256
+#define DTLS1_COOKIE_LENGTH                     256
 
-#define DTLS1_RT_HEADER_LENGTH 13
+#define DTLS1_RT_HEADER_LENGTH                  13
 
-#define DTLS1_HM_HEADER_LENGTH 12
+#define DTLS1_HM_HEADER_LENGTH                  12
 
-#define DTLS1_HM_BAD_FRAGMENT -2
-#define DTLS1_HM_FRAGMENT_RETRY -3
+#define DTLS1_HM_BAD_FRAGMENT                   -2
+#define DTLS1_HM_FRAGMENT_RETRY                 -3
 
-#define DTLS1_CCS_HEADER_LENGTH 1
+#define DTLS1_CCS_HEADER_LENGTH                  1
 
-#define DTLS1_AL_HEADER_LENGTH 2
+#define DTLS1_AL_HEADER_LENGTH                   2
 
 /* Timeout multipliers (timeout slice is defined in apps/timeouts.h */
-#define DTLS1_TMO_READ_COUNT 2
-#define DTLS1_TMO_WRITE_COUNT 2
+#define DTLS1_TMO_READ_COUNT                      2
+#define DTLS1_TMO_WRITE_COUNT                     2
 
-#define DTLS1_TMO_ALERT_COUNT 12
+#define DTLS1_TMO_ALERT_COUNT                     12
 
-#ifdef __cplusplus
+#ifdef  __cplusplus
 }
 #endif
 #endif

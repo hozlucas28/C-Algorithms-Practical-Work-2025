@@ -18,8 +18,9 @@
 #ifndef HEADER_CURVE25519_H
 #define HEADER_CURVE25519_H
 
-#include <openssl/opensslconf.h>
 #include <stdint.h>
+
+#include <openssl/opensslconf.h>
 
 #if defined(__cplusplus)
 extern "C" {
@@ -46,7 +47,7 @@ extern "C" {
  * generated, public/private key pair.
  */
 void X25519_keypair(uint8_t out_public_value[X25519_KEY_LENGTH],
-                    uint8_t out_private_key[X25519_KEY_LENGTH]);
+    uint8_t out_private_key[X25519_KEY_LENGTH]);
 
 /*
  * X25519 writes a shared key to |out_shared_key| that is calculated from the
@@ -56,8 +57,9 @@ void X25519_keypair(uint8_t out_public_value[X25519_KEY_LENGTH],
  * Don't use the shared key directly, rather use a KDF and also include the two
  * public values as inputs.
  */
-int X25519(uint8_t out_shared_key[X25519_KEY_LENGTH], const uint8_t private_key[X25519_KEY_LENGTH],
-           const uint8_t peers_public_value[X25519_KEY_LENGTH]);
+int X25519(uint8_t out_shared_key[X25519_KEY_LENGTH],
+    const uint8_t private_key[X25519_KEY_LENGTH],
+    const uint8_t peers_public_value[X25519_KEY_LENGTH]);
 
 /*
  * ED25519
@@ -66,16 +68,16 @@ int X25519(uint8_t out_shared_key[X25519_KEY_LENGTH], const uint8_t private_key[
  * birationally equivalent to curve25519.
  */
 
-#define ED25519_PRIVATE_KEY_LENGTH 32
-#define ED25519_PUBLIC_KEY_LENGTH 32
-#define ED25519_SIGNATURE_LENGTH 64
+#define ED25519_PRIVATE_KEY_LENGTH	32
+#define ED25519_PUBLIC_KEY_LENGTH	32
+#define ED25519_SIGNATURE_LENGTH	64
 
 /*
  * ED25519_keypair sets |out_public_key| and |out_private_key| to a freshly
  * generated, public/private key pair.
  */
 void ED25519_keypair(uint8_t out_public_key[ED25519_PUBLIC_KEY_LENGTH],
-                     uint8_t out_private_key[ED25519_PRIVATE_KEY_LENGTH]);
+    uint8_t out_private_key[ED25519_PRIVATE_KEY_LENGTH]);
 
 /*
  * ED25519_sign sets |out_sig| to be a signature of |message_len| bytes from
@@ -83,8 +85,8 @@ void ED25519_keypair(uint8_t out_public_key[ED25519_PUBLIC_KEY_LENGTH],
  * or zero on allocation failure.
  */
 int ED25519_sign(uint8_t *out_sig, const uint8_t *message, size_t message_len,
-                 const uint8_t public_key[ED25519_PUBLIC_KEY_LENGTH],
-                 const uint8_t private_key_seed[ED25519_PRIVATE_KEY_LENGTH]);
+    const uint8_t public_key[ED25519_PUBLIC_KEY_LENGTH],
+    const uint8_t private_key_seed[ED25519_PRIVATE_KEY_LENGTH]);
 
 /*
  * ED25519_verify returns one iff |signature| is a valid signature by
@@ -92,11 +94,11 @@ int ED25519_sign(uint8_t *out_sig, const uint8_t *message, size_t message_len,
  * otherwise.
  */
 int ED25519_verify(const uint8_t *message, size_t message_len,
-                   const uint8_t signature[ED25519_SIGNATURE_LENGTH],
-                   const uint8_t public_key[ED25519_PUBLIC_KEY_LENGTH]);
+    const uint8_t signature[ED25519_SIGNATURE_LENGTH],
+    const uint8_t public_key[ED25519_PUBLIC_KEY_LENGTH]);
 
 #if defined(__cplusplus)
-} /* extern C */
+}  /* extern C */
 #endif
 
-#endif /* HEADER_CURVE25519_H */
+#endif  /* HEADER_CURVE25519_H */

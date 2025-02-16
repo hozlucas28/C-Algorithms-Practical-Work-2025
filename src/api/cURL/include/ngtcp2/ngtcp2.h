@@ -29,12 +29,12 @@
 /* Define WIN32 when build target is Win32 API (borrowed from
    libcurl) */
 #if (defined(_WIN32) || defined(__WIN32__)) && !defined(WIN32)
-#define WIN32
+#  define WIN32
 #endif /* (defined(_WIN32) || defined(__WIN32__)) && !defined(WIN32) */
 
 #ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4324)
+#  pragma warning(push)
+#  pragma warning(disable : 4324)
 #endif /* defined(_MSC_VER) */
 
 #include <stdlib.h>
@@ -42,48 +42,48 @@
 /* MSVC < 2013 does not have inttypes.h because it is not C99
    compliant.  See compiler macros and version number in
    https://sourceforge.net/p/predef/wiki/Compilers/ */
-#include <stdint.h>
+#  include <stdint.h>
 #else /* !(defined(_MSC_VER) && (_MSC_VER < 1800)) */
-#include <inttypes.h>
+#  include <inttypes.h>
 #endif /* !(defined(_MSC_VER) && (_MSC_VER < 1800)) */
+#include <sys/types.h>
 #include <stdarg.h>
 #include <stddef.h>
-#include <sys/types.h>
 
 #ifndef NGTCP2_USE_GENERIC_SOCKADDR
-#ifdef WIN32
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif /* !defined(WIN32_LEAN_AND_MEAN) */
-#include <ws2tcpip.h>
-#else /* !defined(WIN32) */
-#include <netinet/in.h>
-#include <sys/socket.h>
-#endif /* !defined(WIN32) */
-#endif /* !defined(NGTCP2_USE_GENERIC_SOCKADDR) */
+#  ifdef WIN32
+#    ifndef WIN32_LEAN_AND_MEAN
+#      define WIN32_LEAN_AND_MEAN
+#    endif /* !defined(WIN32_LEAN_AND_MEAN) */
+#    include <ws2tcpip.h>
+#  else /* !defined(WIN32) */
+#    include <sys/socket.h>
+#    include <netinet/in.h>
+#  endif /* !defined(WIN32) */
+#endif   /* !defined(NGTCP2_USE_GENERIC_SOCKADDR) */
 
 #include <ngtcp2/version.h>
 
 #ifdef NGTCP2_STATICLIB
-#define NGTCP2_EXTERN
+#  define NGTCP2_EXTERN
 #elif defined(WIN32)
-#ifdef BUILDING_NGTCP2
-#define NGTCP2_EXTERN __declspec(dllexport)
-#else /* !defined(BUILDING_NGTCP2) */
-#define NGTCP2_EXTERN __declspec(dllimport)
-#endif /* !defined(BUILDING_NGTCP2) */
-#else  /* !(defined(NGTCP2_STATICLIB) || defined(WIN32)) */
-#ifdef BUILDING_NGTCP2
-#define NGTCP2_EXTERN __attribute__((visibility("default")))
-#else /* !defined(BUILDING_NGTCP2) */
-#define NGTCP2_EXTERN
-#endif /* !defined(BUILDING_NGTCP2) */
-#endif /* !(defined(NGTCP2_STATICLIB) || defined(WIN32)) */
+#  ifdef BUILDING_NGTCP2
+#    define NGTCP2_EXTERN __declspec(dllexport)
+#  else /* !defined(BUILDING_NGTCP2) */
+#    define NGTCP2_EXTERN __declspec(dllimport)
+#  endif /* !defined(BUILDING_NGTCP2) */
+#else    /* !(defined(NGTCP2_STATICLIB) || defined(WIN32)) */
+#  ifdef BUILDING_NGTCP2
+#    define NGTCP2_EXTERN __attribute__((visibility("default")))
+#  else /* !defined(BUILDING_NGTCP2) */
+#    define NGTCP2_EXTERN
+#  endif /* !defined(BUILDING_NGTCP2) */
+#endif   /* !(defined(NGTCP2_STATICLIB) || defined(WIN32)) */
 
 #ifdef _MSC_VER
-#define NGTCP2_ALIGN(N) __declspec(align(N))
+#  define NGTCP2_ALIGN(N) __declspec(align(N))
 #else /* !defined(_MSC_VER) */
-#define NGTCP2_ALIGN(N) __attribute__((aligned(N)))
+#  define NGTCP2_ALIGN(N) __attribute__((aligned(N)))
 #endif /* !defined(_MSC_VER) */
 
 #ifdef __cplusplus
@@ -174,31 +174,31 @@ typedef void *(*ngtcp2_realloc)(void *ptr, size_t size, void *user_data);
  *     }
  */
 typedef struct ngtcp2_mem {
-    /**
-     * :member:`user_data` is an arbitrary user supplied data.  This
-     * is passed to each allocator function.
-     */
-    void *user_data;
-    /**
-     * :member:`malloc` is a custom allocator function to replace
-     * :manpage:`malloc(3)`.
-     */
-    ngtcp2_malloc malloc;
-    /**
-     * :member:`free` is a custom allocator function to replace
-     * :manpage:`free(3)`.
-     */
-    ngtcp2_free free;
-    /**
-     * :member:`calloc` is a custom allocator function to replace
-     * :manpage:`calloc(3)`.
-     */
-    ngtcp2_calloc calloc;
-    /**
-     * :member:`realloc` is a custom allocator function to replace
-     * :manpage:`realloc(3)`.
-     */
-    ngtcp2_realloc realloc;
+  /**
+   * :member:`user_data` is an arbitrary user supplied data.  This
+   * is passed to each allocator function.
+   */
+  void *user_data;
+  /**
+   * :member:`malloc` is a custom allocator function to replace
+   * :manpage:`malloc(3)`.
+   */
+  ngtcp2_malloc malloc;
+  /**
+   * :member:`free` is a custom allocator function to replace
+   * :manpage:`free(3)`.
+   */
+  ngtcp2_free free;
+  /**
+   * :member:`calloc` is a custom allocator function to replace
+   * :manpage:`calloc(3)`.
+   */
+  ngtcp2_calloc calloc;
+  /**
+   * :member:`realloc` is a custom allocator function to replace
+   * :manpage:`realloc(3)`.
+   */
+  ngtcp2_realloc realloc;
 } ngtcp2_mem;
 
 /**
@@ -350,7 +350,8 @@ typedef struct ngtcp2_mem {
  * :macro:`NGTCP2_RETRY_KEY_V1` is an encryption key to create
  * integrity tag of Retry packet.  It is used for QUIC v1.
  */
-#define NGTCP2_RETRY_KEY_V1 "\xbe\x0c\x69\x0b\x9f\x66\x57\x5a\x1d\x76\x6b\x54\xe3\x68\xc8\x4e"
+#define NGTCP2_RETRY_KEY_V1                                                    \
+  "\xbe\x0c\x69\x0b\x9f\x66\x57\x5a\x1d\x76\x6b\x54\xe3\x68\xc8\x4e"
 
 /**
  * @macro
@@ -367,7 +368,8 @@ typedef struct ngtcp2_mem {
  * integrity tag of Retry packet.  It is used for QUIC v2.  See
  * :rfc:`9369`.
  */
-#define NGTCP2_RETRY_KEY_V2 "\x8f\xb4\xb0\x1b\x56\xac\x48\xe2\x60\xfb\xcb\xce\xad\x7c\xcc\x92"
+#define NGTCP2_RETRY_KEY_V2                                                    \
+  "\x8f\xb4\xb0\x1b\x56\xac\x48\xe2\x60\xfb\xcb\xce\xad\x7c\xcc\x92"
 
 /**
  * @macro
@@ -473,13 +475,13 @@ typedef struct ngtcp2_mem {
  * :type:`ngtcp2_pkt_info` is a packet metadata.
  */
 typedef struct NGTCP2_ALIGN(8) ngtcp2_pkt_info {
-    /**
-     * :member:`ecn` is ECN marking, and when it is passed to
-     * `ngtcp2_conn_read_pkt()`, it should be either
-     * :macro:`NGTCP2_ECN_NOT_ECT`, :macro:`NGTCP2_ECN_ECT_1`,
-     * :macro:`NGTCP2_ECN_ECT_0`, or :macro:`NGTCP2_ECN_CE`.
-     */
-    uint8_t ecn;
+  /**
+   * :member:`ecn` is ECN marking, and when it is passed to
+   * `ngtcp2_conn_read_pkt()`, it should be either
+   * :macro:`NGTCP2_ECN_NOT_ECT`, :macro:`NGTCP2_ECN_ECT_1`,
+   * :macro:`NGTCP2_ECN_ECT_0`, or :macro:`NGTCP2_ECN_CE`.
+   */
+  uint8_t ecn;
 } ngtcp2_pkt_info;
 
 /**
@@ -816,36 +818,36 @@ typedef struct NGTCP2_ALIGN(8) ngtcp2_pkt_info {
  * packet types.
  */
 typedef enum ngtcp2_pkt_type {
-    /**
-     * :enum:`NGTCP2_PKT_VERSION_NEGOTIATION` is defined by libngtcp2
-     * for convenience.
-     */
-    NGTCP2_PKT_VERSION_NEGOTIATION = 0x80,
-    /**
-     * :enum:`NGTCP2_PKT_STATELESS_RESET` is defined by libngtcp2 for
-     * convenience.
-     */
-    NGTCP2_PKT_STATELESS_RESET = 0x81,
-    /**
-     * :enum:`NGTCP2_PKT_INITIAL` indicates Initial packet.
-     */
-    NGTCP2_PKT_INITIAL = 0x10,
-    /**
-     * :enum:`NGTCP2_PKT_0RTT` indicates 0-RTT packet.
-     */
-    NGTCP2_PKT_0RTT = 0x11,
-    /**
-     * :enum:`NGTCP2_PKT_HANDSHAKE` indicates Handshake packet.
-     */
-    NGTCP2_PKT_HANDSHAKE = 0x12,
-    /**
-     * :enum:`NGTCP2_PKT_RETRY` indicates Retry packet.
-     */
-    NGTCP2_PKT_RETRY = 0x13,
-    /**
-     * :enum:`NGTCP2_PKT_1RTT` is defined by libngtcp2 for convenience.
-     */
-    NGTCP2_PKT_1RTT = 0x40
+  /**
+   * :enum:`NGTCP2_PKT_VERSION_NEGOTIATION` is defined by libngtcp2
+   * for convenience.
+   */
+  NGTCP2_PKT_VERSION_NEGOTIATION = 0x80,
+  /**
+   * :enum:`NGTCP2_PKT_STATELESS_RESET` is defined by libngtcp2 for
+   * convenience.
+   */
+  NGTCP2_PKT_STATELESS_RESET = 0x81,
+  /**
+   * :enum:`NGTCP2_PKT_INITIAL` indicates Initial packet.
+   */
+  NGTCP2_PKT_INITIAL = 0x10,
+  /**
+   * :enum:`NGTCP2_PKT_0RTT` indicates 0-RTT packet.
+   */
+  NGTCP2_PKT_0RTT = 0x11,
+  /**
+   * :enum:`NGTCP2_PKT_HANDSHAKE` indicates Handshake packet.
+   */
+  NGTCP2_PKT_HANDSHAKE = 0x12,
+  /**
+   * :enum:`NGTCP2_PKT_RETRY` indicates Retry packet.
+   */
+  NGTCP2_PKT_RETRY = 0x13,
+  /**
+   * :enum:`NGTCP2_PKT_1RTT` is defined by libngtcp2 for convenience.
+   */
+  NGTCP2_PKT_1RTT = 0x40
 } ngtcp2_pkt_type;
 
 /**
@@ -1012,21 +1014,21 @@ typedef enum ngtcp2_pkt_type {
  * result code.
  */
 typedef enum ngtcp2_path_validation_result {
-    /**
-     * :enum:`NGTCP2_PATH_VALIDATION_RESULT_SUCCESS` indicates
-     * successful validation.
-     */
-    NGTCP2_PATH_VALIDATION_RESULT_SUCCESS,
-    /**
-     * :enum:`NGTCP2_PATH_VALIDATION_RESULT_FAILURE` indicates
-     * validation failure.
-     */
-    NGTCP2_PATH_VALIDATION_RESULT_FAILURE,
-    /**
-     * :enum:`NGTCP2_PATH_VALIDATION_RESULT_ABORTED` indicates that path
-     * validation was aborted.
-     */
-    NGTCP2_PATH_VALIDATION_RESULT_ABORTED
+  /**
+   * :enum:`NGTCP2_PATH_VALIDATION_RESULT_SUCCESS` indicates
+   * successful validation.
+   */
+  NGTCP2_PATH_VALIDATION_RESULT_SUCCESS,
+  /**
+   * :enum:`NGTCP2_PATH_VALIDATION_RESULT_FAILURE` indicates
+   * validation failure.
+   */
+  NGTCP2_PATH_VALIDATION_RESULT_FAILURE,
+  /**
+   * :enum:`NGTCP2_PATH_VALIDATION_RESULT_ABORTED` indicates that path
+   * validation was aborted.
+   */
+  NGTCP2_PATH_VALIDATION_RESULT_ABORTED
 } ngtcp2_path_validation_result;
 
 /**
@@ -1053,14 +1055,14 @@ typedef uint64_t ngtcp2_duration;
  * :type:`ngtcp2_cid` holds a Connection ID.
  */
 typedef struct ngtcp2_cid {
-    /**
-     * :member:`datalen` is the length of Connection ID.
-     */
-    size_t datalen;
-    /**
-     * :member:`data` is the buffer to store Connection ID.
-     */
-    uint8_t data[NGTCP2_MAX_CIDLEN];
+  /**
+   * :member:`datalen` is the length of Connection ID.
+   */
+  size_t datalen;
+  /**
+   * :member:`data` is the buffer to store Connection ID.
+   */
+  uint8_t data[NGTCP2_MAX_CIDLEN];
 } ngtcp2_cid;
 
 /**
@@ -1070,15 +1072,15 @@ typedef struct ngtcp2_cid {
  * reference arbitrary array of bytes.
  */
 typedef struct ngtcp2_vec {
-    /**
-     * :member:`base` points to the data.
-     */
-    uint8_t *base;
-    /**
-     * :member:`len` is the number of bytes which the buffer pointed by
-     * base contains.
-     */
-    size_t len;
+  /**
+   * :member:`base` points to the data.
+   */
+  uint8_t *base;
+  /**
+   * :member:`len` is the number of bytes which the buffer pointed by
+   * base contains.
+   */
+  size_t len;
 } ngtcp2_vec;
 
 /**
@@ -1088,7 +1090,8 @@ typedef struct ngtcp2_vec {
  * string pointed by |data| and its length is |datalen|.  |datalen|
  * must be at most :macro:`NGTCP2_MAX_CIDLEN`.
  */
-NGTCP2_EXTERN void ngtcp2_cid_init(ngtcp2_cid *cid, const uint8_t *data, size_t datalen);
+NGTCP2_EXTERN void ngtcp2_cid_init(ngtcp2_cid *cid, const uint8_t *data,
+                                   size_t datalen);
 
 /**
  * @function
@@ -1104,54 +1107,54 @@ NGTCP2_EXTERN int ngtcp2_cid_eq(const ngtcp2_cid *a, const ngtcp2_cid *b);
  * :type:`ngtcp2_pkt_hd` represents QUIC packet header.
  */
 typedef struct ngtcp2_pkt_hd {
-    /**
-     * :member:`dcid` is Destination Connection ID.
-     */
-    ngtcp2_cid dcid;
-    /**
-     * :member:`scid` is Source Connection ID.
-     */
-    ngtcp2_cid scid;
-    /**
-     * :member:`pkt_num` is a packet number.
-     */
-    int64_t pkt_num;
-    /**
-     * :member:`token` contains token.  Only Initial packet may contain
-     * token.  NULL if no token is present.
-     */
-    const uint8_t *token;
-    /**
-     * :member:`tokenlen` is the length of :member:`token`.  0 if no
-     * token is present.
-     */
-    size_t tokenlen;
-    /**
-     * :member:`pkt_numlen` is the number of bytes spent to encode
-     * :member:`pkt_num`.
-     */
-    size_t pkt_numlen;
-    /**
-     * :member:`len` is the sum of :member:`pkt_numlen` and the length
-     * of QUIC packet payload.
-     */
-    size_t len;
-    /**
-     * :member:`version` is QUIC version.
-     */
-    uint32_t version;
-    /**
-     * :member:`type` is a type of QUIC packet.  This field does not
-     * have a QUIC packet type defined for a specific QUIC version.
-     * Instead, it contains version independent packet type defined by
-     * this library.  See :type:`ngtcp2_pkt_type`.
-     */
-    uint8_t type;
-    /**
-     * :member:`flags` is zero or more of :macro:`NGTCP2_PKT_FLAG_*
-     * <NGTCP2_PKT_FLAG_NONE>`.
-     */
-    uint8_t flags;
+  /**
+   * :member:`dcid` is Destination Connection ID.
+   */
+  ngtcp2_cid dcid;
+  /**
+   * :member:`scid` is Source Connection ID.
+   */
+  ngtcp2_cid scid;
+  /**
+   * :member:`pkt_num` is a packet number.
+   */
+  int64_t pkt_num;
+  /**
+   * :member:`token` contains token.  Only Initial packet may contain
+   * token.  NULL if no token is present.
+   */
+  const uint8_t *token;
+  /**
+   * :member:`tokenlen` is the length of :member:`token`.  0 if no
+   * token is present.
+   */
+  size_t tokenlen;
+  /**
+   * :member:`pkt_numlen` is the number of bytes spent to encode
+   * :member:`pkt_num`.
+   */
+  size_t pkt_numlen;
+  /**
+   * :member:`len` is the sum of :member:`pkt_numlen` and the length
+   * of QUIC packet payload.
+   */
+  size_t len;
+  /**
+   * :member:`version` is QUIC version.
+   */
+  uint32_t version;
+  /**
+   * :member:`type` is a type of QUIC packet.  This field does not
+   * have a QUIC packet type defined for a specific QUIC version.
+   * Instead, it contains version independent packet type defined by
+   * this library.  See :type:`ngtcp2_pkt_type`.
+   */
+  uint8_t type;
+  /**
+   * :member:`flags` is zero or more of :macro:`NGTCP2_PKT_FLAG_*
+   * <NGTCP2_PKT_FLAG_NONE>`.
+   */
+  uint8_t flags;
 } ngtcp2_pkt_hd;
 
 /**
@@ -1160,19 +1163,19 @@ typedef struct ngtcp2_pkt_hd {
  * :type:`ngtcp2_pkt_stateless_reset` represents Stateless Reset.
  */
 typedef struct ngtcp2_pkt_stateless_reset {
-    /**
-     * :member:`stateless_reset_token` contains stateless reset token.
-     */
-    uint8_t stateless_reset_token[NGTCP2_STATELESS_RESET_TOKENLEN];
-    /**
-     * :member:`rand` points a buffer which contains random bytes
-     * section.
-     */
-    const uint8_t *rand;
-    /**
-     * :member:`randlen` is the number of random bytes.
-     */
-    size_t randlen;
+  /**
+   * :member:`stateless_reset_token` contains stateless reset token.
+   */
+  uint8_t stateless_reset_token[NGTCP2_STATELESS_RESET_TOKENLEN];
+  /**
+   * :member:`rand` points a buffer which contains random bytes
+   * section.
+   */
+  const uint8_t *rand;
+  /**
+   * :member:`randlen` is the number of random bytes.
+   */
+  size_t randlen;
 } ngtcp2_pkt_stateless_reset;
 
 /**
@@ -1224,49 +1227,49 @@ typedef struct ngtcp2_pkt_stateless_reset {
 #define NGTCP2_TLSEXT_QUIC_TRANSPORT_PARAMETERS_V1 0x39u
 
 #ifdef NGTCP2_USE_GENERIC_SOCKADDR
-#ifndef NGTCP2_AF_INET
-#error NGTCP2_AF_INET must be defined
-#endif /* !defined(NGTCP2_AF_INET) */
+#  ifndef NGTCP2_AF_INET
+#    error NGTCP2_AF_INET must be defined
+#  endif /* !defined(NGTCP2_AF_INET) */
 
-#ifndef NGTCP2_AF_INET6
-#error NGTCP2_AF_INET6 must be defined
-#endif /* !defined(NGTCP2_AF_INET6) */
+#  ifndef NGTCP2_AF_INET6
+#    error NGTCP2_AF_INET6 must be defined
+#  endif /* !defined(NGTCP2_AF_INET6) */
 
 typedef unsigned short int ngtcp2_sa_family;
 typedef uint16_t ngtcp2_in_port;
 
 typedef struct ngtcp2_sockaddr {
-    ngtcp2_sa_family sa_family;
-    uint8_t sa_data[14];
+  ngtcp2_sa_family sa_family;
+  uint8_t sa_data[14];
 } ngtcp2_sockaddr;
 
 typedef struct ngtcp2_in_addr {
-    uint32_t s_addr;
+  uint32_t s_addr;
 } ngtcp2_in_addr;
 
 typedef struct ngtcp2_sockaddr_in {
-    ngtcp2_sa_family sin_family;
-    ngtcp2_in_port sin_port;
-    ngtcp2_in_addr sin_addr;
-    uint8_t sin_zero[8];
+  ngtcp2_sa_family sin_family;
+  ngtcp2_in_port sin_port;
+  ngtcp2_in_addr sin_addr;
+  uint8_t sin_zero[8];
 } ngtcp2_sockaddr_in;
 
 typedef struct ngtcp2_in6_addr {
-    uint8_t in6_addr[16];
+  uint8_t in6_addr[16];
 } ngtcp2_in6_addr;
 
 typedef struct ngtcp2_sockaddr_in6 {
-    ngtcp2_sa_family sin6_family;
-    ngtcp2_in_port sin6_port;
-    uint32_t sin6_flowinfo;
-    ngtcp2_in6_addr sin6_addr;
-    uint32_t sin6_scope_id;
+  ngtcp2_sa_family sin6_family;
+  ngtcp2_in_port sin6_port;
+  uint32_t sin6_flowinfo;
+  ngtcp2_in6_addr sin6_addr;
+  uint32_t sin6_scope_id;
 } ngtcp2_sockaddr_in6;
 
 typedef uint32_t ngtcp2_socklen;
 #else /* !defined(NGTCP2_USE_GENERIC_SOCKADDR) */
-#define NGTCP2_AF_INET AF_INET
-#define NGTCP2_AF_INET6 AF_INET6
+#  define NGTCP2_AF_INET AF_INET
+#  define NGTCP2_AF_INET6 AF_INET6
 
 /**
  * @typedef
@@ -1309,9 +1312,9 @@ typedef socklen_t ngtcp2_socklen;
  * address types.
  */
 typedef union ngtcp2_sockaddr_union {
-    ngtcp2_sockaddr sa;
-    ngtcp2_sockaddr_in in;
-    ngtcp2_sockaddr_in6 in6;
+  ngtcp2_sockaddr sa;
+  ngtcp2_sockaddr_in in;
+  ngtcp2_sockaddr_in6 in6;
 } ngtcp2_sockaddr_union;
 
 /**
@@ -1321,32 +1324,32 @@ typedef union ngtcp2_sockaddr_union {
  * structure.
  */
 typedef struct ngtcp2_preferred_addr {
-    /**
-     * :member:`cid` is a Connection ID.
-     */
-    ngtcp2_cid cid;
-    /**
-     * :member:`ipv4` contains IPv4 address and port.
-     */
-    ngtcp2_sockaddr_in ipv4;
-    /**
-     * :member:`ipv6` contains IPv6 address and port.
-     */
-    ngtcp2_sockaddr_in6 ipv6;
-    /**
-     * :member:`ipv4_present` indicates that :member:`ipv4` contains
-     * IPv4 address and port.
-     */
-    uint8_t ipv4_present;
-    /**
-     * :member:`ipv6_present` indicates that :member:`ipv6` contains
-     * IPv6 address and port.
-     */
-    uint8_t ipv6_present;
-    /**
-     * :member:`stateless_reset_token` contains stateless reset token.
-     */
-    uint8_t stateless_reset_token[NGTCP2_STATELESS_RESET_TOKENLEN];
+  /**
+   * :member:`cid` is a Connection ID.
+   */
+  ngtcp2_cid cid;
+  /**
+   * :member:`ipv4` contains IPv4 address and port.
+   */
+  ngtcp2_sockaddr_in ipv4;
+  /**
+   * :member:`ipv6` contains IPv6 address and port.
+   */
+  ngtcp2_sockaddr_in6 ipv6;
+  /**
+   * :member:`ipv4_present` indicates that :member:`ipv4` contains
+   * IPv4 address and port.
+   */
+  uint8_t ipv4_present;
+  /**
+   * :member:`ipv6_present` indicates that :member:`ipv6` contains
+   * IPv6 address and port.
+   */
+  uint8_t ipv6_present;
+  /**
+   * :member:`stateless_reset_token` contains stateless reset token.
+   */
+  uint8_t stateless_reset_token[NGTCP2_STATELESS_RESET_TOKENLEN];
 } ngtcp2_preferred_addr;
 
 /**
@@ -1356,22 +1359,22 @@ typedef struct ngtcp2_preferred_addr {
  * structure.  See :rfc:`9368`.
  */
 typedef struct ngtcp2_version_info {
-    /**
-     * :member:`chosen_version` is the version chosen by the sender.
-     */
-    uint32_t chosen_version;
-    /**
-     * :member:`available_versions` points the wire image of
-     * available_versions field.  The each version is therefore in
-     * network byte order.
-     */
-    const uint8_t *available_versions;
-    /**
-     * :member:`available_versionslen` is the number of bytes pointed by
-     * :member:`available_versions`, not the number of versions
-     * included.
-     */
-    size_t available_versionslen;
+  /**
+   * :member:`chosen_version` is the version chosen by the sender.
+   */
+  uint32_t chosen_version;
+  /**
+   * :member:`available_versions` points the wire image of
+   * available_versions field.  The each version is therefore in
+   * network byte order.
+   */
+  const uint8_t *available_versions;
+  /**
+   * :member:`available_versionslen` is the number of bytes pointed by
+   * :member:`available_versions`, not the number of versions
+   * included.
+   */
+  size_t available_versionslen;
 } ngtcp2_version_info;
 
 #define NGTCP2_TRANSPORT_PARAMS_V1 1
@@ -1384,165 +1387,165 @@ typedef struct ngtcp2_version_info {
  * parameters.
  */
 typedef struct ngtcp2_transport_params {
-    /**
-     * :member:`preferred_addr` contains preferred address if
-     * :member:`preferred_addr_present` is nonzero.
-     */
-    ngtcp2_preferred_addr preferred_addr;
-    /**
-     * :member:`original_dcid` is the Destination Connection ID field
-     * from the first Initial packet from client.  Server must specify
-     * this field and set :member:`original_dcid_present` to nonzero.
-     * It is expected that application knows the original Destination
-     * Connection ID even if it sends Retry packet, for example, by
-     * including it in retry token.  Otherwise, application should not
-     * specify this field.
-     */
-    ngtcp2_cid original_dcid;
-    /**
-     * :member:`initial_scid` is the Source Connection ID field from the
-     * first Initial packet the local endpoint sends.  Application
-     * should not specify this field.  If :member:`initial_scid_present`
-     * is set to nonzero, it indicates this field is set.
-     */
-    ngtcp2_cid initial_scid;
-    /**
-     * :member:`retry_scid` is the Source Connection ID field from Retry
-     * packet.  Only server uses this field.  If server application
-     * received Initial packet with retry token from client, and server
-     * successfully verified its token, server application must set
-     * Destination Connection ID field from the Initial packet to this
-     * field, and set :member:`retry_scid_present` to nonzero.  Server
-     * application must verify that the Destination Connection ID from
-     * Initial packet was sent in Retry packet by, for example,
-     * including the Connection ID in a token, or including it in AAD
-     * when encrypting a token.
-     */
-    ngtcp2_cid retry_scid;
-    /**
-     * :member:`initial_max_stream_data_bidi_local` is the size of flow
-     * control window of locally initiated stream.  This is the number
-     * of bytes that the remote endpoint can send, and the local
-     * endpoint must ensure that it has enough buffer to receive them.
-     */
-    uint64_t initial_max_stream_data_bidi_local;
-    /**
-     * :member:`initial_max_stream_data_bidi_remote` is the size of flow
-     * control window of remotely initiated stream.  This is the number
-     * of bytes that the remote endpoint can send, and the local
-     * endpoint must ensure that it has enough buffer to receive them.
-     */
-    uint64_t initial_max_stream_data_bidi_remote;
-    /**
-     * :member:`initial_max_stream_data_uni` is the size of flow control
-     * window of remotely initiated unidirectional stream.  This is the
-     * number of bytes that the remote endpoint can send, and the local
-     * endpoint must ensure that it has enough buffer to receive them.
-     */
-    uint64_t initial_max_stream_data_uni;
-    /**
-     * :member:`initial_max_data` is the connection level flow control
-     * window.
-     */
-    uint64_t initial_max_data;
-    /**
-     * :member:`initial_max_streams_bidi` is the number of concurrent
-     * streams that the remote endpoint can create.
-     */
-    uint64_t initial_max_streams_bidi;
-    /**
-     * :member:`initial_max_streams_uni` is the number of concurrent
-     * unidirectional streams that the remote endpoint can create.
-     */
-    uint64_t initial_max_streams_uni;
-    /**
-     * :member:`max_idle_timeout` is a duration during which sender
-     * allows quiescent.  0 means no idle timeout.  It must not be
-     * UINT64_MAX.
-     */
-    ngtcp2_duration max_idle_timeout;
-    /**
-     * :member:`max_udp_payload_size` is the maximum UDP payload size
-     * that the local endpoint can receive.
-     */
-    uint64_t max_udp_payload_size;
-    /**
-     * :member:`active_connection_id_limit` is the maximum number of
-     * Connection ID that sender can store.  If specified, it must be in
-     * the range of [:macro:`NGTCP2_DEFAULT_ACTIVE_CONNECTION_ID_LIMIT`,
-     * 8], inclusive.
-     */
-    uint64_t active_connection_id_limit;
-    /**
-     * :member:`ack_delay_exponent` is the exponent used in ACK Delay
-     * field in ACK frame.
-     */
-    uint64_t ack_delay_exponent;
-    /**
-     * :member:`max_ack_delay` is the maximum acknowledgement delay by
-     * which the local endpoint will delay sending acknowledgements.  It
-     * must be strictly less than (1 << 14) milliseconds.
-     * Sub-millisecond part is dropped when sending it in a QUIC
-     * transport parameter.
-     */
-    ngtcp2_duration max_ack_delay;
-    /**
-     * :member:`max_datagram_frame_size` is the maximum size of DATAGRAM
-     * frame that the local endpoint willingly receives.  Specifying 0
-     * disables DATAGRAM support.  See :rfc:`9221`.
-     */
-    uint64_t max_datagram_frame_size;
-    /**
-     * :member:`stateless_reset_token_present` is nonzero if
-     * :member:`stateless_reset_token` field is set.
-     */
-    uint8_t stateless_reset_token_present;
-    /**
-     * :member:`disable_active_migration` is nonzero if the local
-     * endpoint does not support active connection migration.
-     */
-    uint8_t disable_active_migration;
-    /**
-     * :member:`original_dcid_present` is nonzero if
-     * :member:`original_dcid` field is set.
-     */
-    uint8_t original_dcid_present;
-    /**
-     * :member:`initial_scid_present` is nonzero if
-     * :member:`initial_scid` field is set.
-     */
-    uint8_t initial_scid_present;
-    /**
-     * :member:`retry_scid_present` is nonzero if :member:`retry_scid`
-     * field is set.
-     */
-    uint8_t retry_scid_present;
-    /**
-     * :member:`preferred_addr_present` is nonzero if
-     * :member:`preferred_address` is set.
-     */
-    uint8_t preferred_addr_present;
-    /**
-     * :member:`stateless_reset_token` contains stateless reset token.
-     */
-    uint8_t stateless_reset_token[NGTCP2_STATELESS_RESET_TOKENLEN];
-    /**
-     * :member:`grease_quic_bit` is nonzero if sender supports "Greasing
-     * the QUIC Bit" extension.  See :rfc:`9287`.
-     */
-    uint8_t grease_quic_bit;
-    /**
-     * :member:`version_info` contains version_information field if
-     * :member:`version_info_present` is nonzero.  Application should
-     * not specify this field.
-     */
-    ngtcp2_version_info version_info;
-    /**
-     * :member:`version_info_present` is nonzero if
-     * :member:`version_info` is set.  Application should not specify
-     * this field.
-     */
-    uint8_t version_info_present;
+  /**
+   * :member:`preferred_addr` contains preferred address if
+   * :member:`preferred_addr_present` is nonzero.
+   */
+  ngtcp2_preferred_addr preferred_addr;
+  /**
+   * :member:`original_dcid` is the Destination Connection ID field
+   * from the first Initial packet from client.  Server must specify
+   * this field and set :member:`original_dcid_present` to nonzero.
+   * It is expected that application knows the original Destination
+   * Connection ID even if it sends Retry packet, for example, by
+   * including it in retry token.  Otherwise, application should not
+   * specify this field.
+   */
+  ngtcp2_cid original_dcid;
+  /**
+   * :member:`initial_scid` is the Source Connection ID field from the
+   * first Initial packet the local endpoint sends.  Application
+   * should not specify this field.  If :member:`initial_scid_present`
+   * is set to nonzero, it indicates this field is set.
+   */
+  ngtcp2_cid initial_scid;
+  /**
+   * :member:`retry_scid` is the Source Connection ID field from Retry
+   * packet.  Only server uses this field.  If server application
+   * received Initial packet with retry token from client, and server
+   * successfully verified its token, server application must set
+   * Destination Connection ID field from the Initial packet to this
+   * field, and set :member:`retry_scid_present` to nonzero.  Server
+   * application must verify that the Destination Connection ID from
+   * Initial packet was sent in Retry packet by, for example,
+   * including the Connection ID in a token, or including it in AAD
+   * when encrypting a token.
+   */
+  ngtcp2_cid retry_scid;
+  /**
+   * :member:`initial_max_stream_data_bidi_local` is the size of flow
+   * control window of locally initiated stream.  This is the number
+   * of bytes that the remote endpoint can send, and the local
+   * endpoint must ensure that it has enough buffer to receive them.
+   */
+  uint64_t initial_max_stream_data_bidi_local;
+  /**
+   * :member:`initial_max_stream_data_bidi_remote` is the size of flow
+   * control window of remotely initiated stream.  This is the number
+   * of bytes that the remote endpoint can send, and the local
+   * endpoint must ensure that it has enough buffer to receive them.
+   */
+  uint64_t initial_max_stream_data_bidi_remote;
+  /**
+   * :member:`initial_max_stream_data_uni` is the size of flow control
+   * window of remotely initiated unidirectional stream.  This is the
+   * number of bytes that the remote endpoint can send, and the local
+   * endpoint must ensure that it has enough buffer to receive them.
+   */
+  uint64_t initial_max_stream_data_uni;
+  /**
+   * :member:`initial_max_data` is the connection level flow control
+   * window.
+   */
+  uint64_t initial_max_data;
+  /**
+   * :member:`initial_max_streams_bidi` is the number of concurrent
+   * streams that the remote endpoint can create.
+   */
+  uint64_t initial_max_streams_bidi;
+  /**
+   * :member:`initial_max_streams_uni` is the number of concurrent
+   * unidirectional streams that the remote endpoint can create.
+   */
+  uint64_t initial_max_streams_uni;
+  /**
+   * :member:`max_idle_timeout` is a duration during which sender
+   * allows quiescent.  0 means no idle timeout.  It must not be
+   * UINT64_MAX.
+   */
+  ngtcp2_duration max_idle_timeout;
+  /**
+   * :member:`max_udp_payload_size` is the maximum UDP payload size
+   * that the local endpoint can receive.
+   */
+  uint64_t max_udp_payload_size;
+  /**
+   * :member:`active_connection_id_limit` is the maximum number of
+   * Connection ID that sender can store.  If specified, it must be in
+   * the range of [:macro:`NGTCP2_DEFAULT_ACTIVE_CONNECTION_ID_LIMIT`,
+   * 8], inclusive.
+   */
+  uint64_t active_connection_id_limit;
+  /**
+   * :member:`ack_delay_exponent` is the exponent used in ACK Delay
+   * field in ACK frame.
+   */
+  uint64_t ack_delay_exponent;
+  /**
+   * :member:`max_ack_delay` is the maximum acknowledgement delay by
+   * which the local endpoint will delay sending acknowledgements.  It
+   * must be strictly less than (1 << 14) milliseconds.
+   * Sub-millisecond part is dropped when sending it in a QUIC
+   * transport parameter.
+   */
+  ngtcp2_duration max_ack_delay;
+  /**
+   * :member:`max_datagram_frame_size` is the maximum size of DATAGRAM
+   * frame that the local endpoint willingly receives.  Specifying 0
+   * disables DATAGRAM support.  See :rfc:`9221`.
+   */
+  uint64_t max_datagram_frame_size;
+  /**
+   * :member:`stateless_reset_token_present` is nonzero if
+   * :member:`stateless_reset_token` field is set.
+   */
+  uint8_t stateless_reset_token_present;
+  /**
+   * :member:`disable_active_migration` is nonzero if the local
+   * endpoint does not support active connection migration.
+   */
+  uint8_t disable_active_migration;
+  /**
+   * :member:`original_dcid_present` is nonzero if
+   * :member:`original_dcid` field is set.
+   */
+  uint8_t original_dcid_present;
+  /**
+   * :member:`initial_scid_present` is nonzero if
+   * :member:`initial_scid` field is set.
+   */
+  uint8_t initial_scid_present;
+  /**
+   * :member:`retry_scid_present` is nonzero if :member:`retry_scid`
+   * field is set.
+   */
+  uint8_t retry_scid_present;
+  /**
+   * :member:`preferred_addr_present` is nonzero if
+   * :member:`preferred_address` is set.
+   */
+  uint8_t preferred_addr_present;
+  /**
+   * :member:`stateless_reset_token` contains stateless reset token.
+   */
+  uint8_t stateless_reset_token[NGTCP2_STATELESS_RESET_TOKENLEN];
+  /**
+   * :member:`grease_quic_bit` is nonzero if sender supports "Greasing
+   * the QUIC Bit" extension.  See :rfc:`9287`.
+   */
+  uint8_t grease_quic_bit;
+  /**
+   * :member:`version_info` contains version_information field if
+   * :member:`version_info_present` is nonzero.  Application should
+   * not specify this field.
+   */
+  ngtcp2_version_info version_info;
+  /**
+   * :member:`version_info_present` is nonzero if
+   * :member:`version_info` is set.  Application should not specify
+   * this field.
+   */
+  uint8_t version_info_present;
 } ngtcp2_transport_params;
 
 #define NGTCP2_CONN_INFO_V1 1
@@ -1554,37 +1557,37 @@ typedef struct ngtcp2_transport_params {
  * :type:`ngtcp2_conn_info` holds various connection statistics.
  */
 typedef struct ngtcp2_conn_info {
-    /**
-     * :member:`latest_rtt` is the latest RTT sample which is not
-     * adjusted by acknowledgement delay.
-     */
-    ngtcp2_duration latest_rtt;
-    /**
-     * :member:`min_rtt` is the minimum RTT seen so far.  It is not
-     * adjusted by acknowledgement delay.
-     */
-    ngtcp2_duration min_rtt;
-    /**
-     * :member:`smoothed_rtt` is the smoothed RTT.
-     */
-    ngtcp2_duration smoothed_rtt;
-    /**
-     * :member:`rttvar` is a mean deviation of observed RTT.
-     */
-    ngtcp2_duration rttvar;
-    /**
-     * :member:`cwnd` is the size of congestion window.
-     */
-    uint64_t cwnd;
-    /**
-     * :member:`ssthresh` is slow start threshold.
-     */
-    uint64_t ssthresh;
-    /**
-     * :member:`bytes_in_flight` is the number in bytes of all sent
-     * packets which have not been acknowledged.
-     */
-    uint64_t bytes_in_flight;
+  /**
+   * :member:`latest_rtt` is the latest RTT sample which is not
+   * adjusted by acknowledgement delay.
+   */
+  ngtcp2_duration latest_rtt;
+  /**
+   * :member:`min_rtt` is the minimum RTT seen so far.  It is not
+   * adjusted by acknowledgement delay.
+   */
+  ngtcp2_duration min_rtt;
+  /**
+   * :member:`smoothed_rtt` is the smoothed RTT.
+   */
+  ngtcp2_duration smoothed_rtt;
+  /**
+   * :member:`rttvar` is a mean deviation of observed RTT.
+   */
+  ngtcp2_duration rttvar;
+  /**
+   * :member:`cwnd` is the size of congestion window.
+   */
+  uint64_t cwnd;
+  /**
+   * :member:`ssthresh` is slow start threshold.
+   */
+  uint64_t ssthresh;
+  /**
+   * :member:`bytes_in_flight` is the number in bytes of all sent
+   * packets which have not been acknowledged.
+   */
+  uint64_t bytes_in_flight;
 } ngtcp2_conn_info;
 
 /**
@@ -1593,18 +1596,18 @@ typedef struct ngtcp2_conn_info {
  * :type:`ngtcp2_cc_algo` defines congestion control algorithms.
  */
 typedef enum ngtcp2_cc_algo {
-    /**
-     * :enum:`NGTCP2_CC_ALGO_RENO` represents Reno.
-     */
-    NGTCP2_CC_ALGO_RENO = 0x00,
-    /**
-     * :enum:`NGTCP2_CC_ALGO_CUBIC` represents Cubic.
-     */
-    NGTCP2_CC_ALGO_CUBIC = 0x01,
-    /**
-     * :enum:`NGTCP2_CC_ALGO_BBR` represents BBR v2.
-     */
-    NGTCP2_CC_ALGO_BBR = 0x02
+  /**
+   * :enum:`NGTCP2_CC_ALGO_RENO` represents Reno.
+   */
+  NGTCP2_CC_ALGO_RENO = 0x00,
+  /**
+   * :enum:`NGTCP2_CC_ALGO_CUBIC` represents Cubic.
+   */
+  NGTCP2_CC_ALGO_CUBIC = 0x01,
+  /**
+   * :enum:`NGTCP2_CC_ALGO_BBR` represents BBR v2.
+   */
+  NGTCP2_CC_ALGO_BBR = 0x02
 } ngtcp2_cc_algo;
 
 /**
@@ -1645,11 +1648,11 @@ typedef void (*ngtcp2_printf)(void *user_data, const char *format, ...);
  * thread or per connection.
  */
 typedef struct ngtcp2_rand_ctx {
-    /**
-     * :member:`native_handle` is a pointer to an underlying random
-     * number generator.
-     */
-    void *native_handle;
+  /**
+   * :member:`native_handle` is a pointer to an underlying random
+   * number generator.
+   */
+  void *native_handle;
 } ngtcp2_rand_ctx;
 
 /**
@@ -1661,8 +1664,8 @@ typedef struct ngtcp2_rand_ctx {
  * <NGTCP2_QLOG_WRITE_FLAG_NONE>`.  If
  * :macro:`NGTCP2_QLOG_WRITE_FLAG_FIN` is set, |datalen| may be 0.
  */
-typedef void (*ngtcp2_qlog_write)(void *user_data, uint32_t flags, const void *data,
-                                  size_t datalen);
+typedef void (*ngtcp2_qlog_write)(void *user_data, uint32_t flags,
+                                  const void *data, size_t datalen);
 
 /**
  * @enum
@@ -1670,21 +1673,21 @@ typedef void (*ngtcp2_qlog_write)(void *user_data, uint32_t flags, const void *d
  * :type:`ngtcp2_token_type` defines the type of token.
  */
 typedef enum ngtcp2_token_type {
-    /**
-     * :enum:`NGTCP2_TOKEN_TYPE_UNKNOWN` indicates that the type of
-     * token is unknown.
-     */
-    NGTCP2_TOKEN_TYPE_UNKNOWN,
-    /**
-     * :enum:`NGTCP2_TOKEN_TYPE_RETRY` indicates that a token comes from
-     * Retry packet.
-     */
-    NGTCP2_TOKEN_TYPE_RETRY,
-    /**
-     * :enum:`NGTCP2_TOKEN_TYPE_NEW_TOKEN` indicates that a token comes
-     * from NEW_TOKEN frame.
-     */
-    NGTCP2_TOKEN_TYPE_NEW_TOKEN
+  /**
+   * :enum:`NGTCP2_TOKEN_TYPE_UNKNOWN` indicates that the type of
+   * token is unknown.
+   */
+  NGTCP2_TOKEN_TYPE_UNKNOWN,
+  /**
+   * :enum:`NGTCP2_TOKEN_TYPE_RETRY` indicates that a token comes from
+   * Retry packet.
+   */
+  NGTCP2_TOKEN_TYPE_RETRY,
+  /**
+   * :enum:`NGTCP2_TOKEN_TYPE_NEW_TOKEN` indicates that a token comes
+   * from NEW_TOKEN frame.
+   */
+  NGTCP2_TOKEN_TYPE_NEW_TOKEN
 } ngtcp2_token_type;
 
 #define NGTCP2_SETTINGS_V1 1
@@ -1697,211 +1700,211 @@ typedef enum ngtcp2_token_type {
  * :type:`ngtcp2_settings` defines QUIC connection settings.
  */
 typedef struct ngtcp2_settings {
-    /**
-     * :member:`qlog_write` is a callback function to write qlog.
-     * Setting ``NULL`` disables qlog.
-     */
-    ngtcp2_qlog_write qlog_write;
-    /**
-     * :member:`cc_algo` specifies congestion control algorithm.
-     */
-    ngtcp2_cc_algo cc_algo;
-    /**
-     * :member:`initial_ts` is an initial timestamp given to the
-     * library.
-     */
-    ngtcp2_tstamp initial_ts;
-    /**
-     * :member:`initial_rtt` is an initial RTT.
-     */
-    ngtcp2_duration initial_rtt;
-    /**
-     * :member:`log_printf` is a function that the library uses to write
-     * logs.  ``NULL`` means no logging output.  It is nothing to do
-     * with qlog.
-     */
-    ngtcp2_printf log_printf;
-    /**
-     * :member:`max_tx_udp_payload_size` is the maximum size of UDP
-     * datagram payload that the local endpoint transmits.
-     */
-    size_t max_tx_udp_payload_size;
-    /**
-     * :member:`token` is a token from Retry packet or NEW_TOKEN frame.
-     *
-     * Server sets this field if it received the token in Client Initial
-     * packet and successfully validated.  It should also set
-     * :member:`token_type` field.
-     *
-     * Client sets this field if it intends to send token in its Initial
-     * packet.
-     *
-     * `ngtcp2_conn_server_new` and `ngtcp2_conn_client_new` make a copy
-     * of token.
-     *
-     * Set NULL if there is no token.
-     */
-    const uint8_t *token;
-    /**
-     * :member:`tokenlen` is the length of :member:`token`.  Set 0 if
-     * there is no token.
-     */
-    size_t tokenlen;
-    /**
-     * :member:`token_type` is the type of token.  Server application
-     * should set this field.
-     */
-    ngtcp2_token_type token_type;
-    /**
-     * :member:`rand_ctx` is an optional random number generator to be
-     * passed to :type:`ngtcp2_rand` callback.
-     */
-    ngtcp2_rand_ctx rand_ctx;
-    /**
-     * :member:`max_window` is the maximum connection-level flow control
-     * window if connection-level window auto-tuning is enabled.  The
-     * connection-level window auto tuning is enabled if nonzero value
-     * is specified in this field.  The initial value of window size is
-     * :member:`ngtcp2_transport_params.initial_max_data`.  The window
-     * size is scaled up to the value specified in this field.
-     */
-    uint64_t max_window;
-    /**
-     * :member:`max_stream_window` is the maximum stream-level flow
-     * control window if stream-level window auto-tuning is enabled.
-     * The stream-level window auto-tuning is enabled if nonzero value
-     * is specified in this field.  The initial value of window size is
-     * :member:`ngtcp2_transport_params.initial_max_stream_data_bidi_remote`,
-     * :member:`ngtcp2_transport_params.initial_max_stream_data_bidi_local`,
-     * or :member:`ngtcp2_transport_params.initial_max_stream_data_uni`,
-     * depending on the type of stream.  The window size is scaled up to
-     * the value specified in this field.
-     *
-     * Please note that the auto-tuning is done per stream.  Even if the
-     * previous stream gets larger window as a result of auto-tuning,
-     * the new stream still starts with the initial value set in
-     * transport parameters.  This might become a bottleneck if
-     * congestion window of a remote server is wide open.  If this
-     * causes an issue, do not enable auto-tuning.
-     */
-    uint64_t max_stream_window;
-    /**
-     * :member:`ack_thresh` is the minimum number of the received ACK
-     * eliciting packets that trigger the immediate acknowledgement from
-     * the local endpoint.
-     */
-    size_t ack_thresh;
-    /**
-     * :member:`no_tx_udp_payload_size_shaping`, if set to nonzero,
-     * instructs the library not to limit the UDP payload size to
-     * :macro:`NGTCP2_MAX_UDP_PAYLOAD_SIZE` (which can be extended by
-     * Path MTU Discovery), and instead use the minimum size among the
-     * given buffer size, :member:`max_tx_udp_payload_size`, and the
-     * received max_udp_payload_size QUIC transport parameter.
-     */
-    uint8_t no_tx_udp_payload_size_shaping;
-    /**
-     * :member:`handshake_timeout` is the period of time before giving
-     * up QUIC connection establishment.  If QUIC handshake is not
-     * complete within this period, `ngtcp2_conn_handle_expiry` returns
-     * :macro:`NGTCP2_ERR_HANDSHAKE_TIMEOUT` error.  The deadline is
-     * :member:`initial_ts` + :member:`handshake_timeout`.  If this
-     * field is set to ``UINT64_MAX``, no handshake timeout is set.
-     */
-    ngtcp2_duration handshake_timeout;
-    /**
-     * :member:`preferred_versions` is the array of versions that are
-     * preferred by the local endpoint.  All versions set in this array
-     * must be supported by the library, and compatible to QUIC v1.  The
-     * reserved versions are not allowed.  They are sorted in the order
-     * of preference.
-     *
-     * On compatible version negotiation, server will negotiate one of
-     * those versions contained in this array if there is some overlap
-     * between these versions and the versions offered by the client.
-     * If there is no overlap, but the client chosen version is
-     * supported by the library, the server chooses the client chosen
-     * version as the negotiated version.  This version set corresponds
-     * to Offered Versions described in :rfc:`9368`, and it should be
-     * included in Version Negotiation packet.
-     *
-     * Client uses this field and :member:`original_version` to prevent
-     * version downgrade attack if it reacted upon Version Negotiation
-     * packet.  If this field is specified, client must include
-     * |client_chosen_version| passed to `ngtcp2_conn_client_new` unless
-     * |client_chosen_version| is a reserved version.
-     */
-    const uint32_t *preferred_versions;
-    /**
-     * :member:`preferred_versionslen` is the number of versions that
-     * are contained in the array pointed by
-     * :member:`preferred_versions`.
-     */
-    size_t preferred_versionslen;
-    /**
-     * :member:`available_versions` is the array of versions that are
-     * going to be set in :member:`available_versions
-     * <ngtcp2_version_info.available_versions>` field of outgoing
-     * version_information QUIC transport parameter.
-     *
-     * For server, this corresponds to Fully-Deployed Versions described
-     * in :rfc:`9368`.  If this field is not set, it is set to
-     * :member:`preferred_versions` internally if
-     * :member:`preferred_versionslen` is not zero.  If this field is
-     * not set, and :member:`preferred_versionslen` is zero, this field
-     * is set to :macro:`NGTCP2_PROTO_VER_V1` internally.
-     *
-     * Client must include |client_chosen_version| passed to
-     * `ngtcp2_conn_client_new` in this array if this field is set and
-     * |client_chosen_version| is not a reserved version.  If this field
-     * is not set, |client_chosen_version| passed to
-     * `ngtcp2_conn_client_new` will be set in this field internally
-     * unless |client_chosen_version| is a reserved version.
-     */
-    const uint32_t *available_versions;
-    /**
-     * :member:`available_versionslen` is the number of versions that
-     * are contained in the array pointed by
-     * :member:`available_versions`.
-     */
-    size_t available_versionslen;
-    /**
-     * :member:`original_version` is the original version that client
-     * initially used to make a connection attempt.  If it is set, and
-     * it differs from |client_chosen_version| passed to
-     * `ngtcp2_conn_client_new`, the library assumes that client reacted
-     * upon Version Negotiation packet.  Server does not use this field.
-     */
-    uint32_t original_version;
-    /**
-     * :member:`no_pmtud`, if set to nonzero, disables Path MTU
-     * Discovery.
-     */
-    uint8_t no_pmtud;
-    /**
-     * :member:`initial_pkt_num` is the initial packet number for each
-     * packet number space.  It must be in range [0, INT32_MAX],
-     * inclusive.
-     */
-    uint32_t initial_pkt_num;
-    /* The following fields have been added since NGTCP2_SETTINGS_V2. */
-    /**
-     * :member:`pmtud_probes` is the array of UDP datagram payload size
-     * to probe during Path MTU Discovery.  The discovery is done in the
-     * order appeared in this array.  The size must be strictly larger
-     * than 1200, otherwise the behavior is undefined.  The maximum
-     * value in this array should be set to
-     * :member:`max_tx_udp_payload_size`.  If this field is not set, the
-     * predefined PMTUD probes are made.  This field has been available
-     * since v1.4.0.
-     */
-    const uint16_t *pmtud_probes;
-    /**
-     * :member:`pmtud_probeslen` is the number of elements that are
-     * contained in the array pointed by :member:`pmtud_probes`.  This
-     * field has been available since v1.4.0.
-     */
-    size_t pmtud_probeslen;
+  /**
+   * :member:`qlog_write` is a callback function to write qlog.
+   * Setting ``NULL`` disables qlog.
+   */
+  ngtcp2_qlog_write qlog_write;
+  /**
+   * :member:`cc_algo` specifies congestion control algorithm.
+   */
+  ngtcp2_cc_algo cc_algo;
+  /**
+   * :member:`initial_ts` is an initial timestamp given to the
+   * library.
+   */
+  ngtcp2_tstamp initial_ts;
+  /**
+   * :member:`initial_rtt` is an initial RTT.
+   */
+  ngtcp2_duration initial_rtt;
+  /**
+   * :member:`log_printf` is a function that the library uses to write
+   * logs.  ``NULL`` means no logging output.  It is nothing to do
+   * with qlog.
+   */
+  ngtcp2_printf log_printf;
+  /**
+   * :member:`max_tx_udp_payload_size` is the maximum size of UDP
+   * datagram payload that the local endpoint transmits.
+   */
+  size_t max_tx_udp_payload_size;
+  /**
+   * :member:`token` is a token from Retry packet or NEW_TOKEN frame.
+   *
+   * Server sets this field if it received the token in Client Initial
+   * packet and successfully validated.  It should also set
+   * :member:`token_type` field.
+   *
+   * Client sets this field if it intends to send token in its Initial
+   * packet.
+   *
+   * `ngtcp2_conn_server_new` and `ngtcp2_conn_client_new` make a copy
+   * of token.
+   *
+   * Set NULL if there is no token.
+   */
+  const uint8_t *token;
+  /**
+   * :member:`tokenlen` is the length of :member:`token`.  Set 0 if
+   * there is no token.
+   */
+  size_t tokenlen;
+  /**
+   * :member:`token_type` is the type of token.  Server application
+   * should set this field.
+   */
+  ngtcp2_token_type token_type;
+  /**
+   * :member:`rand_ctx` is an optional random number generator to be
+   * passed to :type:`ngtcp2_rand` callback.
+   */
+  ngtcp2_rand_ctx rand_ctx;
+  /**
+   * :member:`max_window` is the maximum connection-level flow control
+   * window if connection-level window auto-tuning is enabled.  The
+   * connection-level window auto tuning is enabled if nonzero value
+   * is specified in this field.  The initial value of window size is
+   * :member:`ngtcp2_transport_params.initial_max_data`.  The window
+   * size is scaled up to the value specified in this field.
+   */
+  uint64_t max_window;
+  /**
+   * :member:`max_stream_window` is the maximum stream-level flow
+   * control window if stream-level window auto-tuning is enabled.
+   * The stream-level window auto-tuning is enabled if nonzero value
+   * is specified in this field.  The initial value of window size is
+   * :member:`ngtcp2_transport_params.initial_max_stream_data_bidi_remote`,
+   * :member:`ngtcp2_transport_params.initial_max_stream_data_bidi_local`,
+   * or :member:`ngtcp2_transport_params.initial_max_stream_data_uni`,
+   * depending on the type of stream.  The window size is scaled up to
+   * the value specified in this field.
+   *
+   * Please note that the auto-tuning is done per stream.  Even if the
+   * previous stream gets larger window as a result of auto-tuning,
+   * the new stream still starts with the initial value set in
+   * transport parameters.  This might become a bottleneck if
+   * congestion window of a remote server is wide open.  If this
+   * causes an issue, do not enable auto-tuning.
+   */
+  uint64_t max_stream_window;
+  /**
+   * :member:`ack_thresh` is the minimum number of the received ACK
+   * eliciting packets that trigger the immediate acknowledgement from
+   * the local endpoint.
+   */
+  size_t ack_thresh;
+  /**
+   * :member:`no_tx_udp_payload_size_shaping`, if set to nonzero,
+   * instructs the library not to limit the UDP payload size to
+   * :macro:`NGTCP2_MAX_UDP_PAYLOAD_SIZE` (which can be extended by
+   * Path MTU Discovery), and instead use the minimum size among the
+   * given buffer size, :member:`max_tx_udp_payload_size`, and the
+   * received max_udp_payload_size QUIC transport parameter.
+   */
+  uint8_t no_tx_udp_payload_size_shaping;
+  /**
+   * :member:`handshake_timeout` is the period of time before giving
+   * up QUIC connection establishment.  If QUIC handshake is not
+   * complete within this period, `ngtcp2_conn_handle_expiry` returns
+   * :macro:`NGTCP2_ERR_HANDSHAKE_TIMEOUT` error.  The deadline is
+   * :member:`initial_ts` + :member:`handshake_timeout`.  If this
+   * field is set to ``UINT64_MAX``, no handshake timeout is set.
+   */
+  ngtcp2_duration handshake_timeout;
+  /**
+   * :member:`preferred_versions` is the array of versions that are
+   * preferred by the local endpoint.  All versions set in this array
+   * must be supported by the library, and compatible to QUIC v1.  The
+   * reserved versions are not allowed.  They are sorted in the order
+   * of preference.
+   *
+   * On compatible version negotiation, server will negotiate one of
+   * those versions contained in this array if there is some overlap
+   * between these versions and the versions offered by the client.
+   * If there is no overlap, but the client chosen version is
+   * supported by the library, the server chooses the client chosen
+   * version as the negotiated version.  This version set corresponds
+   * to Offered Versions described in :rfc:`9368`, and it should be
+   * included in Version Negotiation packet.
+   *
+   * Client uses this field and :member:`original_version` to prevent
+   * version downgrade attack if it reacted upon Version Negotiation
+   * packet.  If this field is specified, client must include
+   * |client_chosen_version| passed to `ngtcp2_conn_client_new` unless
+   * |client_chosen_version| is a reserved version.
+   */
+  const uint32_t *preferred_versions;
+  /**
+   * :member:`preferred_versionslen` is the number of versions that
+   * are contained in the array pointed by
+   * :member:`preferred_versions`.
+   */
+  size_t preferred_versionslen;
+  /**
+   * :member:`available_versions` is the array of versions that are
+   * going to be set in :member:`available_versions
+   * <ngtcp2_version_info.available_versions>` field of outgoing
+   * version_information QUIC transport parameter.
+   *
+   * For server, this corresponds to Fully-Deployed Versions described
+   * in :rfc:`9368`.  If this field is not set, it is set to
+   * :member:`preferred_versions` internally if
+   * :member:`preferred_versionslen` is not zero.  If this field is
+   * not set, and :member:`preferred_versionslen` is zero, this field
+   * is set to :macro:`NGTCP2_PROTO_VER_V1` internally.
+   *
+   * Client must include |client_chosen_version| passed to
+   * `ngtcp2_conn_client_new` in this array if this field is set and
+   * |client_chosen_version| is not a reserved version.  If this field
+   * is not set, |client_chosen_version| passed to
+   * `ngtcp2_conn_client_new` will be set in this field internally
+   * unless |client_chosen_version| is a reserved version.
+   */
+  const uint32_t *available_versions;
+  /**
+   * :member:`available_versionslen` is the number of versions that
+   * are contained in the array pointed by
+   * :member:`available_versions`.
+   */
+  size_t available_versionslen;
+  /**
+   * :member:`original_version` is the original version that client
+   * initially used to make a connection attempt.  If it is set, and
+   * it differs from |client_chosen_version| passed to
+   * `ngtcp2_conn_client_new`, the library assumes that client reacted
+   * upon Version Negotiation packet.  Server does not use this field.
+   */
+  uint32_t original_version;
+  /**
+   * :member:`no_pmtud`, if set to nonzero, disables Path MTU
+   * Discovery.
+   */
+  uint8_t no_pmtud;
+  /**
+   * :member:`initial_pkt_num` is the initial packet number for each
+   * packet number space.  It must be in range [0, INT32_MAX],
+   * inclusive.
+   */
+  uint32_t initial_pkt_num;
+  /* The following fields have been added since NGTCP2_SETTINGS_V2. */
+  /**
+   * :member:`pmtud_probes` is the array of UDP datagram payload size
+   * to probe during Path MTU Discovery.  The discovery is done in the
+   * order appeared in this array.  The size must be strictly larger
+   * than 1200, otherwise the behavior is undefined.  The maximum
+   * value in this array should be set to
+   * :member:`max_tx_udp_payload_size`.  If this field is not set, the
+   * predefined PMTUD probes are made.  This field has been available
+   * since v1.4.0.
+   */
+  const uint16_t *pmtud_probes;
+  /**
+   * :member:`pmtud_probeslen` is the number of elements that are
+   * contained in the array pointed by :member:`pmtud_probes`.  This
+   * field has been available since v1.4.0.
+   */
+  size_t pmtud_probeslen;
 } ngtcp2_settings;
 
 /**
@@ -1910,16 +1913,16 @@ typedef struct ngtcp2_settings {
  * :type:`ngtcp2_addr` is the endpoint address.
  */
 typedef struct ngtcp2_addr {
-    /**
-     * :member:`addr` points to the buffer which contains endpoint
-     * address.  It must not be ``NULL``.
-     */
-    ngtcp2_sockaddr *addr;
-    /**
-     * :member:`addrlen` is the length of :member:`addr`.  It must not
-     * be longer than sizeof(:type:`ngtcp2_sockaddr_union`).
-     */
-    ngtcp2_socklen addrlen;
+  /**
+   * :member:`addr` points to the buffer which contains endpoint
+   * address.  It must not be ``NULL``.
+   */
+  ngtcp2_sockaddr *addr;
+  /**
+   * :member:`addrlen` is the length of :member:`addr`.  It must not
+   * be longer than sizeof(:type:`ngtcp2_sockaddr_union`).
+   */
+  ngtcp2_socklen addrlen;
 } ngtcp2_addr;
 
 /**
@@ -1929,29 +1932,29 @@ typedef struct ngtcp2_addr {
  * and received.
  */
 typedef struct ngtcp2_path {
-    /**
-     * :member:`local` is the address of local endpoint.
-     */
-    ngtcp2_addr local;
-    /**
-     * :member:`remote` is the address of remote endpoint.
-     */
-    ngtcp2_addr remote;
-    /**
-     * :member:`user_data` is an arbitrary data and opaque to the
-     * library.
-     *
-     * Note that :type:`ngtcp2_path` is generally passed to
-     * :type:`ngtcp2_conn` by an application, and :type:`ngtcp2_conn`
-     * stores their copies.  Unfortunately, there is no way for the
-     * application to know when :type:`ngtcp2_conn` finished using a
-     * specific :type:`ngtcp2_path` object in mid connection, which
-     * means that the application cannot free the data pointed by this
-     * field.  Therefore, it is advised to use this field only when the
-     * data pointed by this field persists in an entire lifetime of the
-     * connection.
-     */
-    void *user_data;
+  /**
+   * :member:`local` is the address of local endpoint.
+   */
+  ngtcp2_addr local;
+  /**
+   * :member:`remote` is the address of remote endpoint.
+   */
+  ngtcp2_addr remote;
+  /**
+   * :member:`user_data` is an arbitrary data and opaque to the
+   * library.
+   *
+   * Note that :type:`ngtcp2_path` is generally passed to
+   * :type:`ngtcp2_conn` by an application, and :type:`ngtcp2_conn`
+   * stores their copies.  Unfortunately, there is no way for the
+   * application to know when :type:`ngtcp2_conn` finished using a
+   * specific :type:`ngtcp2_path` object in mid connection, which
+   * means that the application cannot free the data pointed by this
+   * field.  Therefore, it is advised to use this field only when the
+   * data pointed by this field persists in an entire lifetime of the
+   * connection.
+   */
+  void *user_data;
 } ngtcp2_path;
 
 /**
@@ -1961,18 +1964,18 @@ typedef struct ngtcp2_path {
  * to store the longest addresses.
  */
 typedef struct ngtcp2_path_storage {
-    /**
-     * :member:`path` stores network path.
-     */
-    ngtcp2_path path;
-    /**
-     * :member:`local_addrbuf` is a buffer to store local address.
-     */
-    ngtcp2_sockaddr_union local_addrbuf;
-    /**
-     * :member:`remote_addrbuf` is a buffer to store remote address.
-     */
-    ngtcp2_sockaddr_union remote_addrbuf;
+  /**
+   * :member:`path` stores network path.
+   */
+  ngtcp2_path path;
+  /**
+   * :member:`local_addrbuf` is a buffer to store local address.
+   */
+  ngtcp2_sockaddr_union local_addrbuf;
+  /**
+   * :member:`remote_addrbuf` is a buffer to store remote address.
+   */
+  ngtcp2_sockaddr_union remote_addrbuf;
 } ngtcp2_path_storage;
 
 /**
@@ -1982,11 +1985,11 @@ typedef struct ngtcp2_path_storage {
  * object.
  */
 typedef struct ngtcp2_crypto_md {
-    /**
-     * :member:`native_handle` is a pointer to an underlying message
-     * digest object.
-     */
-    void *native_handle;
+  /**
+   * :member:`native_handle` is a pointer to an underlying message
+   * digest object.
+   */
+  void *native_handle;
 } ngtcp2_crypto_md;
 
 /**
@@ -1995,16 +1998,16 @@ typedef struct ngtcp2_crypto_md {
  * :type:`ngtcp2_crypto_aead` is a wrapper around native AEAD object.
  */
 typedef struct ngtcp2_crypto_aead {
-    /**
-     * :member:`native_handle` is a pointer to an underlying AEAD
-     * object.
-     */
-    void *native_handle;
-    /**
-     * :member:`max_overhead` is the number of additional bytes which
-     * AEAD encryption needs on encryption.
-     */
-    size_t max_overhead;
+  /**
+   * :member:`native_handle` is a pointer to an underlying AEAD
+   * object.
+   */
+  void *native_handle;
+  /**
+   * :member:`max_overhead` is the number of additional bytes which
+   * AEAD encryption needs on encryption.
+   */
+  size_t max_overhead;
 } ngtcp2_crypto_aead;
 
 /**
@@ -2014,11 +2017,11 @@ typedef struct ngtcp2_crypto_aead {
  * object.
  */
 typedef struct ngtcp2_crypto_cipher {
-    /**
-     * :member:`native_handle` is a pointer to an underlying cipher
-     * object.
-     */
-    void *native_handle;
+  /**
+   * :member:`native_handle` is a pointer to an underlying cipher
+   * object.
+   */
+  void *native_handle;
 } ngtcp2_crypto_cipher;
 
 /**
@@ -2030,11 +2033,11 @@ typedef struct ngtcp2_crypto_cipher {
  * decrypt multiple packets.
  */
 typedef struct ngtcp2_crypto_aead_ctx {
-    /**
-     * :member:`native_handle` is a pointer to an underlying AEAD
-     * context object.
-     */
-    void *native_handle;
+  /**
+   * :member:`native_handle` is a pointer to an underlying AEAD
+   * context object.
+   */
+  void *native_handle;
 } ngtcp2_crypto_aead_ctx;
 
 /**
@@ -2046,11 +2049,11 @@ typedef struct ngtcp2_crypto_aead_ctx {
  * multiple packet headers.
  */
 typedef struct ngtcp2_crypto_cipher_ctx {
-    /**
-     * :member:`native_handle` is a pointer to an underlying cipher
-     * context object.
-     */
-    void *native_handle;
+  /**
+   * :member:`native_handle` is a pointer to an underlying cipher
+   * context object.
+   */
+  void *native_handle;
 } ngtcp2_crypto_cipher_ctx;
 
 /**
@@ -2064,28 +2067,28 @@ typedef struct ngtcp2_crypto_cipher_ctx {
  * `ngtcp2_crypto_ctx_tls_early`.
  */
 typedef struct ngtcp2_crypto_ctx {
-    /**
-     * :member:`aead` is AEAD object.
-     */
-    ngtcp2_crypto_aead aead;
-    /**
-     * :member:`md` is message digest object.
-     */
-    ngtcp2_crypto_md md;
-    /**
-     * :member:`hp` is header protection cipher.
-     */
-    ngtcp2_crypto_cipher hp;
-    /**
-     * :member:`max_encryption` is the number of encryption which this
-     * key can be used with.
-     */
-    uint64_t max_encryption;
-    /**
-     * :member:`max_decryption_failure` is the number of decryption
-     * failure with this key.
-     */
-    uint64_t max_decryption_failure;
+  /**
+   * :member:`aead` is AEAD object.
+   */
+  ngtcp2_crypto_aead aead;
+  /**
+   * :member:`md` is message digest object.
+   */
+  ngtcp2_crypto_md md;
+  /**
+   * :member:`hp` is header protection cipher.
+   */
+  ngtcp2_crypto_cipher hp;
+  /**
+   * :member:`max_encryption` is the number of encryption which this
+   * key can be used with.
+   */
+  uint64_t max_encryption;
+  /**
+   * :member:`max_decryption_failure` is the number of decryption
+   * failure with this key.
+   */
+  uint64_t max_decryption_failure;
 } ngtcp2_crypto_ctx;
 
 /**
@@ -2105,8 +2108,8 @@ typedef struct ngtcp2_crypto_ctx {
  *     Buffer is too small.
  */
 NGTCP2_EXTERN ngtcp2_ssize ngtcp2_transport_params_encode_versioned(
-    uint8_t *dest, size_t destlen, int transport_params_version,
-    const ngtcp2_transport_params *params);
+  uint8_t *dest, size_t destlen, int transport_params_version,
+  const ngtcp2_transport_params *params);
 
 /**
  * @function
@@ -2129,9 +2132,10 @@ NGTCP2_EXTERN ngtcp2_ssize ngtcp2_transport_params_encode_versioned(
  * :macro:`NGTCP2_ERR_MALFORMED_TRANSPORT_PARAM`
  *     The input is malformed.
  */
-NGTCP2_EXTERN int ngtcp2_transport_params_decode_versioned(int transport_params_version,
-                                                           ngtcp2_transport_params *params,
-                                                           const uint8_t *data, size_t datalen);
+NGTCP2_EXTERN int
+ngtcp2_transport_params_decode_versioned(int transport_params_version,
+                                         ngtcp2_transport_params *params,
+                                         const uint8_t *data, size_t datalen);
 
 /**
  * @function
@@ -2161,9 +2165,10 @@ NGTCP2_EXTERN int ngtcp2_transport_params_decode_versioned(int transport_params_
  * :macro:`NGTCP2_ERR_NOMEM`
  *     Out of memory.
  */
-NGTCP2_EXTERN int ngtcp2_transport_params_decode_new(ngtcp2_transport_params **pparams,
-                                                     const uint8_t *data, size_t datalen,
-                                                     const ngtcp2_mem *mem);
+NGTCP2_EXTERN int
+ngtcp2_transport_params_decode_new(ngtcp2_transport_params **pparams,
+                                   const uint8_t *data, size_t datalen,
+                                   const ngtcp2_mem *mem);
 
 /**
  * @function
@@ -2187,28 +2192,28 @@ NGTCP2_EXTERN void ngtcp2_transport_params_del(ngtcp2_transport_params *params,
  * result of `ngtcp2_pkt_decode_version_cid`.
  */
 typedef struct ngtcp2_version_cid {
-    /**
-     * :member:`version` stores QUIC version.
-     */
-    uint32_t version;
-    /**
-     * :member:`dcid` points to the Destination Connection ID.
-     */
-    const uint8_t *dcid;
-    /**
-     * :member:`dcidlen` is the length of the Destination Connection ID
-     * pointed by :member:`dcid`.
-     */
-    size_t dcidlen;
-    /**
-     * :member:`scid` points to the Source Connection ID.
-     */
-    const uint8_t *scid;
-    /**
-     * :member:`scidlen` is the length of the Source Connection ID
-     * pointed by :member:`scid`.
-     */
-    size_t scidlen;
+  /**
+   * :member:`version` stores QUIC version.
+   */
+  uint32_t version;
+  /**
+   * :member:`dcid` points to the Destination Connection ID.
+   */
+  const uint8_t *dcid;
+  /**
+   * :member:`dcidlen` is the length of the Destination Connection ID
+   * pointed by :member:`dcid`.
+   */
+  size_t dcidlen;
+  /**
+   * :member:`scid` points to the Source Connection ID.
+   */
+  const uint8_t *scid;
+  /**
+   * :member:`scidlen` is the length of the Source Connection ID
+   * pointed by :member:`scid`.
+   */
+  size_t scidlen;
 } ngtcp2_version_cid;
 
 /**
@@ -2258,8 +2263,10 @@ typedef struct ngtcp2_version_cid {
  * :macro:`NGTCP2_ERR_VERSION_NEGOTIATION`
  *     Version Negotiation packet should be sent.
  */
-NGTCP2_EXTERN int ngtcp2_pkt_decode_version_cid(ngtcp2_version_cid *dest, const uint8_t *data,
-                                                size_t datalen, size_t short_dcidlen);
+NGTCP2_EXTERN int ngtcp2_pkt_decode_version_cid(ngtcp2_version_cid *dest,
+                                                const uint8_t *data,
+                                                size_t datalen,
+                                                size_t short_dcidlen);
 
 /**
  * @function
@@ -2293,7 +2300,8 @@ NGTCP2_EXTERN int ngtcp2_pkt_decode_version_cid(ngtcp2_version_cid *dest, const 
  * :macro:`NGTCP2_ERR_INVALID_ARGUMENT`
  *     Packet is too short; or it is not a long header
  */
-NGTCP2_EXTERN ngtcp2_ssize ngtcp2_pkt_decode_hd_long(ngtcp2_pkt_hd *dest, const uint8_t *pkt,
+NGTCP2_EXTERN ngtcp2_ssize ngtcp2_pkt_decode_hd_long(ngtcp2_pkt_hd *dest,
+                                                     const uint8_t *pkt,
                                                      size_t pktlen);
 
 /**
@@ -2314,8 +2322,10 @@ NGTCP2_EXTERN ngtcp2_ssize ngtcp2_pkt_decode_hd_long(ngtcp2_pkt_hd *dest, const 
  * :macro:`NGTCP2_ERR_INVALID_ARGUMENT`
  *     Packet is too short; or it is not a short header
  */
-NGTCP2_EXTERN ngtcp2_ssize ngtcp2_pkt_decode_hd_short(ngtcp2_pkt_hd *dest, const uint8_t *pkt,
-                                                      size_t pktlen, size_t dcidlen);
+NGTCP2_EXTERN ngtcp2_ssize ngtcp2_pkt_decode_hd_short(ngtcp2_pkt_hd *dest,
+                                                      const uint8_t *pkt,
+                                                      size_t pktlen,
+                                                      size_t dcidlen);
 
 /**
  * @function
@@ -2341,9 +2351,9 @@ NGTCP2_EXTERN ngtcp2_ssize ngtcp2_pkt_decode_hd_short(ngtcp2_pkt_hd *dest, const
  *     |randlen| is strictly less than
  *     :macro:`NGTCP2_MIN_STATELESS_RESET_RANDLEN`.
  */
-NGTCP2_EXTERN ngtcp2_ssize ngtcp2_pkt_write_stateless_reset(uint8_t *dest, size_t destlen,
-                                                            const uint8_t *stateless_reset_token,
-                                                            const uint8_t *rand, size_t randlen);
+NGTCP2_EXTERN ngtcp2_ssize ngtcp2_pkt_write_stateless_reset(
+  uint8_t *dest, size_t destlen, const uint8_t *stateless_reset_token,
+  const uint8_t *rand, size_t randlen);
 
 /**
  * @function
@@ -2364,11 +2374,10 @@ NGTCP2_EXTERN ngtcp2_ssize ngtcp2_pkt_write_stateless_reset(uint8_t *dest, size_
  * :macro:`NGTCP2_ERR_NOBUF`
  *     Buffer is too small.
  */
-NGTCP2_EXTERN ngtcp2_ssize ngtcp2_pkt_write_version_negotiation(uint8_t *dest, size_t destlen,
-                                                                uint8_t unused_random,
-                                                                const uint8_t *dcid, size_t dcidlen,
-                                                                const uint8_t *scid, size_t scidlen,
-                                                                const uint32_t *sv, size_t nsv);
+NGTCP2_EXTERN ngtcp2_ssize ngtcp2_pkt_write_version_negotiation(
+  uint8_t *dest, size_t destlen, uint8_t unused_random, const uint8_t *dcid,
+  size_t dcidlen, const uint8_t *scid, size_t scidlen, const uint32_t *sv,
+  size_t nsv);
 
 /**
  * @struct
@@ -2412,7 +2421,8 @@ typedef int (*ngtcp2_client_initial)(ngtcp2_conn *conn, void *user_data);
  * occurs, return :macro:`NGTCP2_ERR_CALLBACK_FAILURE` which makes the
  * library call return immediately.
  */
-typedef int (*ngtcp2_recv_client_initial)(ngtcp2_conn *conn, const ngtcp2_cid *dcid,
+typedef int (*ngtcp2_recv_client_initial)(ngtcp2_conn *conn,
+                                          const ngtcp2_cid *dcid,
                                           void *user_data);
 
 /**
@@ -2421,24 +2431,24 @@ typedef int (*ngtcp2_recv_client_initial)(ngtcp2_conn *conn, const ngtcp2_cid *d
  * :type:`ngtcp2_encryption_level` is QUIC encryption level.
  */
 typedef enum ngtcp2_encryption_level {
-    /**
-     * :enum:`NGTCP2_ENCRYPTION_LEVEL_INITIAL` is Initial encryption
-     * level.
-     */
-    NGTCP2_ENCRYPTION_LEVEL_INITIAL,
-    /**
-     * :enum:`NGTCP2_ENCRYPTION_LEVEL_HANDSHAKE` is Handshake encryption
-     * level.
-     */
-    NGTCP2_ENCRYPTION_LEVEL_HANDSHAKE,
-    /**
-     * :enum:`NGTCP2_ENCRYPTION_LEVEL_1RTT` is 1-RTT encryption level.
-     */
-    NGTCP2_ENCRYPTION_LEVEL_1RTT,
-    /**
-     * :enum:`NGTCP2_ENCRYPTION_LEVEL_0RTT` is 0-RTT encryption level.
-     */
-    NGTCP2_ENCRYPTION_LEVEL_0RTT
+  /**
+   * :enum:`NGTCP2_ENCRYPTION_LEVEL_INITIAL` is Initial encryption
+   * level.
+   */
+  NGTCP2_ENCRYPTION_LEVEL_INITIAL,
+  /**
+   * :enum:`NGTCP2_ENCRYPTION_LEVEL_HANDSHAKE` is Handshake encryption
+   * level.
+   */
+  NGTCP2_ENCRYPTION_LEVEL_HANDSHAKE,
+  /**
+   * :enum:`NGTCP2_ENCRYPTION_LEVEL_1RTT` is 1-RTT encryption level.
+   */
+  NGTCP2_ENCRYPTION_LEVEL_1RTT,
+  /**
+   * :enum:`NGTCP2_ENCRYPTION_LEVEL_0RTT` is 0-RTT encryption level.
+   */
+  NGTCP2_ENCRYPTION_LEVEL_0RTT
 } ngtcp2_encryption_level;
 
 /**
@@ -2476,9 +2486,10 @@ typedef enum ngtcp2_encryption_level {
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` which makes the library call
  * return immediately.
  */
-typedef int (*ngtcp2_recv_crypto_data)(ngtcp2_conn *conn, ngtcp2_encryption_level encryption_level,
-                                       uint64_t offset, const uint8_t *data, size_t datalen,
-                                       void *user_data);
+typedef int (*ngtcp2_recv_crypto_data)(ngtcp2_conn *conn,
+                                       ngtcp2_encryption_level encryption_level,
+                                       uint64_t offset, const uint8_t *data,
+                                       size_t datalen, void *user_data);
 
 /**
  * @functypedef
@@ -2518,8 +2529,10 @@ typedef int (*ngtcp2_handshake_confirmed)(ngtcp2_conn *conn, void *user_data);
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` which makes the library call
  * return immediately.
  */
-typedef int (*ngtcp2_recv_version_negotiation)(ngtcp2_conn *conn, const ngtcp2_pkt_hd *hd,
-                                               const uint32_t *sv, size_t nsv, void *user_data);
+typedef int (*ngtcp2_recv_version_negotiation)(ngtcp2_conn *conn,
+                                               const ngtcp2_pkt_hd *hd,
+                                               const uint32_t *sv, size_t nsv,
+                                               void *user_data);
 
 /**
  * @functypedef
@@ -2539,7 +2552,8 @@ typedef int (*ngtcp2_recv_version_negotiation)(ngtcp2_conn *conn, const ngtcp2_p
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library call return
  * immediately.
  */
-typedef int (*ngtcp2_recv_retry)(ngtcp2_conn *conn, const ngtcp2_pkt_hd *hd, void *user_data);
+typedef int (*ngtcp2_recv_retry)(ngtcp2_conn *conn, const ngtcp2_pkt_hd *hd,
+                                 void *user_data);
 
 /**
  * @functypedef
@@ -2564,8 +2578,9 @@ typedef int (*ngtcp2_recv_retry)(ngtcp2_conn *conn, const ngtcp2_pkt_hd *hd, voi
  * return immediately.
  */
 typedef int (*ngtcp2_encrypt)(uint8_t *dest, const ngtcp2_crypto_aead *aead,
-                              const ngtcp2_crypto_aead_ctx *aead_ctx, const uint8_t *plaintext,
-                              size_t plaintextlen, const uint8_t *nonce, size_t noncelen,
+                              const ngtcp2_crypto_aead_ctx *aead_ctx,
+                              const uint8_t *plaintext, size_t plaintextlen,
+                              const uint8_t *nonce, size_t noncelen,
                               const uint8_t *aad, size_t aadlen);
 
 /**
@@ -2592,8 +2607,9 @@ typedef int (*ngtcp2_encrypt)(uint8_t *dest, const ngtcp2_crypto_aead *aead,
  * makes the library call return immediately.
  */
 typedef int (*ngtcp2_decrypt)(uint8_t *dest, const ngtcp2_crypto_aead *aead,
-                              const ngtcp2_crypto_aead_ctx *aead_ctx, const uint8_t *ciphertext,
-                              size_t ciphertextlen, const uint8_t *nonce, size_t noncelen,
+                              const ngtcp2_crypto_aead_ctx *aead_ctx,
+                              const uint8_t *ciphertext, size_t ciphertextlen,
+                              const uint8_t *nonce, size_t noncelen,
                               const uint8_t *aad, size_t aadlen);
 
 /**
@@ -2620,7 +2636,8 @@ typedef int (*ngtcp2_decrypt)(uint8_t *dest, const ngtcp2_crypto_aead *aead,
  * return immediately.
  */
 typedef int (*ngtcp2_hp_mask)(uint8_t *dest, const ngtcp2_crypto_cipher *hp,
-                              const ngtcp2_crypto_cipher_ctx *hp_ctx, const uint8_t *sample);
+                              const ngtcp2_crypto_cipher_ctx *hp_ctx,
+                              const uint8_t *sample);
 
 /**
  * @macrosection
@@ -2674,8 +2691,9 @@ typedef int (*ngtcp2_hp_mask)(uint8_t *dest, const ngtcp2_crypto_cipher *hp,
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` which makes the library return
  * immediately.
  */
-typedef int (*ngtcp2_recv_stream_data)(ngtcp2_conn *conn, uint32_t flags, int64_t stream_id,
-                                       uint64_t offset, const uint8_t *data, size_t datalen,
+typedef int (*ngtcp2_recv_stream_data)(ngtcp2_conn *conn, uint32_t flags,
+                                       int64_t stream_id, uint64_t offset,
+                                       const uint8_t *data, size_t datalen,
                                        void *user_data, void *stream_user_data);
 
 /**
@@ -2690,7 +2708,8 @@ typedef int (*ngtcp2_recv_stream_data)(ngtcp2_conn *conn, uint32_t flags, int64_
  * Returning :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library
  * call return immediately.
  */
-typedef int (*ngtcp2_stream_open)(ngtcp2_conn *conn, int64_t stream_id, void *user_data);
+typedef int (*ngtcp2_stream_open)(ngtcp2_conn *conn, int64_t stream_id,
+                                  void *user_data);
 
 /**
  * @macrosection
@@ -2738,9 +2757,9 @@ typedef int (*ngtcp2_stream_open)(ngtcp2_conn *conn, int64_t stream_id, void *us
  * Returning :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library
  * call return immediately.
  */
-typedef int (*ngtcp2_stream_close)(ngtcp2_conn *conn, uint32_t flags, int64_t stream_id,
-                                   uint64_t app_error_code, void *user_data,
-                                   void *stream_user_data);
+typedef int (*ngtcp2_stream_close)(ngtcp2_conn *conn, uint32_t flags,
+                                   int64_t stream_id, uint64_t app_error_code,
+                                   void *user_data, void *stream_user_data);
 
 /**
  * @functypedef
@@ -2752,9 +2771,9 @@ typedef int (*ngtcp2_stream_close)(ngtcp2_conn *conn, uint32_t flags, int64_t st
  * Returning :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library
  * call return immediately.
  */
-typedef int (*ngtcp2_stream_reset)(ngtcp2_conn *conn, int64_t stream_id, uint64_t final_size,
-                                   uint64_t app_error_code, void *user_data,
-                                   void *stream_user_data);
+typedef int (*ngtcp2_stream_reset)(ngtcp2_conn *conn, int64_t stream_id,
+                                   uint64_t final_size, uint64_t app_error_code,
+                                   void *user_data, void *stream_user_data);
 
 /**
  * @functypedef
@@ -2778,9 +2797,9 @@ typedef int (*ngtcp2_stream_reset)(ngtcp2_conn *conn, int64_t stream_id, uint64_
  * Returning :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library
  * call return immediately.
  */
-typedef int (*ngtcp2_acked_stream_data_offset)(ngtcp2_conn *conn, int64_t stream_id,
-                                               uint64_t offset, uint64_t datalen, void *user_data,
-                                               void *stream_user_data);
+typedef int (*ngtcp2_acked_stream_data_offset)(
+  ngtcp2_conn *conn, int64_t stream_id, uint64_t offset, uint64_t datalen,
+  void *user_data, void *stream_user_data);
 
 /**
  * @functypedef
@@ -2793,7 +2812,8 @@ typedef int (*ngtcp2_acked_stream_data_offset)(ngtcp2_conn *conn, int64_t stream
  * Returning :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library
  * call return immediately.
  */
-typedef int (*ngtcp2_recv_stateless_reset)(ngtcp2_conn *conn, const ngtcp2_pkt_stateless_reset *sr,
+typedef int (*ngtcp2_recv_stateless_reset)(ngtcp2_conn *conn,
+                                           const ngtcp2_pkt_stateless_reset *sr,
                                            void *user_data);
 
 /**
@@ -2808,7 +2828,8 @@ typedef int (*ngtcp2_recv_stateless_reset)(ngtcp2_conn *conn, const ngtcp2_pkt_s
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library call return
  * immediately.
  */
-typedef int (*ngtcp2_extend_max_streams)(ngtcp2_conn *conn, uint64_t max_streams, void *user_data);
+typedef int (*ngtcp2_extend_max_streams)(ngtcp2_conn *conn,
+                                         uint64_t max_streams, void *user_data);
 
 /**
  * @functypedef
@@ -2822,7 +2843,8 @@ typedef int (*ngtcp2_extend_max_streams)(ngtcp2_conn *conn, uint64_t max_streams
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library call return
  * immediately.
  */
-typedef int (*ngtcp2_extend_max_stream_data)(ngtcp2_conn *conn, int64_t stream_id,
+typedef int (*ngtcp2_extend_max_stream_data)(ngtcp2_conn *conn,
+                                             int64_t stream_id,
                                              uint64_t max_data, void *user_data,
                                              void *stream_user_data);
 
@@ -2834,7 +2856,8 @@ typedef int (*ngtcp2_extend_max_stream_data)(ngtcp2_conn *conn, int64_t stream_i
  * the buffer pointed by |dest|.  The generated data is used only in
  * non-cryptographic context.
  */
-typedef void (*ngtcp2_rand)(uint8_t *dest, size_t destlen, const ngtcp2_rand_ctx *rand_ctx);
+typedef void (*ngtcp2_rand)(uint8_t *dest, size_t destlen,
+                            const ngtcp2_rand_ctx *rand_ctx);
 
 /**
  * @functypedef
@@ -2852,8 +2875,9 @@ typedef void (*ngtcp2_rand)(uint8_t *dest, size_t destlen, const ngtcp2_rand_ctx
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library call return
  * immediately.
  */
-typedef int (*ngtcp2_get_new_connection_id)(ngtcp2_conn *conn, ngtcp2_cid *cid, uint8_t *token,
-                                            size_t cidlen, void *user_data);
+typedef int (*ngtcp2_get_new_connection_id)(ngtcp2_conn *conn, ngtcp2_cid *cid,
+                                            uint8_t *token, size_t cidlen,
+                                            void *user_data);
 
 /**
  * @functypedef
@@ -2868,7 +2892,8 @@ typedef int (*ngtcp2_get_new_connection_id)(ngtcp2_conn *conn, ngtcp2_cid *cid, 
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library call return
  * immediately.
  */
-typedef int (*ngtcp2_remove_connection_id)(ngtcp2_conn *conn, const ngtcp2_cid *cid,
+typedef int (*ngtcp2_remove_connection_id)(ngtcp2_conn *conn,
+                                           const ngtcp2_cid *cid,
                                            void *user_data);
 
 /**
@@ -2895,11 +2920,12 @@ typedef int (*ngtcp2_remove_connection_id)(ngtcp2_conn *conn, const ngtcp2_cid *
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library call return
  * immediately.
  */
-typedef int (*ngtcp2_update_key)(ngtcp2_conn *conn, uint8_t *rx_secret, uint8_t *tx_secret,
-                                 ngtcp2_crypto_aead_ctx *rx_aead_ctx, uint8_t *rx_iv,
-                                 ngtcp2_crypto_aead_ctx *tx_aead_ctx, uint8_t *tx_iv,
-                                 const uint8_t *current_rx_secret, const uint8_t *current_tx_secret,
-                                 size_t secretlen, void *user_data);
+typedef int (*ngtcp2_update_key)(
+  ngtcp2_conn *conn, uint8_t *rx_secret, uint8_t *tx_secret,
+  ngtcp2_crypto_aead_ctx *rx_aead_ctx, uint8_t *rx_iv,
+  ngtcp2_crypto_aead_ctx *tx_aead_ctx, uint8_t *tx_iv,
+  const uint8_t *current_rx_secret, const uint8_t *current_tx_secret,
+  size_t secretlen, void *user_data);
 
 /**
  * @macrosection
@@ -2951,9 +2977,11 @@ typedef int (*ngtcp2_update_key)(ngtcp2_conn *conn, uint8_t *rx_secret, uint8_t 
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library call return
  * immediately.
  */
-typedef int (*ngtcp2_path_validation)(ngtcp2_conn *conn, uint32_t flags, const ngtcp2_path *path,
+typedef int (*ngtcp2_path_validation)(ngtcp2_conn *conn, uint32_t flags,
+                                      const ngtcp2_path *path,
                                       const ngtcp2_path *old_path,
-                                      ngtcp2_path_validation_result res, void *user_data);
+                                      ngtcp2_path_validation_result res,
+                                      void *user_data);
 
 /**
  * @functypedef
@@ -2981,8 +3009,10 @@ typedef int (*ngtcp2_path_validation)(ngtcp2_conn *conn, uint32_t flags, const n
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library call return
  * immediately.
  */
-typedef int (*ngtcp2_select_preferred_addr)(ngtcp2_conn *conn, ngtcp2_path *dest,
-                                            const ngtcp2_preferred_addr *paddr, void *user_data);
+typedef int (*ngtcp2_select_preferred_addr)(ngtcp2_conn *conn,
+                                            ngtcp2_path *dest,
+                                            const ngtcp2_preferred_addr *paddr,
+                                            void *user_data);
 
 /**
  * @enum
@@ -2991,17 +3021,17 @@ typedef int (*ngtcp2_select_preferred_addr)(ngtcp2_conn *conn, ngtcp2_path *dest
  * for Destination Connection ID.
  */
 typedef enum ngtcp2_connection_id_status_type {
-    /**
-     * :enum:`NGTCP2_CONNECTION_ID_STATUS_TYPE_ACTIVATE` indicates that
-     * a local endpoint starts using new Destination Connection ID.
-     */
-    NGTCP2_CONNECTION_ID_STATUS_TYPE_ACTIVATE,
-    /**
-     * :enum:`NGTCP2_CONNECTION_ID_STATUS_TYPE_DEACTIVATE` indicates
-     * that a local endpoint stops using a given Destination Connection
-     * ID.
-     */
-    NGTCP2_CONNECTION_ID_STATUS_TYPE_DEACTIVATE
+  /**
+   * :enum:`NGTCP2_CONNECTION_ID_STATUS_TYPE_ACTIVATE` indicates that
+   * a local endpoint starts using new Destination Connection ID.
+   */
+  NGTCP2_CONNECTION_ID_STATUS_TYPE_ACTIVATE,
+  /**
+   * :enum:`NGTCP2_CONNECTION_ID_STATUS_TYPE_DEACTIVATE` indicates
+   * that a local endpoint stops using a given Destination Connection
+   * ID.
+   */
+  NGTCP2_CONNECTION_ID_STATUS_TYPE_DEACTIVATE
 } ngtcp2_connection_id_status_type;
 
 /**
@@ -3021,9 +3051,9 @@ typedef enum ngtcp2_connection_id_status_type {
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library call return
  * immediately.
  */
-typedef int (*ngtcp2_connection_id_status)(ngtcp2_conn *conn, ngtcp2_connection_id_status_type type,
-                                           uint64_t seq, const ngtcp2_cid *cid,
-                                           const uint8_t *token, void *user_data);
+typedef int (*ngtcp2_connection_id_status)(
+  ngtcp2_conn *conn, ngtcp2_connection_id_status_type type, uint64_t seq,
+  const ngtcp2_cid *cid, const uint8_t *token, void *user_data);
 
 /**
  * @functypedef
@@ -3038,8 +3068,8 @@ typedef int (*ngtcp2_connection_id_status)(ngtcp2_conn *conn, ngtcp2_connection_
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library call return
  * immediately.
  */
-typedef int (*ngtcp2_recv_new_token)(ngtcp2_conn *conn, const uint8_t *token, size_t tokenlen,
-                                     void *user_data);
+typedef int (*ngtcp2_recv_new_token)(ngtcp2_conn *conn, const uint8_t *token,
+                                     size_t tokenlen, void *user_data);
 
 /**
  * @functypedef
@@ -3049,7 +3079,8 @@ typedef int (*ngtcp2_recv_new_token)(ngtcp2_conn *conn, const uint8_t *token, si
  * :member:`aead_ctx->native_handle
  * <ngtcp2_crypto_aead_ctx.native_handle>`.
  */
-typedef void (*ngtcp2_delete_crypto_aead_ctx)(ngtcp2_conn *conn, ngtcp2_crypto_aead_ctx *aead_ctx,
+typedef void (*ngtcp2_delete_crypto_aead_ctx)(ngtcp2_conn *conn,
+                                              ngtcp2_crypto_aead_ctx *aead_ctx,
                                               void *user_data);
 
 /**
@@ -3060,9 +3091,8 @@ typedef void (*ngtcp2_delete_crypto_aead_ctx)(ngtcp2_conn *conn, ngtcp2_crypto_a
  * :member:`cipher_ctx->native_handle
  * <ngtcp2_crypto_cipher_ctx.native_handle>`.
  */
-typedef void (*ngtcp2_delete_crypto_cipher_ctx)(ngtcp2_conn *conn,
-                                                ngtcp2_crypto_cipher_ctx *cipher_ctx,
-                                                void *user_data);
+typedef void (*ngtcp2_delete_crypto_cipher_ctx)(
+  ngtcp2_conn *conn, ngtcp2_crypto_cipher_ctx *cipher_ctx, void *user_data);
 
 /**
  * @macrosection
@@ -3101,8 +3131,9 @@ typedef void (*ngtcp2_delete_crypto_cipher_ctx)(ngtcp2_conn *conn,
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` which makes the library return
  * immediately.
  */
-typedef int (*ngtcp2_recv_datagram)(ngtcp2_conn *conn, uint32_t flags, const uint8_t *data,
-                                    size_t datalen, void *user_data);
+typedef int (*ngtcp2_recv_datagram)(ngtcp2_conn *conn, uint32_t flags,
+                                    const uint8_t *data, size_t datalen,
+                                    void *user_data);
 
 /**
  * @functypedef
@@ -3115,7 +3146,8 @@ typedef int (*ngtcp2_recv_datagram)(ngtcp2_conn *conn, uint32_t flags, const uin
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` which makes the library return
  * immediately.
  */
-typedef int (*ngtcp2_ack_datagram)(ngtcp2_conn *conn, uint64_t dgram_id, void *user_data);
+typedef int (*ngtcp2_ack_datagram)(ngtcp2_conn *conn, uint64_t dgram_id,
+                                   void *user_data);
 
 /**
  * @functypedef
@@ -3130,7 +3162,8 @@ typedef int (*ngtcp2_ack_datagram)(ngtcp2_conn *conn, uint64_t dgram_id, void *u
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` which makes the library return
  * immediately.
  */
-typedef int (*ngtcp2_lost_datagram)(ngtcp2_conn *conn, uint64_t dgram_id, void *user_data);
+typedef int (*ngtcp2_lost_datagram)(ngtcp2_conn *conn, uint64_t dgram_id,
+                                    void *user_data);
 
 /**
  * @functypedef
@@ -3145,7 +3178,8 @@ typedef int (*ngtcp2_lost_datagram)(ngtcp2_conn *conn, uint64_t dgram_id, void *
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library call return
  * immediately.
  */
-typedef int (*ngtcp2_get_path_challenge_data)(ngtcp2_conn *conn, uint8_t *data, void *user_data);
+typedef int (*ngtcp2_get_path_challenge_data)(ngtcp2_conn *conn, uint8_t *data,
+                                              void *user_data);
 
 /**
  * @functypedef
@@ -3161,7 +3195,8 @@ typedef int (*ngtcp2_get_path_challenge_data)(ngtcp2_conn *conn, uint8_t *data, 
  * immediately.
  */
 typedef int (*ngtcp2_stream_stop_sending)(ngtcp2_conn *conn, int64_t stream_id,
-                                          uint64_t app_error_code, void *user_data,
+                                          uint64_t app_error_code,
+                                          void *user_data,
                                           void *stream_user_data);
 
 /**
@@ -3183,7 +3218,8 @@ typedef int (*ngtcp2_stream_stop_sending)(ngtcp2_conn *conn, int64_t stream_id,
  * immediately.
  */
 typedef int (*ngtcp2_version_negotiation)(ngtcp2_conn *conn, uint32_t version,
-                                          const ngtcp2_cid *client_dcid, void *user_data);
+                                          const ngtcp2_cid *client_dcid,
+                                          void *user_data);
 
 /**
  * @functypedef
@@ -3195,7 +3231,8 @@ typedef int (*ngtcp2_version_negotiation)(ngtcp2_conn *conn, uint32_t version,
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library call return
  * immediately.
  */
-typedef int (*ngtcp2_recv_key)(ngtcp2_conn *conn, ngtcp2_encryption_level level, void *user_data);
+typedef int (*ngtcp2_recv_key)(ngtcp2_conn *conn, ngtcp2_encryption_level level,
+                               void *user_data);
 
 /**
  * @functypedef
@@ -3208,7 +3245,8 @@ typedef int (*ngtcp2_recv_key)(ngtcp2_conn *conn, ngtcp2_encryption_level level,
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE` makes the library call return
  * immediately.
  */
-typedef int (*ngtcp2_tls_early_data_rejected)(ngtcp2_conn *conn, void *user_data);
+typedef int (*ngtcp2_tls_early_data_rejected)(ngtcp2_conn *conn,
+                                              void *user_data);
 
 #define NGTCP2_CALLBACKS_V1 1
 #define NGTCP2_CALLBACKS_VERSION NGTCP2_CALLBACKS_V1
@@ -3219,263 +3257,263 @@ typedef int (*ngtcp2_tls_early_data_rejected)(ngtcp2_conn *conn, void *user_data
  * :type:`ngtcp2_callbacks` holds a set of callback functions.
  */
 typedef struct ngtcp2_callbacks {
-    /**
-     * :member:`client_initial` is a callback function which is invoked
-     * when client asks TLS stack to produce first TLS cryptographic
-     * handshake message.  This callback function must be specified for
-     * a client application.
-     */
-    ngtcp2_client_initial client_initial;
-    /**
-     * :member:`recv_client_initial` is a callback function which is
-     * invoked when a server receives the first Initial packet from
-     * client.  This callback function must be specified for a server
-     * application.
-     */
-    ngtcp2_recv_client_initial recv_client_initial;
-    /**
-     * :member:`recv_crypto_data` is a callback function which is
-     * invoked when cryptographic data (CRYPTO frame, in other words,
-     * TLS message) is received.  This callback function must be
-     * specified.
-     */
-    ngtcp2_recv_crypto_data recv_crypto_data;
-    /**
-     * :member:`handshake_completed` is a callback function which is
-     * invoked when QUIC cryptographic handshake has completed.  This
-     * callback function is optional.
-     */
-    ngtcp2_handshake_completed handshake_completed;
-    /**
-     * :member:`recv_version_negotiation` is a callback function which
-     * is invoked when Version Negotiation packet is received by a
-     * client.  This callback function is optional.
-     */
-    ngtcp2_recv_version_negotiation recv_version_negotiation;
-    /**
-     * :member:`encrypt` is a callback function which is invoked to
-     * encrypt a QUIC packet.  This callback function must be specified.
-     */
-    ngtcp2_encrypt encrypt;
-    /**
-     * :member:`decrypt` is a callback function which is invoked to
-     * decrypt a QUIC packet.  This callback function must be specified.
-     */
-    ngtcp2_decrypt decrypt;
-    /**
-     * :member:`hp_mask` is a callback function which is invoked to get
-     * a mask to encrypt or decrypt QUIC packet header.  This callback
-     * function must be specified.
-     */
-    ngtcp2_hp_mask hp_mask;
-    /**
-     * :member:`recv_stream_data` is a callback function which is
-     * invoked when stream data, which includes application data, is
-     * received.  This callback function is optional.
-     */
-    ngtcp2_recv_stream_data recv_stream_data;
-    /**
-     * :member:`acked_stream_data_offset` is a callback function which
-     * is invoked when stream data, which includes application data, is
-     * acknowledged by a remote endpoint.  It tells an application the
-     * largest offset of acknowledged stream data without a gap so that
-     * application can free memory for the data up to that offset.  This
-     * callback function is optional.
-     */
-    ngtcp2_acked_stream_data_offset acked_stream_data_offset;
-    /**
-     * :member:`stream_open` is a callback function which is invoked
-     * when new remote stream is opened by a remote endpoint.  This
-     * callback function is optional.
-     */
-    ngtcp2_stream_open stream_open;
-    /**
-     * :member:`stream_close` is a callback function which is invoked
-     * when a stream is closed.  This callback function is optional.
-     */
-    ngtcp2_stream_close stream_close;
-    /**
-     * :member:`recv_stateless_reset` is a callback function which is
-     * invoked when Stateless Reset packet is received.  This callback
-     * function is optional.
-     */
-    ngtcp2_recv_stateless_reset recv_stateless_reset;
-    /**
-     * :member:`recv_retry` is a callback function which is invoked when
-     * a client receives Retry packet.  For client, this callback
-     * function must be specified.  Server never receive Retry packet.
-     */
-    ngtcp2_recv_retry recv_retry;
-    /**
-     * :member:`extend_max_local_streams_bidi` is a callback function
-     * which is invoked when the number of bidirectional stream which a
-     * local endpoint can open is increased.  This callback function is
-     * optional.
-     */
-    ngtcp2_extend_max_streams extend_max_local_streams_bidi;
-    /**
-     * :member:`extend_max_local_streams_uni` is a callback function
-     * which is invoked when the number of unidirectional stream which a
-     * local endpoint can open is increased.  This callback function is
-     * optional.
-     */
-    ngtcp2_extend_max_streams extend_max_local_streams_uni;
-    /**
-     * :member:`rand` is a callback function which is invoked when the
-     * library needs random data.  This callback function must be
-     * specified.
-     */
-    ngtcp2_rand rand;
-    /**
-     * :member:`get_new_connection_id` is a callback function which is
-     * invoked when the library needs new connection ID.  This callback
-     * function must be specified.
-     */
-    ngtcp2_get_new_connection_id get_new_connection_id;
-    /**
-     * :member:`remove_connection_id` is a callback function which
-     * notifies an application that connection ID is no longer used by a
-     * remote endpoint.  This callback function is optional.
-     */
-    ngtcp2_remove_connection_id remove_connection_id;
-    /**
-     * :member:`update_key` is a callback function which is invoked when
-     * the library tells an application that it must update keying
-     * materials, and install new keys.  This callback function must be
-     * specified.
-     */
-    ngtcp2_update_key update_key;
-    /**
-     * :member:`path_validation` is a callback function which is invoked
-     * when path validation completed.  This callback function is
-     * optional.
-     */
-    ngtcp2_path_validation path_validation;
-    /**
-     * :member:`select_preferred_addr` is a callback function which is
-     * invoked when the library asks a client to select preferred
-     * address presented by a server.  If not set, client ignores
-     * preferred addresses.  This callback function is optional.
-     */
-    ngtcp2_select_preferred_addr select_preferred_addr;
-    /**
-     * :member:`stream_reset` is a callback function which is invoked
-     * when a stream is reset by a remote endpoint.  This callback
-     * function is optional.
-     */
-    ngtcp2_stream_reset stream_reset;
-    /**
-     * :member:`extend_max_remote_streams_bidi` is a callback function
-     * which is invoked when the number of bidirectional streams which a
-     * remote endpoint can open is increased.  This callback function is
-     * optional.
-     */
-    ngtcp2_extend_max_streams extend_max_remote_streams_bidi;
-    /**
-     * :member:`extend_max_remote_streams_uni` is a callback function
-     * which is invoked when the number of unidirectional streams which
-     * a remote endpoint can open is increased.  This callback function
-     * is optional.
-     */
-    ngtcp2_extend_max_streams extend_max_remote_streams_uni;
-    /**
-     * :member:`extend_max_stream_data` is callback function which is
-     * invoked when the maximum offset of stream data that a local
-     * endpoint can send is increased.  This callback function is
-     * optional.
-     */
-    ngtcp2_extend_max_stream_data extend_max_stream_data;
-    /**
-     * :member:`dcid_status` is a callback function which is invoked
-     * when the new Destination Connection ID is activated, or the
-     * activated Destination Connection ID is now deactivated.  This
-     * callback function is optional.
-     */
-    ngtcp2_connection_id_status dcid_status;
-    /**
-     * :member:`handshake_confirmed` is a callback function which is
-     * invoked when both endpoints agree that handshake has finished.
-     * This field is ignored by server because
-     * :member:`handshake_completed` also indicates the handshake
-     * confirmation for server.  This callback function is optional.
-     */
-    ngtcp2_handshake_confirmed handshake_confirmed;
-    /**
-     * :member:`recv_new_token` is a callback function which is invoked
-     * when new token is received from server.  This field is ignored by
-     * server.  This callback function is optional.
-     */
-    ngtcp2_recv_new_token recv_new_token;
-    /**
-     * :member:`delete_crypto_aead_ctx` is a callback function which
-     * deletes a given AEAD cipher context object.  This callback
-     * function must be specified.
-     */
-    ngtcp2_delete_crypto_aead_ctx delete_crypto_aead_ctx;
-    /**
-     * :member:`delete_crypto_cipher_ctx` is a callback function which
-     * deletes a given cipher context object.  This callback function
-     * must be specified.
-     */
-    ngtcp2_delete_crypto_cipher_ctx delete_crypto_cipher_ctx;
-    /**
-     * :member:`recv_datagram` is a callback function which is invoked
-     * when DATAGRAM frame is received.  This callback function is
-     * optional.
-     */
-    ngtcp2_recv_datagram recv_datagram;
-    /**
-     * :member:`ack_datagram` is a callback function which is invoked
-     * when a QUIC packet containing DATAGRAM frame is acknowledged by a
-     * remote endpoint.  This callback function is optional.
-     */
-    ngtcp2_ack_datagram ack_datagram;
-    /**
-     * :member:`lost_datagram` is a callback function which is invoked
-     * when a QUIC packet containing DATAGRAM frame is declared lost.
-     * This callback function is optional.
-     */
-    ngtcp2_lost_datagram lost_datagram;
-    /**
-     * :member:`get_path_challenge_data` is a callback function which is
-     * invoked when the library needs new data sent along with
-     * PATH_CHALLENGE frame.  This callback must be specified.
-     */
-    ngtcp2_get_path_challenge_data get_path_challenge_data;
-    /**
-     * :member:`stream_stop_sending` is a callback function which is
-     * invoked when a local endpoint no longer reads from a stream
-     * before it receives all stream data.  This callback function is
-     * optional.
-     */
-    ngtcp2_stream_stop_sending stream_stop_sending;
-    /**
-     * :member:`version_negotiation` is a callback function which is
-     * invoked when the compatible version negotiation takes place.
-     * This callback function must be specified.
-     */
-    ngtcp2_version_negotiation version_negotiation;
-    /**
-     * :member:`recv_rx_key` is a callback function which is invoked
-     * when a new key for decrypting packets is installed during QUIC
-     * cryptographic handshake.  It is not called for
-     * :enum:`ngtcp2_encryption_level.NGTCP2_ENCRYPTION_LEVEL_INITIAL`.
-     */
-    ngtcp2_recv_key recv_rx_key;
-    /**
-     * :member:`recv_tx_key` is a callback function which is invoked
-     * when a new key for encrypting packets is installed during QUIC
-     * cryptographic handshake.  It is not called for
-     * :enum:`ngtcp2_encryption_level.NGTCP2_ENCRYPTION_LEVEL_INITIAL`.
-     */
-    ngtcp2_recv_key recv_tx_key;
-    /**
-     * :member:`tls_early_data_rejected` is a callback function which is
-     * invoked when server rejected early data during TLS handshake, or
-     * client decided not to attempt early data.  This callback function
-     * is only used by client.
-     */
-    ngtcp2_tls_early_data_rejected tls_early_data_rejected;
+  /**
+   * :member:`client_initial` is a callback function which is invoked
+   * when client asks TLS stack to produce first TLS cryptographic
+   * handshake message.  This callback function must be specified for
+   * a client application.
+   */
+  ngtcp2_client_initial client_initial;
+  /**
+   * :member:`recv_client_initial` is a callback function which is
+   * invoked when a server receives the first Initial packet from
+   * client.  This callback function must be specified for a server
+   * application.
+   */
+  ngtcp2_recv_client_initial recv_client_initial;
+  /**
+   * :member:`recv_crypto_data` is a callback function which is
+   * invoked when cryptographic data (CRYPTO frame, in other words,
+   * TLS message) is received.  This callback function must be
+   * specified.
+   */
+  ngtcp2_recv_crypto_data recv_crypto_data;
+  /**
+   * :member:`handshake_completed` is a callback function which is
+   * invoked when QUIC cryptographic handshake has completed.  This
+   * callback function is optional.
+   */
+  ngtcp2_handshake_completed handshake_completed;
+  /**
+   * :member:`recv_version_negotiation` is a callback function which
+   * is invoked when Version Negotiation packet is received by a
+   * client.  This callback function is optional.
+   */
+  ngtcp2_recv_version_negotiation recv_version_negotiation;
+  /**
+   * :member:`encrypt` is a callback function which is invoked to
+   * encrypt a QUIC packet.  This callback function must be specified.
+   */
+  ngtcp2_encrypt encrypt;
+  /**
+   * :member:`decrypt` is a callback function which is invoked to
+   * decrypt a QUIC packet.  This callback function must be specified.
+   */
+  ngtcp2_decrypt decrypt;
+  /**
+   * :member:`hp_mask` is a callback function which is invoked to get
+   * a mask to encrypt or decrypt QUIC packet header.  This callback
+   * function must be specified.
+   */
+  ngtcp2_hp_mask hp_mask;
+  /**
+   * :member:`recv_stream_data` is a callback function which is
+   * invoked when stream data, which includes application data, is
+   * received.  This callback function is optional.
+   */
+  ngtcp2_recv_stream_data recv_stream_data;
+  /**
+   * :member:`acked_stream_data_offset` is a callback function which
+   * is invoked when stream data, which includes application data, is
+   * acknowledged by a remote endpoint.  It tells an application the
+   * largest offset of acknowledged stream data without a gap so that
+   * application can free memory for the data up to that offset.  This
+   * callback function is optional.
+   */
+  ngtcp2_acked_stream_data_offset acked_stream_data_offset;
+  /**
+   * :member:`stream_open` is a callback function which is invoked
+   * when new remote stream is opened by a remote endpoint.  This
+   * callback function is optional.
+   */
+  ngtcp2_stream_open stream_open;
+  /**
+   * :member:`stream_close` is a callback function which is invoked
+   * when a stream is closed.  This callback function is optional.
+   */
+  ngtcp2_stream_close stream_close;
+  /**
+   * :member:`recv_stateless_reset` is a callback function which is
+   * invoked when Stateless Reset packet is received.  This callback
+   * function is optional.
+   */
+  ngtcp2_recv_stateless_reset recv_stateless_reset;
+  /**
+   * :member:`recv_retry` is a callback function which is invoked when
+   * a client receives Retry packet.  For client, this callback
+   * function must be specified.  Server never receive Retry packet.
+   */
+  ngtcp2_recv_retry recv_retry;
+  /**
+   * :member:`extend_max_local_streams_bidi` is a callback function
+   * which is invoked when the number of bidirectional stream which a
+   * local endpoint can open is increased.  This callback function is
+   * optional.
+   */
+  ngtcp2_extend_max_streams extend_max_local_streams_bidi;
+  /**
+   * :member:`extend_max_local_streams_uni` is a callback function
+   * which is invoked when the number of unidirectional stream which a
+   * local endpoint can open is increased.  This callback function is
+   * optional.
+   */
+  ngtcp2_extend_max_streams extend_max_local_streams_uni;
+  /**
+   * :member:`rand` is a callback function which is invoked when the
+   * library needs random data.  This callback function must be
+   * specified.
+   */
+  ngtcp2_rand rand;
+  /**
+   * :member:`get_new_connection_id` is a callback function which is
+   * invoked when the library needs new connection ID.  This callback
+   * function must be specified.
+   */
+  ngtcp2_get_new_connection_id get_new_connection_id;
+  /**
+   * :member:`remove_connection_id` is a callback function which
+   * notifies an application that connection ID is no longer used by a
+   * remote endpoint.  This callback function is optional.
+   */
+  ngtcp2_remove_connection_id remove_connection_id;
+  /**
+   * :member:`update_key` is a callback function which is invoked when
+   * the library tells an application that it must update keying
+   * materials, and install new keys.  This callback function must be
+   * specified.
+   */
+  ngtcp2_update_key update_key;
+  /**
+   * :member:`path_validation` is a callback function which is invoked
+   * when path validation completed.  This callback function is
+   * optional.
+   */
+  ngtcp2_path_validation path_validation;
+  /**
+   * :member:`select_preferred_addr` is a callback function which is
+   * invoked when the library asks a client to select preferred
+   * address presented by a server.  If not set, client ignores
+   * preferred addresses.  This callback function is optional.
+   */
+  ngtcp2_select_preferred_addr select_preferred_addr;
+  /**
+   * :member:`stream_reset` is a callback function which is invoked
+   * when a stream is reset by a remote endpoint.  This callback
+   * function is optional.
+   */
+  ngtcp2_stream_reset stream_reset;
+  /**
+   * :member:`extend_max_remote_streams_bidi` is a callback function
+   * which is invoked when the number of bidirectional streams which a
+   * remote endpoint can open is increased.  This callback function is
+   * optional.
+   */
+  ngtcp2_extend_max_streams extend_max_remote_streams_bidi;
+  /**
+   * :member:`extend_max_remote_streams_uni` is a callback function
+   * which is invoked when the number of unidirectional streams which
+   * a remote endpoint can open is increased.  This callback function
+   * is optional.
+   */
+  ngtcp2_extend_max_streams extend_max_remote_streams_uni;
+  /**
+   * :member:`extend_max_stream_data` is callback function which is
+   * invoked when the maximum offset of stream data that a local
+   * endpoint can send is increased.  This callback function is
+   * optional.
+   */
+  ngtcp2_extend_max_stream_data extend_max_stream_data;
+  /**
+   * :member:`dcid_status` is a callback function which is invoked
+   * when the new Destination Connection ID is activated, or the
+   * activated Destination Connection ID is now deactivated.  This
+   * callback function is optional.
+   */
+  ngtcp2_connection_id_status dcid_status;
+  /**
+   * :member:`handshake_confirmed` is a callback function which is
+   * invoked when both endpoints agree that handshake has finished.
+   * This field is ignored by server because
+   * :member:`handshake_completed` also indicates the handshake
+   * confirmation for server.  This callback function is optional.
+   */
+  ngtcp2_handshake_confirmed handshake_confirmed;
+  /**
+   * :member:`recv_new_token` is a callback function which is invoked
+   * when new token is received from server.  This field is ignored by
+   * server.  This callback function is optional.
+   */
+  ngtcp2_recv_new_token recv_new_token;
+  /**
+   * :member:`delete_crypto_aead_ctx` is a callback function which
+   * deletes a given AEAD cipher context object.  This callback
+   * function must be specified.
+   */
+  ngtcp2_delete_crypto_aead_ctx delete_crypto_aead_ctx;
+  /**
+   * :member:`delete_crypto_cipher_ctx` is a callback function which
+   * deletes a given cipher context object.  This callback function
+   * must be specified.
+   */
+  ngtcp2_delete_crypto_cipher_ctx delete_crypto_cipher_ctx;
+  /**
+   * :member:`recv_datagram` is a callback function which is invoked
+   * when DATAGRAM frame is received.  This callback function is
+   * optional.
+   */
+  ngtcp2_recv_datagram recv_datagram;
+  /**
+   * :member:`ack_datagram` is a callback function which is invoked
+   * when a QUIC packet containing DATAGRAM frame is acknowledged by a
+   * remote endpoint.  This callback function is optional.
+   */
+  ngtcp2_ack_datagram ack_datagram;
+  /**
+   * :member:`lost_datagram` is a callback function which is invoked
+   * when a QUIC packet containing DATAGRAM frame is declared lost.
+   * This callback function is optional.
+   */
+  ngtcp2_lost_datagram lost_datagram;
+  /**
+   * :member:`get_path_challenge_data` is a callback function which is
+   * invoked when the library needs new data sent along with
+   * PATH_CHALLENGE frame.  This callback must be specified.
+   */
+  ngtcp2_get_path_challenge_data get_path_challenge_data;
+  /**
+   * :member:`stream_stop_sending` is a callback function which is
+   * invoked when a local endpoint no longer reads from a stream
+   * before it receives all stream data.  This callback function is
+   * optional.
+   */
+  ngtcp2_stream_stop_sending stream_stop_sending;
+  /**
+   * :member:`version_negotiation` is a callback function which is
+   * invoked when the compatible version negotiation takes place.
+   * This callback function must be specified.
+   */
+  ngtcp2_version_negotiation version_negotiation;
+  /**
+   * :member:`recv_rx_key` is a callback function which is invoked
+   * when a new key for decrypting packets is installed during QUIC
+   * cryptographic handshake.  It is not called for
+   * :enum:`ngtcp2_encryption_level.NGTCP2_ENCRYPTION_LEVEL_INITIAL`.
+   */
+  ngtcp2_recv_key recv_rx_key;
+  /**
+   * :member:`recv_tx_key` is a callback function which is invoked
+   * when a new key for encrypting packets is installed during QUIC
+   * cryptographic handshake.  It is not called for
+   * :enum:`ngtcp2_encryption_level.NGTCP2_ENCRYPTION_LEVEL_INITIAL`.
+   */
+  ngtcp2_recv_key recv_tx_key;
+  /**
+   * :member:`tls_early_data_rejected` is a callback function which is
+   * invoked when server rejected early data during TLS handshake, or
+   * client decided not to attempt early data.  This callback function
+   * is only used by client.
+   */
+  ngtcp2_tls_early_data_rejected tls_early_data_rejected;
 } ngtcp2_callbacks;
 
 /**
@@ -3500,10 +3538,12 @@ typedef struct ngtcp2_callbacks {
  *     Callback function failed.
  */
 NGTCP2_EXTERN ngtcp2_ssize ngtcp2_pkt_write_connection_close(
-    uint8_t *dest, size_t destlen, uint32_t version, const ngtcp2_cid *dcid, const ngtcp2_cid *scid,
-    uint64_t error_code, const uint8_t *reason, size_t reasonlen, ngtcp2_encrypt encrypt,
-    const ngtcp2_crypto_aead *aead, const ngtcp2_crypto_aead_ctx *aead_ctx, const uint8_t *iv,
-    ngtcp2_hp_mask hp_mask, const ngtcp2_crypto_cipher *hp, const ngtcp2_crypto_cipher_ctx *hp_ctx);
+  uint8_t *dest, size_t destlen, uint32_t version, const ngtcp2_cid *dcid,
+  const ngtcp2_cid *scid, uint64_t error_code, const uint8_t *reason,
+  size_t reasonlen, ngtcp2_encrypt encrypt, const ngtcp2_crypto_aead *aead,
+  const ngtcp2_crypto_aead_ctx *aead_ctx, const uint8_t *iv,
+  ngtcp2_hp_mask hp_mask, const ngtcp2_crypto_cipher *hp,
+  const ngtcp2_crypto_cipher_ctx *hp_ctx);
 
 /**
  * @function
@@ -3529,12 +3569,11 @@ NGTCP2_EXTERN ngtcp2_ssize ngtcp2_pkt_write_connection_close(
  *     :member:`odcid->datalen <ngtcp2_cid.datalen>` is less than
  *     :macro:`NGTCP2_MIN_INITIAL_DCIDLEN`.
  */
-NGTCP2_EXTERN ngtcp2_ssize ngtcp2_pkt_write_retry(uint8_t *dest, size_t destlen, uint32_t version,
-                                                  const ngtcp2_cid *dcid, const ngtcp2_cid *scid,
-                                                  const ngtcp2_cid *odcid, const uint8_t *token,
-                                                  size_t tokenlen, ngtcp2_encrypt encrypt,
-                                                  const ngtcp2_crypto_aead *aead,
-                                                  const ngtcp2_crypto_aead_ctx *aead_ctx);
+NGTCP2_EXTERN ngtcp2_ssize ngtcp2_pkt_write_retry(
+  uint8_t *dest, size_t destlen, uint32_t version, const ngtcp2_cid *dcid,
+  const ngtcp2_cid *scid, const ngtcp2_cid *odcid, const uint8_t *token,
+  size_t tokenlen, ngtcp2_encrypt encrypt, const ngtcp2_crypto_aead *aead,
+  const ngtcp2_crypto_aead_ctx *aead_ctx);
 
 /**
  * @function
@@ -3553,7 +3592,8 @@ NGTCP2_EXTERN ngtcp2_ssize ngtcp2_pkt_write_retry(uint8_t *dest, size_t destlen,
  *     The packet is not acceptable for the very first packet to a new
  *     connection; or the function failed to parse the packet header.
  */
-NGTCP2_EXTERN int ngtcp2_accept(ngtcp2_pkt_hd *dest, const uint8_t *pkt, size_t pktlen);
+NGTCP2_EXTERN int ngtcp2_accept(ngtcp2_pkt_hd *dest, const uint8_t *pkt,
+                                size_t pktlen);
 
 /**
  * @function
@@ -3582,10 +3622,12 @@ NGTCP2_EXTERN int ngtcp2_accept(ngtcp2_pkt_hd *dest, const uint8_t *pkt, size_t 
  *     Out of memory.
  */
 NGTCP2_EXTERN int ngtcp2_conn_client_new_versioned(
-    ngtcp2_conn **pconn, const ngtcp2_cid *dcid, const ngtcp2_cid *scid, const ngtcp2_path *path,
-    uint32_t client_chosen_version, int callbacks_version, const ngtcp2_callbacks *callbacks,
-    int settings_version, const ngtcp2_settings *settings, int transport_params_version,
-    const ngtcp2_transport_params *params, const ngtcp2_mem *mem, void *user_data);
+  ngtcp2_conn **pconn, const ngtcp2_cid *dcid, const ngtcp2_cid *scid,
+  const ngtcp2_path *path, uint32_t client_chosen_version,
+  int callbacks_version, const ngtcp2_callbacks *callbacks,
+  int settings_version, const ngtcp2_settings *settings,
+  int transport_params_version, const ngtcp2_transport_params *params,
+  const ngtcp2_mem *mem, void *user_data);
 
 /**
  * @function
@@ -3615,10 +3657,12 @@ NGTCP2_EXTERN int ngtcp2_conn_client_new_versioned(
  *     Out of memory.
  */
 NGTCP2_EXTERN int ngtcp2_conn_server_new_versioned(
-    ngtcp2_conn **pconn, const ngtcp2_cid *dcid, const ngtcp2_cid *scid, const ngtcp2_path *path,
-    uint32_t client_chosen_version, int callbacks_version, const ngtcp2_callbacks *callbacks,
-    int settings_version, const ngtcp2_settings *settings, int transport_params_version,
-    const ngtcp2_transport_params *params, const ngtcp2_mem *mem, void *user_data);
+  ngtcp2_conn **pconn, const ngtcp2_cid *dcid, const ngtcp2_cid *scid,
+  const ngtcp2_path *path, uint32_t client_chosen_version,
+  int callbacks_version, const ngtcp2_callbacks *callbacks,
+  int settings_version, const ngtcp2_settings *settings,
+  int transport_params_version, const ngtcp2_transport_params *params,
+  const ngtcp2_mem *mem, void *user_data);
 
 /**
  * @function
@@ -3668,10 +3712,11 @@ NGTCP2_EXTERN void ngtcp2_conn_del(ngtcp2_conn *conn);
  * `ngtcp2_conn_write_connection_close` to get terminal packet, and
  * sending it makes QUIC connection enter the closing state.
  */
-NGTCP2_EXTERN int ngtcp2_conn_read_pkt_versioned(ngtcp2_conn *conn, const ngtcp2_path *path,
-                                                 int pkt_info_version, const ngtcp2_pkt_info *pi,
-                                                 const uint8_t *pkt, size_t pktlen,
-                                                 ngtcp2_tstamp ts);
+NGTCP2_EXTERN int
+ngtcp2_conn_read_pkt_versioned(ngtcp2_conn *conn, const ngtcp2_path *path,
+                               int pkt_info_version, const ngtcp2_pkt_info *pi,
+                               const uint8_t *pkt, size_t pktlen,
+                               ngtcp2_tstamp ts);
 
 /**
  * @function
@@ -3680,10 +3725,9 @@ NGTCP2_EXTERN int ngtcp2_conn_read_pkt_versioned(ngtcp2_conn *conn, const ngtcp2
  * `ngtcp2_conn_writev_stream` with -1 as |stream_id|, no stream data,
  * and :macro:`NGTCP2_WRITE_STREAM_FLAG_NONE` as flags.
  */
-NGTCP2_EXTERN ngtcp2_ssize ngtcp2_conn_write_pkt_versioned(ngtcp2_conn *conn, ngtcp2_path *path,
-                                                           int pkt_info_version,
-                                                           ngtcp2_pkt_info *pi, uint8_t *dest,
-                                                           size_t destlen, ngtcp2_tstamp ts);
+NGTCP2_EXTERN ngtcp2_ssize ngtcp2_conn_write_pkt_versioned(
+  ngtcp2_conn *conn, ngtcp2_path *path, int pkt_info_version,
+  ngtcp2_pkt_info *pi, uint8_t *dest, size_t destlen, ngtcp2_tstamp ts);
 
 /**
  * @function
@@ -3739,9 +3783,10 @@ NGTCP2_EXTERN int ngtcp2_conn_get_handshake_completed(ngtcp2_conn *conn);
  *     Out of memory.
  */
 NGTCP2_EXTERN int ngtcp2_conn_install_initial_key(
-    ngtcp2_conn *conn, const ngtcp2_crypto_aead_ctx *rx_aead_ctx, const uint8_t *rx_iv,
-    const ngtcp2_crypto_cipher_ctx *rx_hp_ctx, const ngtcp2_crypto_aead_ctx *tx_aead_ctx,
-    const uint8_t *tx_iv, const ngtcp2_crypto_cipher_ctx *tx_hp_ctx, size_t ivlen);
+  ngtcp2_conn *conn, const ngtcp2_crypto_aead_ctx *rx_aead_ctx,
+  const uint8_t *rx_iv, const ngtcp2_crypto_cipher_ctx *rx_hp_ctx,
+  const ngtcp2_crypto_aead_ctx *tx_aead_ctx, const uint8_t *tx_iv,
+  const ngtcp2_crypto_cipher_ctx *tx_hp_ctx, size_t ivlen);
 
 /**
  * @function
@@ -3773,10 +3818,11 @@ NGTCP2_EXTERN int ngtcp2_conn_install_initial_key(
  *     Out of memory.
  */
 NGTCP2_EXTERN int ngtcp2_conn_install_vneg_initial_key(
-    ngtcp2_conn *conn, uint32_t version, const ngtcp2_crypto_aead_ctx *rx_aead_ctx,
-    const uint8_t *rx_iv, const ngtcp2_crypto_cipher_ctx *rx_hp_ctx,
-    const ngtcp2_crypto_aead_ctx *tx_aead_ctx, const uint8_t *tx_iv,
-    const ngtcp2_crypto_cipher_ctx *tx_hp_ctx, size_t ivlen);
+  ngtcp2_conn *conn, uint32_t version,
+  const ngtcp2_crypto_aead_ctx *rx_aead_ctx, const uint8_t *rx_iv,
+  const ngtcp2_crypto_cipher_ctx *rx_hp_ctx,
+  const ngtcp2_crypto_aead_ctx *tx_aead_ctx, const uint8_t *tx_iv,
+  const ngtcp2_crypto_cipher_ctx *tx_hp_ctx, size_t ivlen);
 
 /**
  * @function
@@ -3802,10 +3848,9 @@ NGTCP2_EXTERN int ngtcp2_conn_install_vneg_initial_key(
  * :macro:`NGTCP2_ERR_NOMEM`
  *     Out of memory.
  */
-NGTCP2_EXTERN int ngtcp2_conn_install_rx_handshake_key(ngtcp2_conn *conn,
-                                                       const ngtcp2_crypto_aead_ctx *aead_ctx,
-                                                       const uint8_t *iv, size_t ivlen,
-                                                       const ngtcp2_crypto_cipher_ctx *hp_ctx);
+NGTCP2_EXTERN int ngtcp2_conn_install_rx_handshake_key(
+  ngtcp2_conn *conn, const ngtcp2_crypto_aead_ctx *aead_ctx, const uint8_t *iv,
+  size_t ivlen, const ngtcp2_crypto_cipher_ctx *hp_ctx);
 
 /**
  * @function
@@ -3831,10 +3876,9 @@ NGTCP2_EXTERN int ngtcp2_conn_install_rx_handshake_key(ngtcp2_conn *conn,
  * :macro:`NGTCP2_ERR_NOMEM`
  *     Out of memory.
  */
-NGTCP2_EXTERN int ngtcp2_conn_install_tx_handshake_key(ngtcp2_conn *conn,
-                                                       const ngtcp2_crypto_aead_ctx *aead_ctx,
-                                                       const uint8_t *iv, size_t ivlen,
-                                                       const ngtcp2_crypto_cipher_ctx *hp_ctx);
+NGTCP2_EXTERN int ngtcp2_conn_install_tx_handshake_key(
+  ngtcp2_conn *conn, const ngtcp2_crypto_aead_ctx *aead_ctx, const uint8_t *iv,
+  size_t ivlen, const ngtcp2_crypto_cipher_ctx *hp_ctx);
 
 /**
  * @function
@@ -3859,10 +3903,9 @@ NGTCP2_EXTERN int ngtcp2_conn_install_tx_handshake_key(ngtcp2_conn *conn,
  * :macro:`NGTCP2_ERR_NOMEM`
  *     Out of memory.
  */
-NGTCP2_EXTERN int ngtcp2_conn_install_0rtt_key(ngtcp2_conn *conn,
-                                               const ngtcp2_crypto_aead_ctx *aead_ctx,
-                                               const uint8_t *iv, size_t ivlen,
-                                               const ngtcp2_crypto_cipher_ctx *hp_ctx);
+NGTCP2_EXTERN int ngtcp2_conn_install_0rtt_key(
+  ngtcp2_conn *conn, const ngtcp2_crypto_aead_ctx *aead_ctx, const uint8_t *iv,
+  size_t ivlen, const ngtcp2_crypto_cipher_ctx *hp_ctx);
 
 /**
  * @function
@@ -3890,11 +3933,10 @@ NGTCP2_EXTERN int ngtcp2_conn_install_0rtt_key(ngtcp2_conn *conn,
  * :macro:`NGTCP2_ERR_NOMEM`
  *     Out of memory.
  */
-NGTCP2_EXTERN int ngtcp2_conn_install_rx_key(ngtcp2_conn *conn, const uint8_t *secret,
-                                             size_t secretlen,
-                                             const ngtcp2_crypto_aead_ctx *aead_ctx,
-                                             const uint8_t *iv, size_t ivlen,
-                                             const ngtcp2_crypto_cipher_ctx *hp_ctx);
+NGTCP2_EXTERN int ngtcp2_conn_install_rx_key(
+  ngtcp2_conn *conn, const uint8_t *secret, size_t secretlen,
+  const ngtcp2_crypto_aead_ctx *aead_ctx, const uint8_t *iv, size_t ivlen,
+  const ngtcp2_crypto_cipher_ctx *hp_ctx);
 
 /**
  * @function
@@ -3922,11 +3964,10 @@ NGTCP2_EXTERN int ngtcp2_conn_install_rx_key(ngtcp2_conn *conn, const uint8_t *s
  * :macro:`NGTCP2_ERR_NOMEM`
  *     Out of memory.
  */
-NGTCP2_EXTERN int ngtcp2_conn_install_tx_key(ngtcp2_conn *conn, const uint8_t *secret,
-                                             size_t secretlen,
-                                             const ngtcp2_crypto_aead_ctx *aead_ctx,
-                                             const uint8_t *iv, size_t ivlen,
-                                             const ngtcp2_crypto_cipher_ctx *hp_ctx);
+NGTCP2_EXTERN int ngtcp2_conn_install_tx_key(
+  ngtcp2_conn *conn, const uint8_t *secret, size_t secretlen,
+  const ngtcp2_crypto_aead_ctx *aead_ctx, const uint8_t *iv, size_t ivlen,
+  const ngtcp2_crypto_cipher_ctx *hp_ctx);
 
 /**
  * @function
@@ -3940,7 +3981,8 @@ NGTCP2_EXTERN int ngtcp2_conn_install_tx_key(ngtcp2_conn *conn, const uint8_t *s
  *     The previous key update has not been confirmed yet; or key
  *     update is too frequent; or new keys are not available yet.
  */
-NGTCP2_EXTERN int ngtcp2_conn_initiate_key_update(ngtcp2_conn *conn, ngtcp2_tstamp ts);
+NGTCP2_EXTERN int ngtcp2_conn_initiate_key_update(ngtcp2_conn *conn,
+                                                  ngtcp2_tstamp ts);
 
 /**
  * @function
@@ -3997,7 +4039,8 @@ NGTCP2_EXTERN uint8_t ngtcp2_conn_get_tls_alert(ngtcp2_conn *conn);
  * default.  Specifying 0 in |timeout| is reserved for a future
  * extension, and for now it is treated as if UINT64_MAX is given.
  */
-NGTCP2_EXTERN void ngtcp2_conn_set_keep_alive_timeout(ngtcp2_conn *conn, ngtcp2_duration timeout);
+NGTCP2_EXTERN void ngtcp2_conn_set_keep_alive_timeout(ngtcp2_conn *conn,
+                                                      ngtcp2_duration timeout);
 
 /**
  * @function
@@ -4016,7 +4059,8 @@ NGTCP2_EXTERN ngtcp2_tstamp ngtcp2_conn_get_expiry(ngtcp2_conn *conn);
  *
  * `ngtcp2_conn_handle_expiry` handles expired timer.
  */
-NGTCP2_EXTERN int ngtcp2_conn_handle_expiry(ngtcp2_conn *conn, ngtcp2_tstamp ts);
+NGTCP2_EXTERN int ngtcp2_conn_handle_expiry(ngtcp2_conn *conn,
+                                            ngtcp2_tstamp ts);
 
 /**
  * @function
@@ -4046,9 +4090,8 @@ NGTCP2_EXTERN ngtcp2_duration ngtcp2_conn_get_pto(ngtcp2_conn *conn);
  * :macro:`NGTCP2_ERR_CALLBACK_FAILURE`
  *     User callback failed
  */
-NGTCP2_EXTERN int ngtcp2_conn_decode_and_set_remote_transport_params(ngtcp2_conn *conn,
-                                                                     const uint8_t *data,
-                                                                     size_t datalen);
+NGTCP2_EXTERN int ngtcp2_conn_decode_and_set_remote_transport_params(
+  ngtcp2_conn *conn, const uint8_t *data, size_t datalen);
 
 /**
  * @function
@@ -4057,8 +4100,8 @@ NGTCP2_EXTERN int ngtcp2_conn_decode_and_set_remote_transport_params(ngtcp2_conn
  * remote QUIC transport parameters.  If no remote transport
  * parameters are set, it returns NULL.
  */
-NGTCP2_EXTERN const ngtcp2_transport_params *ngtcp2_conn_get_remote_transport_params(
-    ngtcp2_conn *conn);
+NGTCP2_EXTERN const ngtcp2_transport_params *
+ngtcp2_conn_get_remote_transport_params(ngtcp2_conn *conn);
 
 /**
  * @function
@@ -4096,7 +4139,8 @@ NGTCP2_EXTERN const ngtcp2_transport_params *ngtcp2_conn_get_remote_transport_pa
  *     Buffer is too small.
  */
 NGTCP2_EXTERN
-ngtcp2_ssize ngtcp2_conn_encode_0rtt_transport_params(ngtcp2_conn *conn, uint8_t *dest,
+ngtcp2_ssize ngtcp2_conn_encode_0rtt_transport_params(ngtcp2_conn *conn,
+                                                      uint8_t *dest,
                                                       size_t destlen);
 
 /**
@@ -4131,9 +4175,8 @@ ngtcp2_ssize ngtcp2_conn_encode_0rtt_transport_params(ngtcp2_conn *conn, uint8_t
  * :macro:`NGTCP2_ERR_MALFORMED_TRANSPORT_PARAM`
  *     The input is malformed.
  */
-NGTCP2_EXTERN int ngtcp2_conn_decode_and_set_0rtt_transport_params(ngtcp2_conn *conn,
-                                                                   const uint8_t *data,
-                                                                   size_t datalen);
+NGTCP2_EXTERN int ngtcp2_conn_decode_and_set_0rtt_transport_params(
+  ngtcp2_conn *conn, const uint8_t *data, size_t datalen);
 
 /**
  * @function
@@ -4153,7 +4196,8 @@ NGTCP2_EXTERN int ngtcp2_conn_decode_and_set_0rtt_transport_params(ngtcp2_conn *
  *     `ngtcp2_conn_install_tx_handshake_key` has been called.
  */
 NGTCP2_EXTERN int ngtcp2_conn_set_local_transport_params_versioned(
-    ngtcp2_conn *conn, int transport_params_version, const ngtcp2_transport_params *params);
+  ngtcp2_conn *conn, int transport_params_version,
+  const ngtcp2_transport_params *params);
 
 /**
  * @function
@@ -4161,8 +4205,8 @@ NGTCP2_EXTERN int ngtcp2_conn_set_local_transport_params_versioned(
  * `ngtcp2_conn_get_local_transport_params` returns a pointer to the
  * local QUIC transport parameters.
  */
-NGTCP2_EXTERN const ngtcp2_transport_params *ngtcp2_conn_get_local_transport_params(
-    ngtcp2_conn *conn);
+NGTCP2_EXTERN const ngtcp2_transport_params *
+ngtcp2_conn_get_local_transport_params(ngtcp2_conn *conn);
 
 /**
  * @function
@@ -4176,8 +4220,8 @@ NGTCP2_EXTERN const ngtcp2_transport_params *ngtcp2_conn_get_local_transport_par
  * :macro:`NGTCP2_ERR_NOBUF`
  *     Buffer is too small.
  */
-NGTCP2_EXTERN ngtcp2_ssize ngtcp2_conn_encode_local_transport_params(ngtcp2_conn *conn,
-                                                                     uint8_t *dest, size_t destlen);
+NGTCP2_EXTERN ngtcp2_ssize ngtcp2_conn_encode_local_transport_params(
+  ngtcp2_conn *conn, uint8_t *dest, size_t destlen);
 
 /**
  * @function
@@ -4203,7 +4247,8 @@ NGTCP2_EXTERN ngtcp2_ssize ngtcp2_conn_encode_local_transport_params(ngtcp2_conn
  * :macro:`NGTCP2_ERR_STREAM_ID_BLOCKED`
  *     The remote endpoint does not allow |stream_id| yet.
  */
-NGTCP2_EXTERN int ngtcp2_conn_open_bidi_stream(ngtcp2_conn *conn, int64_t *pstream_id,
+NGTCP2_EXTERN int ngtcp2_conn_open_bidi_stream(ngtcp2_conn *conn,
+                                               int64_t *pstream_id,
                                                void *stream_user_data);
 
 /**
@@ -4230,7 +4275,8 @@ NGTCP2_EXTERN int ngtcp2_conn_open_bidi_stream(ngtcp2_conn *conn, int64_t *pstre
  * :macro:`NGTCP2_ERR_STREAM_ID_BLOCKED`
  *     The remote endpoint does not allow |stream_id| yet.
  */
-NGTCP2_EXTERN int ngtcp2_conn_open_uni_stream(ngtcp2_conn *conn, int64_t *pstream_id,
+NGTCP2_EXTERN int ngtcp2_conn_open_uni_stream(ngtcp2_conn *conn,
+                                              int64_t *pstream_id,
                                               void *stream_user_data);
 
 /**
@@ -4260,7 +4306,8 @@ NGTCP2_EXTERN int ngtcp2_conn_open_uni_stream(ngtcp2_conn *conn, int64_t *pstrea
  * :macro:`NGTCP2_ERR_NOMEM`
  *     Out of memory
  */
-NGTCP2_EXTERN int ngtcp2_conn_shutdown_stream(ngtcp2_conn *conn, uint32_t flags, int64_t stream_id,
+NGTCP2_EXTERN int ngtcp2_conn_shutdown_stream(ngtcp2_conn *conn, uint32_t flags,
+                                              int64_t stream_id,
                                               uint64_t app_error_code);
 
 /**
@@ -4286,8 +4333,10 @@ NGTCP2_EXTERN int ngtcp2_conn_shutdown_stream(ngtcp2_conn *conn, uint32_t flags,
  * :macro:`NGTCP2_ERR_INVALID_ARGUMENT`
  *     |stream_id| refers to a remote unidirectional stream.
  */
-NGTCP2_EXTERN int ngtcp2_conn_shutdown_stream_write(ngtcp2_conn *conn, uint32_t flags,
-                                                    int64_t stream_id, uint64_t app_error_code);
+NGTCP2_EXTERN int ngtcp2_conn_shutdown_stream_write(ngtcp2_conn *conn,
+                                                    uint32_t flags,
+                                                    int64_t stream_id,
+                                                    uint64_t app_error_code);
 
 /**
  * @function
@@ -4311,8 +4360,10 @@ NGTCP2_EXTERN int ngtcp2_conn_shutdown_stream_write(ngtcp2_conn *conn, uint32_t 
  * :macro:`NGTCP2_ERR_INVALID_ARGUMENT`
  *     |stream_id| refers to a local unidirectional stream.
  */
-NGTCP2_EXTERN int ngtcp2_conn_shutdown_stream_read(ngtcp2_conn *conn, uint32_t flags,
-                                                   int64_t stream_id, uint64_t app_error_code);
+NGTCP2_EXTERN int ngtcp2_conn_shutdown_stream_read(ngtcp2_conn *conn,
+                                                   uint32_t flags,
+                                                   int64_t stream_id,
+                                                   uint64_t app_error_code);
 
 /**
  * @macrosection
@@ -4351,9 +4402,10 @@ NGTCP2_EXTERN int ngtcp2_conn_shutdown_stream_read(ngtcp2_conn *conn, uint32_t f
  * conveniently accepts a single buffer.
  */
 NGTCP2_EXTERN ngtcp2_ssize ngtcp2_conn_write_stream_versioned(
-    ngtcp2_conn *conn, ngtcp2_path *path, int pkt_info_version, ngtcp2_pkt_info *pi, uint8_t *dest,
-    size_t destlen, ngtcp2_ssize *pdatalen, uint32_t flags, int64_t stream_id, const uint8_t *data,
-    size_t datalen, ngtcp2_tstamp ts);
+  ngtcp2_conn *conn, ngtcp2_path *path, int pkt_info_version,
+  ngtcp2_pkt_info *pi, uint8_t *dest, size_t destlen, ngtcp2_ssize *pdatalen,
+  uint32_t flags, int64_t stream_id, const uint8_t *data, size_t datalen,
+  ngtcp2_tstamp ts);
 
 /**
  * @function
@@ -4504,9 +4556,10 @@ NGTCP2_EXTERN ngtcp2_ssize ngtcp2_conn_write_stream_versioned(
  * sending it makes QUIC connection enter the closing state.
  */
 NGTCP2_EXTERN ngtcp2_ssize ngtcp2_conn_writev_stream_versioned(
-    ngtcp2_conn *conn, ngtcp2_path *path, int pkt_info_version, ngtcp2_pkt_info *pi, uint8_t *dest,
-    size_t destlen, ngtcp2_ssize *pdatalen, uint32_t flags, int64_t stream_id,
-    const ngtcp2_vec *datav, size_t datavcnt, ngtcp2_tstamp ts);
+  ngtcp2_conn *conn, ngtcp2_path *path, int pkt_info_version,
+  ngtcp2_pkt_info *pi, uint8_t *dest, size_t destlen, ngtcp2_ssize *pdatalen,
+  uint32_t flags, int64_t stream_id, const ngtcp2_vec *datav, size_t datavcnt,
+  ngtcp2_tstamp ts);
 
 /**
  * @macrosection
@@ -4537,9 +4590,10 @@ NGTCP2_EXTERN ngtcp2_ssize ngtcp2_conn_writev_stream_versioned(
  * conveniently accepts a single buffer.
  */
 NGTCP2_EXTERN ngtcp2_ssize ngtcp2_conn_write_datagram_versioned(
-    ngtcp2_conn *conn, ngtcp2_path *path, int pkt_info_version, ngtcp2_pkt_info *pi, uint8_t *dest,
-    size_t destlen, int *paccepted, uint32_t flags, uint64_t dgram_id, const uint8_t *data,
-    size_t datalen, ngtcp2_tstamp ts);
+  ngtcp2_conn *conn, ngtcp2_path *path, int pkt_info_version,
+  ngtcp2_pkt_info *pi, uint8_t *dest, size_t destlen, int *paccepted,
+  uint32_t flags, uint64_t dgram_id, const uint8_t *data, size_t datalen,
+  ngtcp2_tstamp ts);
 
 /**
  * @function
@@ -4633,9 +4687,10 @@ NGTCP2_EXTERN ngtcp2_ssize ngtcp2_conn_write_datagram_versioned(
  * sending it makes QUIC connection enter the closing state.
  */
 NGTCP2_EXTERN ngtcp2_ssize ngtcp2_conn_writev_datagram_versioned(
-    ngtcp2_conn *conn, ngtcp2_path *path, int pkt_info_version, ngtcp2_pkt_info *pi, uint8_t *dest,
-    size_t destlen, int *paccepted, uint32_t flags, uint64_t dgram_id, const ngtcp2_vec *datav,
-    size_t datavcnt, ngtcp2_tstamp ts);
+  ngtcp2_conn *conn, ngtcp2_path *path, int pkt_info_version,
+  ngtcp2_pkt_info *pi, uint8_t *dest, size_t destlen, int *paccepted,
+  uint32_t flags, uint64_t dgram_id, const ngtcp2_vec *datav, size_t datavcnt,
+  ngtcp2_tstamp ts);
 
 /**
  * @function
@@ -4672,7 +4727,8 @@ NGTCP2_EXTERN int ngtcp2_conn_in_draining_period(ngtcp2_conn *conn);
  * :macro:`NGTCP2_ERR_INVALID_ARGUMENT`
  *     |stream_id| refers to a local unidirectional stream.
  */
-NGTCP2_EXTERN int ngtcp2_conn_extend_max_stream_offset(ngtcp2_conn *conn, int64_t stream_id,
+NGTCP2_EXTERN int ngtcp2_conn_extend_max_stream_offset(ngtcp2_conn *conn,
+                                                       int64_t stream_id,
                                                        uint64_t datalen);
 
 /**
@@ -4682,7 +4738,8 @@ NGTCP2_EXTERN int ngtcp2_conn_extend_max_stream_offset(ngtcp2_conn *conn, int64_
  * |datalen|.  This function only extends connection-level flow
  * control window.
  */
-NGTCP2_EXTERN void ngtcp2_conn_extend_max_offset(ngtcp2_conn *conn, uint64_t datalen);
+NGTCP2_EXTERN void ngtcp2_conn_extend_max_offset(ngtcp2_conn *conn,
+                                                 uint64_t datalen);
 
 /**
  * @function
@@ -4696,7 +4753,8 @@ NGTCP2_EXTERN void ngtcp2_conn_extend_max_offset(ngtcp2_conn *conn, uint64_t dat
  * :member:`ngtcp2_callbacks.stream_open` callback being called.  In
  * this case, stream limit is increased automatically.
  */
-NGTCP2_EXTERN void ngtcp2_conn_extend_max_streams_bidi(ngtcp2_conn *conn, size_t n);
+NGTCP2_EXTERN void ngtcp2_conn_extend_max_streams_bidi(ngtcp2_conn *conn,
+                                                       size_t n);
 
 /**
  * @function
@@ -4710,7 +4768,8 @@ NGTCP2_EXTERN void ngtcp2_conn_extend_max_streams_bidi(ngtcp2_conn *conn, size_t
  * :member:`ngtcp2_callbacks.stream_open` callback being called.  In
  * this case, stream limit is increased automatically.
  */
-NGTCP2_EXTERN void ngtcp2_conn_extend_max_streams_uni(ngtcp2_conn *conn, size_t n);
+NGTCP2_EXTERN void ngtcp2_conn_extend_max_streams_uni(ngtcp2_conn *conn,
+                                                      size_t n);
 
 /**
  * @function
@@ -4731,7 +4790,8 @@ NGTCP2_EXTERN const ngtcp2_cid *ngtcp2_conn_get_dcid(ngtcp2_conn *conn);
  * return value is not ``NULL``, and its :member:`datalen
  * <ngtcp2_cid.datalen>` field is 0.
  */
-NGTCP2_EXTERN const ngtcp2_cid *ngtcp2_conn_get_client_initial_dcid(ngtcp2_conn *conn);
+NGTCP2_EXTERN const ngtcp2_cid *
+ngtcp2_conn_get_client_initial_dcid(ngtcp2_conn *conn);
 
 /**
  * @function
@@ -4754,29 +4814,29 @@ NGTCP2_EXTERN size_t ngtcp2_conn_get_scid(ngtcp2_conn *conn, ngtcp2_cid *dest);
  * Connection ID, its associated path, and stateless reset token.
  */
 typedef struct ngtcp2_cid_token {
-    /**
-     * :member:`seq` is the sequence number of this Connection ID.
-     */
-    uint64_t seq;
-    /**
-     * :member:`cid` is Connection ID.
-     */
-    ngtcp2_cid cid;
-    /**
-     * :member:`ps` is the path which this Connection ID is associated
-     * with.
-     */
-    ngtcp2_path_storage ps;
-    /**
-     * :member:`token` is the stateless reset token for this Connection
-     * ID.
-     */
-    uint8_t token[NGTCP2_STATELESS_RESET_TOKENLEN];
-    /**
-     * :member:`token_present` is nonzero if token contains stateless
-     * reset token.
-     */
-    uint8_t token_present;
+  /**
+   * :member:`seq` is the sequence number of this Connection ID.
+   */
+  uint64_t seq;
+  /**
+   * :member:`cid` is Connection ID.
+   */
+  ngtcp2_cid cid;
+  /**
+   * :member:`ps` is the path which this Connection ID is associated
+   * with.
+   */
+  ngtcp2_path_storage ps;
+  /**
+   * :member:`token` is the stateless reset token for this Connection
+   * ID.
+   */
+  uint8_t token[NGTCP2_STATELESS_RESET_TOKENLEN];
+  /**
+   * :member:`token_present` is nonzero if token contains stateless
+   * reset token.
+   */
+  uint8_t token_present;
 } ngtcp2_cid_token;
 
 /**
@@ -4792,7 +4852,8 @@ typedef struct ngtcp2_cid_token {
  * the return value of `ngtcp2_conn_get_active_dcid` with |dest| ==
  * NULL.
  */
-NGTCP2_EXTERN size_t ngtcp2_conn_get_active_dcid(ngtcp2_conn *conn, ngtcp2_cid_token *dest);
+NGTCP2_EXTERN size_t ngtcp2_conn_get_active_dcid(ngtcp2_conn *conn,
+                                                 ngtcp2_cid_token *dest);
 
 /**
  * @function
@@ -4851,7 +4912,8 @@ NGTCP2_EXTERN int ngtcp2_conn_get_tls_early_data_rejected(ngtcp2_conn *conn);
  * `ngtcp2_conn_get_conn_info` assigns connection statistics data to
  * |*cinfo|.
  */
-NGTCP2_EXTERN void ngtcp2_conn_get_conn_info_versioned(ngtcp2_conn *conn, int conn_info_version,
+NGTCP2_EXTERN void ngtcp2_conn_get_conn_info_versioned(ngtcp2_conn *conn,
+                                                       int conn_info_version,
                                                        ngtcp2_conn_info *cinfo);
 
 /**
@@ -4864,9 +4926,10 @@ NGTCP2_EXTERN void ngtcp2_conn_get_conn_info_versioned(ngtcp2_conn *conn, int co
  * The library makes a copy of the buffer pointed by |data| of length
  * |datalen|.  Application can discard |data|.
  */
-NGTCP2_EXTERN int ngtcp2_conn_submit_crypto_data(ngtcp2_conn *conn,
-                                                 ngtcp2_encryption_level encryption_level,
-                                                 const uint8_t *data, const size_t datalen);
+NGTCP2_EXTERN int
+ngtcp2_conn_submit_crypto_data(ngtcp2_conn *conn,
+                               ngtcp2_encryption_level encryption_level,
+                               const uint8_t *data, const size_t datalen);
 
 /**
  * @function
@@ -4884,7 +4947,8 @@ NGTCP2_EXTERN int ngtcp2_conn_submit_crypto_data(ngtcp2_conn *conn,
  * :macro:`NGTCP2_ERR_NOMEM`
  *     Out of memory.
  */
-NGTCP2_EXTERN int ngtcp2_conn_submit_new_token(ngtcp2_conn *conn, const uint8_t *token,
+NGTCP2_EXTERN int ngtcp2_conn_submit_new_token(ngtcp2_conn *conn,
+                                               const uint8_t *token,
                                                size_t tokenlen);
 
 /**
@@ -4894,7 +4958,8 @@ NGTCP2_EXTERN int ngtcp2_conn_submit_new_token(ngtcp2_conn *conn, const uint8_t 
  * the current path of |conn|.  This function is provided for testing
  * purpose only.
  */
-NGTCP2_EXTERN void ngtcp2_conn_set_local_addr(ngtcp2_conn *conn, const ngtcp2_addr *addr);
+NGTCP2_EXTERN void ngtcp2_conn_set_local_addr(ngtcp2_conn *conn,
+                                              const ngtcp2_addr *addr);
 
 /**
  * @function
@@ -4902,7 +4967,8 @@ NGTCP2_EXTERN void ngtcp2_conn_set_local_addr(ngtcp2_conn *conn, const ngtcp2_ad
  * `ngtcp2_conn_set_path_user_data` sets the |path_user_data| to the
  * current path (see :member:`ngtcp2_path.user_data`).
  */
-NGTCP2_EXTERN void ngtcp2_conn_set_path_user_data(ngtcp2_conn *conn, void *path_user_data);
+NGTCP2_EXTERN void ngtcp2_conn_set_path_user_data(ngtcp2_conn *conn,
+                                                  void *path_user_data);
 
 /**
  * @function
@@ -4931,7 +4997,8 @@ NGTCP2_EXTERN size_t ngtcp2_conn_get_max_tx_udp_payload_size(ngtcp2_conn *conn);
  * `ngtcp2_conn_get_max_tx_udp_payload_size`.  Otherwise, it returns
  * the maximum UDP payload size that is probed for the current path.
  */
-NGTCP2_EXTERN size_t ngtcp2_conn_get_path_max_tx_udp_payload_size(ngtcp2_conn *conn);
+NGTCP2_EXTERN size_t
+ngtcp2_conn_get_path_max_tx_udp_payload_size(ngtcp2_conn *conn);
 
 /**
  * @function
@@ -4956,9 +5023,8 @@ NGTCP2_EXTERN size_t ngtcp2_conn_get_path_max_tx_udp_payload_size(ngtcp2_conn *c
  * :macro:`NGTCP2_ERR_NOMEM`
  *     Out of memory
  */
-NGTCP2_EXTERN int ngtcp2_conn_initiate_immediate_migration(ngtcp2_conn *conn,
-                                                           const ngtcp2_path *path,
-                                                           ngtcp2_tstamp ts);
+NGTCP2_EXTERN int ngtcp2_conn_initiate_immediate_migration(
+  ngtcp2_conn *conn, const ngtcp2_path *path, ngtcp2_tstamp ts);
 
 /**
  * @function
@@ -4983,7 +5049,8 @@ NGTCP2_EXTERN int ngtcp2_conn_initiate_immediate_migration(ngtcp2_conn *conn,
  * :macro:`NGTCP2_ERR_NOMEM`
  *     Out of memory
  */
-NGTCP2_EXTERN int ngtcp2_conn_initiate_migration(ngtcp2_conn *conn, const ngtcp2_path *path,
+NGTCP2_EXTERN int ngtcp2_conn_initiate_migration(ngtcp2_conn *conn,
+                                                 const ngtcp2_path *path,
                                                  ngtcp2_tstamp ts);
 
 /**
@@ -5003,7 +5070,8 @@ NGTCP2_EXTERN uint64_t ngtcp2_conn_get_max_data_left(ngtcp2_conn *conn);
  * |stream_id| without violating stream-level flow control.  If no
  * such stream is found, this function returns 0.
  */
-NGTCP2_EXTERN uint64_t ngtcp2_conn_get_max_stream_data_left(ngtcp2_conn *conn, int64_t stream_id);
+NGTCP2_EXTERN uint64_t ngtcp2_conn_get_max_stream_data_left(ngtcp2_conn *conn,
+                                                            int64_t stream_id);
 
 /**
  * @function
@@ -5040,8 +5108,9 @@ NGTCP2_EXTERN uint64_t ngtcp2_conn_get_cwnd_left(ngtcp2_conn *conn);
  * :type:`ngtcp2_encrypt`, :type:`ngtcp2_decrypt` and
  * :type:`ngtcp2_hp_mask` callbacks.
  */
-NGTCP2_EXTERN void ngtcp2_conn_set_initial_crypto_ctx(ngtcp2_conn *conn,
-                                                      const ngtcp2_crypto_ctx *ctx);
+NGTCP2_EXTERN void
+ngtcp2_conn_set_initial_crypto_ctx(ngtcp2_conn *conn,
+                                   const ngtcp2_crypto_ctx *ctx);
 
 /**
  * @function
@@ -5049,7 +5118,8 @@ NGTCP2_EXTERN void ngtcp2_conn_set_initial_crypto_ctx(ngtcp2_conn *conn,
  * `ngtcp2_conn_get_initial_crypto_ctx` returns
  * :type:`ngtcp2_crypto_ctx` object for Initial packet encryption.
  */
-NGTCP2_EXTERN const ngtcp2_crypto_ctx *ngtcp2_conn_get_initial_crypto_ctx(ngtcp2_conn *conn);
+NGTCP2_EXTERN const ngtcp2_crypto_ctx *
+ngtcp2_conn_get_initial_crypto_ctx(ngtcp2_conn *conn);
 
 /**
  * @function
@@ -5059,7 +5129,8 @@ NGTCP2_EXTERN const ngtcp2_crypto_ctx *ngtcp2_conn_get_initial_crypto_ctx(ngtcp2
  * :type:`ngtcp2_encrypt`, :type:`ngtcp2_decrypt` and
  * :type:`ngtcp2_hp_mask` callbacks.
  */
-NGTCP2_EXTERN void ngtcp2_conn_set_crypto_ctx(ngtcp2_conn *conn, const ngtcp2_crypto_ctx *ctx);
+NGTCP2_EXTERN void ngtcp2_conn_set_crypto_ctx(ngtcp2_conn *conn,
+                                              const ngtcp2_crypto_ctx *ctx);
 
 /**
  * @function
@@ -5067,7 +5138,8 @@ NGTCP2_EXTERN void ngtcp2_conn_set_crypto_ctx(ngtcp2_conn *conn, const ngtcp2_cr
  * `ngtcp2_conn_get_crypto_ctx` returns :type:`ngtcp2_crypto_ctx`
  * object for Handshake/1-RTT packet encryption.
  */
-NGTCP2_EXTERN const ngtcp2_crypto_ctx *ngtcp2_conn_get_crypto_ctx(ngtcp2_conn *conn);
+NGTCP2_EXTERN const ngtcp2_crypto_ctx *
+ngtcp2_conn_get_crypto_ctx(ngtcp2_conn *conn);
 
 /**
  * @function
@@ -5077,7 +5149,9 @@ NGTCP2_EXTERN const ngtcp2_crypto_ctx *ngtcp2_conn_get_crypto_ctx(ngtcp2_conn *c
  * :type:`ngtcp2_encrypt`, :type:`ngtcp2_decrypt` and
  * :type:`ngtcp2_hp_mask` callbacks.
  */
-NGTCP2_EXTERN void ngtcp2_conn_set_0rtt_crypto_ctx(ngtcp2_conn *conn, const ngtcp2_crypto_ctx *ctx);
+NGTCP2_EXTERN void
+ngtcp2_conn_set_0rtt_crypto_ctx(ngtcp2_conn *conn,
+                                const ngtcp2_crypto_ctx *ctx);
 
 /**
  * @function
@@ -5085,7 +5159,8 @@ NGTCP2_EXTERN void ngtcp2_conn_set_0rtt_crypto_ctx(ngtcp2_conn *conn, const ngtc
  * `ngtcp2_conn_get_0rtt_crypto_ctx` returns :type:`ngtcp2_crypto_ctx`
  * object for 0-RTT packet encryption.
  */
-NGTCP2_EXTERN const ngtcp2_crypto_ctx *ngtcp2_conn_get_0rtt_crypto_ctx(ngtcp2_conn *conn);
+NGTCP2_EXTERN const ngtcp2_crypto_ctx *
+ngtcp2_conn_get_0rtt_crypto_ctx(ngtcp2_conn *conn);
 
 /**
  * @function
@@ -5102,7 +5177,8 @@ NGTCP2_EXTERN void *ngtcp2_conn_get_tls_native_handle(ngtcp2_conn *conn);
  * |tls_native_handle| to |conn|.  Internally, it is used as an opaque
  * pointer.
  */
-NGTCP2_EXTERN void ngtcp2_conn_set_tls_native_handle(ngtcp2_conn *conn, void *tls_native_handle);
+NGTCP2_EXTERN void ngtcp2_conn_set_tls_native_handle(ngtcp2_conn *conn,
+                                                     void *tls_native_handle);
 
 /**
  * @function
@@ -5118,8 +5194,9 @@ NGTCP2_EXTERN void ngtcp2_conn_set_tls_native_handle(ngtcp2_conn *conn, void *tl
  * :member:`ngtcp2_callbacks.delete_crypto_aead_ctx` will be called to
  * delete this object when it is no longer used.
  */
-NGTCP2_EXTERN void ngtcp2_conn_set_retry_aead(ngtcp2_conn *conn, const ngtcp2_crypto_aead *aead,
-                                              const ngtcp2_crypto_aead_ctx *aead_ctx);
+NGTCP2_EXTERN void
+ngtcp2_conn_set_retry_aead(ngtcp2_conn *conn, const ngtcp2_crypto_aead *aead,
+                           const ngtcp2_crypto_aead_ctx *aead_ctx);
 
 /**
  * @enum
@@ -5127,40 +5204,40 @@ NGTCP2_EXTERN void ngtcp2_conn_set_retry_aead(ngtcp2_conn *conn, const ngtcp2_cr
  * :type:`ngtcp2_ccerr_type` defines connection error type.
  */
 typedef enum ngtcp2_ccerr_type {
-    /**
-     * :enum:`NGTCP2_CCERR_TYPE_TRANSPORT` indicates the QUIC transport
-     * error, and the error code is QUIC transport error code.
-     */
-    NGTCP2_CCERR_TYPE_TRANSPORT,
-    /**
-     * :enum:`NGTCP2_CCERR_TYPE_APPLICATION` indicates an application
-     * error, and the error code is application error code.
-     */
-    NGTCP2_CCERR_TYPE_APPLICATION,
-    /**
-     * :enum:`NGTCP2_CCERR_TYPE_VERSION_NEGOTIATION` is a special case
-     * of QUIC transport error, and it indicates that client receives
-     * Version Negotiation packet.
-     */
-    NGTCP2_CCERR_TYPE_VERSION_NEGOTIATION,
-    /**
-     * :enum:`NGTCP2_CCERR_TYPE_IDLE_CLOSE` is a special case of QUIC
-     * transport error, and it indicates that connection is closed
-     * because of idle timeout.
-     */
-    NGTCP2_CCERR_TYPE_IDLE_CLOSE,
-    /**
-     * :enum:`NGTCP2_CCERR_TYPE_DROP_CONN` is a special case of QUIC
-     * transport error, and it indicates that connection should be
-     * dropped without sending a CONNECTION_CLOSE frame.
-     */
-    NGTCP2_CCERR_TYPE_DROP_CONN,
-    /**
-     * :enum:`NGTCP2_CCERR_TYPE_RETRY` is a special case of QUIC
-     * transport error, and it indicates that RETRY packet should be
-     * sent to a client.
-     */
-    NGTCP2_CCERR_TYPE_RETRY
+  /**
+   * :enum:`NGTCP2_CCERR_TYPE_TRANSPORT` indicates the QUIC transport
+   * error, and the error code is QUIC transport error code.
+   */
+  NGTCP2_CCERR_TYPE_TRANSPORT,
+  /**
+   * :enum:`NGTCP2_CCERR_TYPE_APPLICATION` indicates an application
+   * error, and the error code is application error code.
+   */
+  NGTCP2_CCERR_TYPE_APPLICATION,
+  /**
+   * :enum:`NGTCP2_CCERR_TYPE_VERSION_NEGOTIATION` is a special case
+   * of QUIC transport error, and it indicates that client receives
+   * Version Negotiation packet.
+   */
+  NGTCP2_CCERR_TYPE_VERSION_NEGOTIATION,
+  /**
+   * :enum:`NGTCP2_CCERR_TYPE_IDLE_CLOSE` is a special case of QUIC
+   * transport error, and it indicates that connection is closed
+   * because of idle timeout.
+   */
+  NGTCP2_CCERR_TYPE_IDLE_CLOSE,
+  /**
+   * :enum:`NGTCP2_CCERR_TYPE_DROP_CONN` is a special case of QUIC
+   * transport error, and it indicates that connection should be
+   * dropped without sending a CONNECTION_CLOSE frame.
+   */
+  NGTCP2_CCERR_TYPE_DROP_CONN,
+  /**
+   * :enum:`NGTCP2_CCERR_TYPE_RETRY` is a special case of QUIC
+   * transport error, and it indicates that RETRY packet should be
+   * sent to a client.
+   */
+  NGTCP2_CCERR_TYPE_RETRY
 } ngtcp2_ccerr_type;
 
 /**
@@ -5170,33 +5247,33 @@ typedef enum ngtcp2_ccerr_type {
  * frame type that caused this error, and the optional reason phrase.
  */
 typedef struct ngtcp2_ccerr {
-    /**
-     * :member:`type` is the type of this error.
-     */
-    ngtcp2_ccerr_type type;
-    /**
-     * :member:`error_code` is the error code for connection closure.
-     * Its interpretation depends on :member:`type`.
-     */
-    uint64_t error_code;
-    /**
-     * :member:`frame_type` is the type of QUIC frame which triggers
-     * this connection error.  This field is set to 0 if the frame type
-     * is unknown.
-     */
-    uint64_t frame_type;
-    /**
-     * :member:`reason` points to the buffer which contains a reason
-     * phrase.  It may be NULL if there is no reason phrase.  If it is
-     * received from a remote endpoint, it is truncated to at most 1024
-     * bytes.
-     */
-    const uint8_t *reason;
-    /**
-     * :member:`reasonlen` is the length of data pointed by
-     * :member:`reason`.
-     */
-    size_t reasonlen;
+  /**
+   * :member:`type` is the type of this error.
+   */
+  ngtcp2_ccerr_type type;
+  /**
+   * :member:`error_code` is the error code for connection closure.
+   * Its interpretation depends on :member:`type`.
+   */
+  uint64_t error_code;
+  /**
+   * :member:`frame_type` is the type of QUIC frame which triggers
+   * this connection error.  This field is set to 0 if the frame type
+   * is unknown.
+   */
+  uint64_t frame_type;
+  /**
+   * :member:`reason` points to the buffer which contains a reason
+   * phrase.  It may be NULL if there is no reason phrase.  If it is
+   * received from a remote endpoint, it is truncated to at most 1024
+   * bytes.
+   */
+  const uint8_t *reason;
+  /**
+   * :member:`reasonlen` is the length of data pointed by
+   * :member:`reason`.
+   */
+  size_t reasonlen;
 } ngtcp2_ccerr;
 
 /**
@@ -5225,8 +5302,10 @@ NGTCP2_EXTERN void ngtcp2_ccerr_default(ngtcp2_ccerr *ccerr);
  * |error_code|.  |reason| is the reason phrase of length |reasonlen|.
  * This function does not make a copy of the reason phrase.
  */
-NGTCP2_EXTERN void ngtcp2_ccerr_set_transport_error(ngtcp2_ccerr *ccerr, uint64_t error_code,
-                                                    const uint8_t *reason, size_t reasonlen);
+NGTCP2_EXTERN void ngtcp2_ccerr_set_transport_error(ngtcp2_ccerr *ccerr,
+                                                    uint64_t error_code,
+                                                    const uint8_t *reason,
+                                                    size_t reasonlen);
 
 /**
  * @function
@@ -5267,7 +5346,8 @@ NGTCP2_EXTERN void ngtcp2_ccerr_set_transport_error(ngtcp2_ccerr *ccerr, uint64_
  * error code inferred by |liberr| (see
  * `ngtcp2_err_infer_quic_transport_error_code`).
  */
-NGTCP2_EXTERN void ngtcp2_ccerr_set_liberr(ngtcp2_ccerr *ccerr, int liberr, const uint8_t *reason,
+NGTCP2_EXTERN void ngtcp2_ccerr_set_liberr(ngtcp2_ccerr *ccerr, int liberr,
+                                           const uint8_t *reason,
                                            size_t reasonlen);
 
 /**
@@ -5281,8 +5361,10 @@ NGTCP2_EXTERN void ngtcp2_ccerr_set_liberr(ngtcp2_ccerr *ccerr, int liberr, cons
  * reason phrase of length |reasonlen|.  This function does not make a
  * copy of the reason phrase.
  */
-NGTCP2_EXTERN void ngtcp2_ccerr_set_tls_alert(ngtcp2_ccerr *ccerr, uint8_t tls_alert,
-                                              const uint8_t *reason, size_t reasonlen);
+NGTCP2_EXTERN void ngtcp2_ccerr_set_tls_alert(ngtcp2_ccerr *ccerr,
+                                              uint8_t tls_alert,
+                                              const uint8_t *reason,
+                                              size_t reasonlen);
 
 /**
  * @function
@@ -5294,8 +5376,10 @@ NGTCP2_EXTERN void ngtcp2_ccerr_set_tls_alert(ngtcp2_ccerr *ccerr, uint8_t tls_a
  * |error_code|.  |reason| is the reason phrase of length |reasonlen|.
  * This function does not make a copy of the reason phrase.
  */
-NGTCP2_EXTERN void ngtcp2_ccerr_set_application_error(ngtcp2_ccerr *ccerr, uint64_t error_code,
-                                                      const uint8_t *reason, size_t reasonlen);
+NGTCP2_EXTERN void ngtcp2_ccerr_set_application_error(ngtcp2_ccerr *ccerr,
+                                                      uint64_t error_code,
+                                                      const uint8_t *reason,
+                                                      size_t reasonlen);
 
 /**
  * @function
@@ -5352,8 +5436,9 @@ NGTCP2_EXTERN void ngtcp2_ccerr_set_application_error(ngtcp2_ccerr *ccerr, uint6
  *     User callback failed
  */
 NGTCP2_EXTERN ngtcp2_ssize ngtcp2_conn_write_connection_close_versioned(
-    ngtcp2_conn *conn, ngtcp2_path *path, int pkt_info_version, ngtcp2_pkt_info *pi, uint8_t *dest,
-    size_t destlen, const ngtcp2_ccerr *ccerr, ngtcp2_tstamp ts);
+  ngtcp2_conn *conn, ngtcp2_path *path, int pkt_info_version,
+  ngtcp2_pkt_info *pi, uint8_t *dest, size_t destlen, const ngtcp2_ccerr *ccerr,
+  ngtcp2_tstamp ts);
 
 /**
  * @function
@@ -5370,7 +5455,8 @@ NGTCP2_EXTERN const ngtcp2_ccerr *ngtcp2_conn_get_ccerr(ngtcp2_conn *conn);
  * `ngtcp2_conn_is_local_stream` returns nonzero if |stream_id|
  * denotes a locally initiated stream.
  */
-NGTCP2_EXTERN int ngtcp2_conn_is_local_stream(ngtcp2_conn *conn, int64_t stream_id);
+NGTCP2_EXTERN int ngtcp2_conn_is_local_stream(ngtcp2_conn *conn,
+                                              int64_t stream_id);
 
 /**
  * @function
@@ -5400,7 +5486,8 @@ NGTCP2_EXTERN int ngtcp2_conn_after_retry(ngtcp2_conn *conn);
  * :macro:`NGTCP2_ERR_STREAM_NOT_FOUND`
  *     Stream does not exist
  */
-NGTCP2_EXTERN int ngtcp2_conn_set_stream_user_data(ngtcp2_conn *conn, int64_t stream_id,
+NGTCP2_EXTERN int ngtcp2_conn_set_stream_user_data(ngtcp2_conn *conn,
+                                                   int64_t stream_id,
                                                    void *stream_user_data);
 
 /**
@@ -5413,7 +5500,8 @@ NGTCP2_EXTERN int ngtcp2_conn_set_stream_user_data(ngtcp2_conn *conn, int64_t st
  * function after all aggregated datagrams are sent, which indicates
  * multiple invocation of `ngtcp2_conn_writev_stream`.
  */
-NGTCP2_EXTERN void ngtcp2_conn_update_pkt_tx_time(ngtcp2_conn *conn, ngtcp2_tstamp ts);
+NGTCP2_EXTERN void ngtcp2_conn_update_pkt_tx_time(ngtcp2_conn *conn,
+                                                  ngtcp2_tstamp ts);
 
 /**
  * @function
@@ -5432,7 +5520,8 @@ NGTCP2_EXTERN size_t ngtcp2_conn_get_send_quantum(ngtcp2_conn *conn);
  * losses.  If no stream identified by |stream_id| is found, this
  * function returns 0.
  */
-NGTCP2_EXTERN size_t ngtcp2_conn_get_stream_loss_count(ngtcp2_conn *conn, int64_t stream_id);
+NGTCP2_EXTERN size_t ngtcp2_conn_get_stream_loss_count(ngtcp2_conn *conn,
+                                                       int64_t stream_id);
 
 /**
  * @function
@@ -5470,7 +5559,8 @@ NGTCP2_EXTERN uint64_t ngtcp2_err_infer_quic_transport_error_code(int liberr);
  * `ngtcp2_addr_init` initializes |dest| with the given arguments and
  * returns |dest|.
  */
-NGTCP2_EXTERN ngtcp2_addr *ngtcp2_addr_init(ngtcp2_addr *dest, const ngtcp2_sockaddr *addr,
+NGTCP2_EXTERN ngtcp2_addr *ngtcp2_addr_init(ngtcp2_addr *dest,
+                                            const ngtcp2_sockaddr *addr,
                                             ngtcp2_socklen addrlen);
 
 /**
@@ -5483,7 +5573,8 @@ NGTCP2_EXTERN ngtcp2_addr *ngtcp2_addr_init(ngtcp2_addr *dest, const ngtcp2_sock
  * <ngtcp2_addr.addr>` points to a buffer which has a sufficient
  * capacity to store the copy.
  */
-NGTCP2_EXTERN void ngtcp2_addr_copy_byte(ngtcp2_addr *dest, const ngtcp2_sockaddr *addr,
+NGTCP2_EXTERN void ngtcp2_addr_copy_byte(ngtcp2_addr *dest,
+                                         const ngtcp2_sockaddr *addr,
                                          ngtcp2_socklen addrlen);
 
 /**
@@ -5496,7 +5587,8 @@ NGTCP2_EXTERN void ngtcp2_path_storage_init(ngtcp2_path_storage *ps,
                                             const ngtcp2_sockaddr *local_addr,
                                             ngtcp2_socklen local_addrlen,
                                             const ngtcp2_sockaddr *remote_addr,
-                                            ngtcp2_socklen remote_addrlen, void *user_data);
+                                            ngtcp2_socklen remote_addrlen,
+                                            void *user_data);
 
 /**
  * @function
@@ -5545,8 +5637,9 @@ NGTCP2_EXTERN void ngtcp2_settings_default_versioned(int settings_version,
  *   <ngtcp2_transport_params.active_connection_id_limit>` =
  *   :macro:`NGTCP2_DEFAULT_ACTIVE_CONNECTION_ID_LIMIT`
  */
-NGTCP2_EXTERN void ngtcp2_transport_params_default_versioned(int transport_params_version,
-                                                             ngtcp2_transport_params *params);
+NGTCP2_EXTERN void
+ngtcp2_transport_params_default_versioned(int transport_params_version,
+                                          ngtcp2_transport_params *params);
 
 /**
  * @function
@@ -5576,23 +5669,23 @@ NGTCP2_EXTERN const ngtcp2_mem *ngtcp2_mem_default(void);
  * information about the particular ngtcp2 version.
  */
 typedef struct ngtcp2_info {
-    /**
-     * :member:`age` is the age of this struct.  This instance of ngtcp2
-     * sets it to :macro:`NGTCP2_VERSION_AGE` but a future version may
-     * bump it and add more struct fields at the bottom
-     */
-    int age;
-    /**
-     * :member:`version_num` is the :macro:`NGTCP2_VERSION_NUM` number
-     * (since :member:`age` ==1)
-     */
-    int version_num;
-    /**
-     * :member:`version_str` points to the :macro:`NGTCP2_VERSION`
-     * string (since :member:`age` ==1)
-     */
-    const char *version_str;
-    /* -------- the above fields all exist when age == 1 */
+  /**
+   * :member:`age` is the age of this struct.  This instance of ngtcp2
+   * sets it to :macro:`NGTCP2_VERSION_AGE` but a future version may
+   * bump it and add more struct fields at the bottom
+   */
+  int age;
+  /**
+   * :member:`version_num` is the :macro:`NGTCP2_VERSION_NUM` number
+   * (since :member:`age` ==1)
+   */
+  int version_num;
+  /**
+   * :member:`version_str` points to the :macro:`NGTCP2_VERSION`
+   * string (since :member:`age` ==1)
+   */
+  const char *version_str;
+  /* -------- the above fields all exist when age == 1 */
 } ngtcp2_info;
 
 /**
@@ -5676,149 +5769,152 @@ NGTCP2_EXTERN uint32_t ngtcp2_select_version(const uint32_t *preferred_versions,
  * `ngtcp2_conn_read_pkt` is a wrapper around
  * `ngtcp2_conn_read_pkt_versioned` to set the correct struct version.
  */
-#define ngtcp2_conn_read_pkt(CONN, PATH, PI, PKT, PKTLEN, TS)                                      \
-    ngtcp2_conn_read_pkt_versioned((CONN), (PATH), NGTCP2_PKT_INFO_VERSION, (PI), (PKT), (PKTLEN), \
-                                   (TS))
+#define ngtcp2_conn_read_pkt(CONN, PATH, PI, PKT, PKTLEN, TS)                  \
+  ngtcp2_conn_read_pkt_versioned((CONN), (PATH), NGTCP2_PKT_INFO_VERSION,      \
+                                 (PI), (PKT), (PKTLEN), (TS))
 
 /*
  * `ngtcp2_conn_write_pkt` is a wrapper around
  * `ngtcp2_conn_write_pkt_versioned` to set the correct struct
  * version.
  */
-#define ngtcp2_conn_write_pkt(CONN, PATH, PI, DEST, DESTLEN, TS)                           \
-    ngtcp2_conn_write_pkt_versioned((CONN), (PATH), NGTCP2_PKT_INFO_VERSION, (PI), (DEST), \
-                                    (DESTLEN), (TS))
+#define ngtcp2_conn_write_pkt(CONN, PATH, PI, DEST, DESTLEN, TS)               \
+  ngtcp2_conn_write_pkt_versioned((CONN), (PATH), NGTCP2_PKT_INFO_VERSION,     \
+                                  (PI), (DEST), (DESTLEN), (TS))
 
 /*
  * `ngtcp2_conn_write_stream` is a wrapper around
  * `ngtcp2_conn_write_stream_versioned` to set the correct struct
  * version.
  */
-#define ngtcp2_conn_write_stream(CONN, PATH, PI, DEST, DESTLEN, PDATALEN, FLAGS, STREAM_ID, DATA, \
-                                 DATALEN, TS)                                                     \
-    ngtcp2_conn_write_stream_versioned((CONN), (PATH), NGTCP2_PKT_INFO_VERSION, (PI), (DEST),     \
-                                       (DESTLEN), (PDATALEN), (FLAGS), (STREAM_ID), (DATA),       \
-                                       (DATALEN), (TS))
+#define ngtcp2_conn_write_stream(CONN, PATH, PI, DEST, DESTLEN, PDATALEN,      \
+                                 FLAGS, STREAM_ID, DATA, DATALEN, TS)          \
+  ngtcp2_conn_write_stream_versioned(                                          \
+    (CONN), (PATH), NGTCP2_PKT_INFO_VERSION, (PI), (DEST), (DESTLEN),          \
+    (PDATALEN), (FLAGS), (STREAM_ID), (DATA), (DATALEN), (TS))
 
 /*
  * `ngtcp2_conn_writev_stream` is a wrapper around
  * `ngtcp2_conn_writev_stream_versioned` to set the correct struct
  * version.
  */
-#define ngtcp2_conn_writev_stream(CONN, PATH, PI, DEST, DESTLEN, PDATALEN, FLAGS, STREAM_ID,   \
-                                  DATAV, DATAVCNT, TS)                                         \
-    ngtcp2_conn_writev_stream_versioned((CONN), (PATH), NGTCP2_PKT_INFO_VERSION, (PI), (DEST), \
-                                        (DESTLEN), (PDATALEN), (FLAGS), (STREAM_ID), (DATAV),  \
-                                        (DATAVCNT), (TS))
+#define ngtcp2_conn_writev_stream(CONN, PATH, PI, DEST, DESTLEN, PDATALEN,     \
+                                  FLAGS, STREAM_ID, DATAV, DATAVCNT, TS)       \
+  ngtcp2_conn_writev_stream_versioned(                                         \
+    (CONN), (PATH), NGTCP2_PKT_INFO_VERSION, (PI), (DEST), (DESTLEN),          \
+    (PDATALEN), (FLAGS), (STREAM_ID), (DATAV), (DATAVCNT), (TS))
 
 /*
  * `ngtcp2_conn_write_datagram` is a wrapper around
  * `ngtcp2_conn_write_datagram_versioned` to set the correct struct
  * version.
  */
-#define ngtcp2_conn_write_datagram(CONN, PATH, PI, DEST, DESTLEN, PACCEPTED, FLAGS, DGRAM_ID,   \
-                                   DATA, DATALEN, TS)                                           \
-    ngtcp2_conn_write_datagram_versioned((CONN), (PATH), NGTCP2_PKT_INFO_VERSION, (PI), (DEST), \
-                                         (DESTLEN), (PACCEPTED), (FLAGS), (DGRAM_ID), (DATA),   \
-                                         (DATALEN), (TS))
+#define ngtcp2_conn_write_datagram(CONN, PATH, PI, DEST, DESTLEN, PACCEPTED,   \
+                                   FLAGS, DGRAM_ID, DATA, DATALEN, TS)         \
+  ngtcp2_conn_write_datagram_versioned(                                        \
+    (CONN), (PATH), NGTCP2_PKT_INFO_VERSION, (PI), (DEST), (DESTLEN),          \
+    (PACCEPTED), (FLAGS), (DGRAM_ID), (DATA), (DATALEN), (TS))
 
 /*
  * `ngtcp2_conn_writev_datagram` is a wrapper around
  * `ngtcp2_conn_writev_datagram_versioned` to set the correct struct
  * version.
  */
-#define ngtcp2_conn_writev_datagram(CONN, PATH, PI, DEST, DESTLEN, PACCEPTED, FLAGS, DGRAM_ID,   \
-                                    DATAV, DATAVCNT, TS)                                         \
-    ngtcp2_conn_writev_datagram_versioned((CONN), (PATH), NGTCP2_PKT_INFO_VERSION, (PI), (DEST), \
-                                          (DESTLEN), (PACCEPTED), (FLAGS), (DGRAM_ID), (DATAV),  \
-                                          (DATAVCNT), (TS))
+#define ngtcp2_conn_writev_datagram(CONN, PATH, PI, DEST, DESTLEN, PACCEPTED,  \
+                                    FLAGS, DGRAM_ID, DATAV, DATAVCNT, TS)      \
+  ngtcp2_conn_writev_datagram_versioned(                                       \
+    (CONN), (PATH), NGTCP2_PKT_INFO_VERSION, (PI), (DEST), (DESTLEN),          \
+    (PACCEPTED), (FLAGS), (DGRAM_ID), (DATAV), (DATAVCNT), (TS))
 
 /*
  * `ngtcp2_conn_write_connection_close` is a wrapper around
  * `ngtcp2_conn_write_connection_close_versioned` to set the correct
  * struct version.
  */
-#define ngtcp2_conn_write_connection_close(CONN, PATH, PI, DEST, DESTLEN, CCERR, TS)            \
-    ngtcp2_conn_write_connection_close_versioned((CONN), (PATH), NGTCP2_PKT_INFO_VERSION, (PI), \
-                                                 (DEST), (DESTLEN), (CCERR), (TS))
+#define ngtcp2_conn_write_connection_close(CONN, PATH, PI, DEST, DESTLEN,      \
+                                           CCERR, TS)                          \
+  ngtcp2_conn_write_connection_close_versioned(                                \
+    (CONN), (PATH), NGTCP2_PKT_INFO_VERSION, (PI), (DEST), (DESTLEN), (CCERR), \
+    (TS))
 
 /*
  * `ngtcp2_transport_params_encode` is a wrapper around
  * `ngtcp2_transport_params_encode_versioned` to set the correct
  * struct version.
  */
-#define ngtcp2_transport_params_encode(DEST, DESTLEN, PARAMS)                                    \
-    ngtcp2_transport_params_encode_versioned((DEST), (DESTLEN), NGTCP2_TRANSPORT_PARAMS_VERSION, \
-                                             (PARAMS))
+#define ngtcp2_transport_params_encode(DEST, DESTLEN, PARAMS)                  \
+  ngtcp2_transport_params_encode_versioned(                                    \
+    (DEST), (DESTLEN), NGTCP2_TRANSPORT_PARAMS_VERSION, (PARAMS))
 
 /*
  * `ngtcp2_transport_params_decode` is a wrapper around
  * `ngtcp2_transport_params_decode_versioned` to set the correct
  * struct version.
  */
-#define ngtcp2_transport_params_decode(PARAMS, DATA, DATALEN)                                   \
-    ngtcp2_transport_params_decode_versioned(NGTCP2_TRANSPORT_PARAMS_VERSION, (PARAMS), (DATA), \
-                                             (DATALEN))
+#define ngtcp2_transport_params_decode(PARAMS, DATA, DATALEN)                  \
+  ngtcp2_transport_params_decode_versioned(NGTCP2_TRANSPORT_PARAMS_VERSION,    \
+                                           (PARAMS), (DATA), (DATALEN))
 
 /*
  * `ngtcp2_conn_client_new` is a wrapper around
  * `ngtcp2_conn_client_new_versioned` to set the correct struct
  * version.
  */
-#define ngtcp2_conn_client_new(PCONN, DCID, SCID, PATH, VERSION, CALLBACKS, SETTINGS, PARAMS, MEM, \
-                               USER_DATA)                                                          \
-    ngtcp2_conn_client_new_versioned(                                                              \
-        (PCONN), (DCID), (SCID), (PATH), (VERSION), NGTCP2_CALLBACKS_VERSION, (CALLBACKS),         \
-        NGTCP2_SETTINGS_VERSION, (SETTINGS), NGTCP2_TRANSPORT_PARAMS_VERSION, (PARAMS), (MEM),     \
-        (USER_DATA))
+#define ngtcp2_conn_client_new(PCONN, DCID, SCID, PATH, VERSION, CALLBACKS,    \
+                               SETTINGS, PARAMS, MEM, USER_DATA)               \
+  ngtcp2_conn_client_new_versioned(                                            \
+    (PCONN), (DCID), (SCID), (PATH), (VERSION), NGTCP2_CALLBACKS_VERSION,      \
+    (CALLBACKS), NGTCP2_SETTINGS_VERSION, (SETTINGS),                          \
+    NGTCP2_TRANSPORT_PARAMS_VERSION, (PARAMS), (MEM), (USER_DATA))
 
 /*
  * `ngtcp2_conn_server_new` is a wrapper around
  * `ngtcp2_conn_server_new_versioned` to set the correct struct
  * version.
  */
-#define ngtcp2_conn_server_new(PCONN, DCID, SCID, PATH, VERSION, CALLBACKS, SETTINGS, PARAMS, MEM, \
-                               USER_DATA)                                                          \
-    ngtcp2_conn_server_new_versioned(                                                              \
-        (PCONN), (DCID), (SCID), (PATH), (VERSION), NGTCP2_CALLBACKS_VERSION, (CALLBACKS),         \
-        NGTCP2_SETTINGS_VERSION, (SETTINGS), NGTCP2_TRANSPORT_PARAMS_VERSION, (PARAMS), (MEM),     \
-        (USER_DATA))
+#define ngtcp2_conn_server_new(PCONN, DCID, SCID, PATH, VERSION, CALLBACKS,    \
+                               SETTINGS, PARAMS, MEM, USER_DATA)               \
+  ngtcp2_conn_server_new_versioned(                                            \
+    (PCONN), (DCID), (SCID), (PATH), (VERSION), NGTCP2_CALLBACKS_VERSION,      \
+    (CALLBACKS), NGTCP2_SETTINGS_VERSION, (SETTINGS),                          \
+    NGTCP2_TRANSPORT_PARAMS_VERSION, (PARAMS), (MEM), (USER_DATA))
 
 /*
  * `ngtcp2_conn_set_local_transport_params` is a wrapper around
  * `ngtcp2_conn_set_local_transport_params_versioned` to set the
  * correct struct version.
  */
-#define ngtcp2_conn_set_local_transport_params(CONN, PARAMS)                                  \
-    ngtcp2_conn_set_local_transport_params_versioned((CONN), NGTCP2_TRANSPORT_PARAMS_VERSION, \
-                                                     (PARAMS))
+#define ngtcp2_conn_set_local_transport_params(CONN, PARAMS)                   \
+  ngtcp2_conn_set_local_transport_params_versioned(                            \
+    (CONN), NGTCP2_TRANSPORT_PARAMS_VERSION, (PARAMS))
 
 /*
  * `ngtcp2_transport_params_default` is a wrapper around
  * `ngtcp2_transport_params_default_versioned` to set the correct
  * struct version.
  */
-#define ngtcp2_transport_params_default(PARAMS) \
-    ngtcp2_transport_params_default_versioned(NGTCP2_TRANSPORT_PARAMS_VERSION, (PARAMS))
+#define ngtcp2_transport_params_default(PARAMS)                                \
+  ngtcp2_transport_params_default_versioned(NGTCP2_TRANSPORT_PARAMS_VERSION,   \
+                                            (PARAMS))
 
 /*
  * `ngtcp2_conn_get_conn_info` is a wrapper around
  * `ngtcp2_conn_get_conn_info_versioned` to set the correct struct
  * version.
  */
-#define ngtcp2_conn_get_conn_info(CONN, CINFO) \
-    ngtcp2_conn_get_conn_info_versioned((CONN), NGTCP2_CONN_INFO_VERSION, (CINFO))
+#define ngtcp2_conn_get_conn_info(CONN, CINFO)                                 \
+  ngtcp2_conn_get_conn_info_versioned((CONN), NGTCP2_CONN_INFO_VERSION, (CINFO))
 
 /*
  * `ngtcp2_settings_default` is a wrapper around
  * `ngtcp2_settings_default_versioned` to set the correct struct
  * version.
  */
-#define ngtcp2_settings_default(SETTINGS) \
-    ngtcp2_settings_default_versioned(NGTCP2_SETTINGS_VERSION, (SETTINGS))
+#define ngtcp2_settings_default(SETTINGS)                                      \
+  ngtcp2_settings_default_versioned(NGTCP2_SETTINGS_VERSION, (SETTINGS))
 
 #ifdef _MSC_VER
-#pragma warning(pop)
+#  pragma warning(pop)
 #endif /* defined(_MSC_VER) */
 
 #ifdef __cplusplus

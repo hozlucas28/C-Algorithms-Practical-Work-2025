@@ -26,6 +26,7 @@
 #define NGTCP2_CRYPTO_QUICTLS_H
 
 #include <ngtcp2/ngtcp2.h>
+
 #include <openssl/ssl.h>
 
 #ifdef __cplusplus
@@ -68,7 +69,8 @@ extern "C" {
  * only available for quictls backend.
  */
 NGTCP2_EXTERN ngtcp2_encryption_level
-ngtcp2_crypto_quictls_from_ossl_encryption_level(OSSL_ENCRYPTION_LEVEL ossl_level);
+ngtcp2_crypto_quictls_from_ossl_encryption_level(
+  OSSL_ENCRYPTION_LEVEL ossl_level);
 
 /**
  * @function
@@ -78,7 +80,8 @@ ngtcp2_crypto_quictls_from_ossl_encryption_level(OSSL_ENCRYPTION_LEVEL ossl_leve
  * available for quictls backend.
  */
 NGTCP2_EXTERN OSSL_ENCRYPTION_LEVEL
-ngtcp2_crypto_quictls_from_ngtcp2_encryption_level(ngtcp2_encryption_level encryption_level);
+ngtcp2_crypto_quictls_from_ngtcp2_encryption_level(
+  ngtcp2_encryption_level encryption_level);
 
 /**
  * @function
@@ -98,7 +101,8 @@ ngtcp2_crypto_quictls_from_ngtcp2_encryption_level(ngtcp2_encryption_level encry
  *
  * It returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_quictls_configure_server_context(SSL_CTX *ssl_ctx);
+NGTCP2_EXTERN int
+ngtcp2_crypto_quictls_configure_server_context(SSL_CTX *ssl_ctx);
 
 /**
  * @function
@@ -118,7 +122,8 @@ NGTCP2_EXTERN int ngtcp2_crypto_quictls_configure_server_context(SSL_CTX *ssl_ct
  *
  * It returns 0 if it succeeds, or -1.
  */
-NGTCP2_EXTERN int ngtcp2_crypto_quictls_configure_client_context(SSL_CTX *ssl_ctx);
+NGTCP2_EXTERN int
+ngtcp2_crypto_quictls_configure_client_context(SSL_CTX *ssl_ctx);
 
 /**
  * @function

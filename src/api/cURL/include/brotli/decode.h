@@ -33,14 +33,14 @@ typedef struct BrotliDecoderStateStruct BrotliDecoderState;
  * ::BrotliDecoderDecompressStream functions.
  */
 typedef enum {
-    /** Decoding error, e.g. corrupted input or memory allocation problem. */
-    BROTLI_DECODER_RESULT_ERROR = 0,
-    /** Decoding successfully completed. */
-    BROTLI_DECODER_RESULT_SUCCESS = 1,
-    /** Partially done; should be called again with more input. */
-    BROTLI_DECODER_RESULT_NEEDS_MORE_INPUT = 2,
-    /** Partially done; should be called again with more output. */
-    BROTLI_DECODER_RESULT_NEEDS_MORE_OUTPUT = 3
+  /** Decoding error, e.g. corrupted input or memory allocation problem. */
+  BROTLI_DECODER_RESULT_ERROR = 0,
+  /** Decoding successfully completed. */
+  BROTLI_DECODER_RESULT_SUCCESS = 1,
+  /** Partially done; should be called again with more input. */
+  BROTLI_DECODER_RESULT_NEEDS_MORE_INPUT = 2,
+  /** Partially done; should be called again with more output. */
+  BROTLI_DECODER_RESULT_NEEDS_MORE_OUTPUT = 3
 } BrotliDecoderResult;
 
 /**
@@ -61,67 +61,50 @@ typedef enum {
  * }
  * @endcode
  */
-#define BROTLI_DECODER_ERROR_CODES_LIST(BROTLI_ERROR_CODE, SEPARATOR)                                     \
-    BROTLI_ERROR_CODE(_, NO_ERROR, 0)                                                                     \
-    SEPARATOR /* Same as BrotliDecoderResult values */                                                    \
-    BROTLI_ERROR_CODE(_, SUCCESS, 1) SEPARATOR BROTLI_ERROR_CODE(                                         \
-        _, NEEDS_MORE_INPUT, 2) SEPARATOR BROTLI_ERROR_CODE(_, NEEDS_MORE_OUTPUT, 3) SEPARATOR            \
-                                                                                                          \
-        /* Errors caused by invalid input */                                                              \
-        BROTLI_ERROR_CODE(_ERROR_FORMAT_, EXUBERANT_NIBBLE, -1) SEPARATOR BROTLI_ERROR_CODE(              \
-            _ERROR_FORMAT_, RESERVED,                                                                     \
-            -2) SEPARATOR BROTLI_ERROR_CODE(_ERROR_FORMAT_, EXUBERANT_META_NIBBLE,                        \
-                                            -3) SEPARATOR BROTLI_ERROR_CODE(_ERROR_FORMAT_,               \
-                                                                            SIMPLE_HUFFMAN_ALPHABET,      \
-                                                                            -4) SEPARATOR                 \
-            BROTLI_ERROR_CODE(_ERROR_FORMAT_, SIMPLE_HUFFMAN_SAME, -5) SEPARATOR BROTLI_ERROR_CODE(       \
-                _ERROR_FORMAT_, CL_SPACE,                                                                 \
-                -6) SEPARATOR BROTLI_ERROR_CODE(_ERROR_FORMAT_, HUFFMAN_SPACE,                            \
-                                                -7) SEPARATOR BROTLI_ERROR_CODE(_ERROR_FORMAT_,           \
-                                                                                CONTEXT_MAP_REPEAT,       \
-                                                                                -8) SEPARATOR             \
-                BROTLI_ERROR_CODE(_ERROR_FORMAT_, BLOCK_LENGTH_1, -9) SEPARATOR BROTLI_ERROR_CODE(        \
-                    _ERROR_FORMAT_, BLOCK_LENGTH_2,                                                       \
-                    -10) SEPARATOR BROTLI_ERROR_CODE(_ERROR_FORMAT_, TRANSFORM,                           \
-                                                     -11) SEPARATOR BROTLI_ERROR_CODE(_ERROR_FORMAT_,     \
-                                                                                      DICTIONARY,         \
-                                                                                      -12) SEPARATOR      \
-                    BROTLI_ERROR_CODE(_ERROR_FORMAT_, WINDOW_BITS, -13) SEPARATOR BROTLI_ERROR_CODE(      \
-                        _ERROR_FORMAT_, PADDING_1,                                                        \
-                        -14) SEPARATOR BROTLI_ERROR_CODE(_ERROR_FORMAT_, PADDING_2,                       \
-                                                         -15) SEPARATOR BROTLI_ERROR_CODE(_ERROR_FORMAT_, \
-                                                                                          DISTANCE,       \
-                                                                                          -16) SEPARATOR  \
-                                                                                                          \
-                        /* -17 code is reserved */                                                        \
-                                                                                                          \
-                        BROTLI_ERROR_CODE(_ERROR_, COMPOUND_DICTIONARY, -18) SEPARATOR BROTLI_ERROR_CODE( \
-                            _ERROR_, DICTIONARY_NOT_SET,                                                  \
-                            -19) SEPARATOR BROTLI_ERROR_CODE(_ERROR_, INVALID_ARGUMENTS,                  \
-                                                             -20) SEPARATOR                               \
-                                                                                                          \
-                            /* Memory allocation problems */                                              \
-                            BROTLI_ERROR_CODE(_ERROR_ALLOC_, CONTEXT_MODES, -21)                          \
-                                SEPARATOR /* Literal, insert and distance trees together */               \
-                                    BROTLI_ERROR_CODE(_ERROR_ALLOC_, TREE_GROUPS, -22)                    \
-                                        SEPARATOR /* -23..-24 codes are reserved for distinct tree        \
-                                                     groups */                                            \
-                                            BROTLI_ERROR_CODE(_ERROR_ALLOC_, CONTEXT_MAP, -25)            \
-                                                SEPARATOR BROTLI_ERROR_CODE(_ERROR_ALLOC_,                \
-                                                                            RING_BUFFER_1, -26)           \
-                                                    SEPARATOR BROTLI_ERROR_CODE(                          \
-                                                        _ERROR_ALLOC_, RING_BUFFER_2, -27)                \
-                                                        SEPARATOR /* -28..-29 codes are reserved          \
-                                                                     for dynamic ring-buffer              \
-                                                                     allocation */                        \
-                                                            BROTLI_ERROR_CODE(_ERROR_ALLOC_,              \
-                                                                              BLOCK_TYPE_TREES,           \
-                                                                              -30) SEPARATOR              \
-                                                                                                          \
-                                                                /* "Impossible" states                    \
-                                                                 */                                       \
-                                                                BROTLI_ERROR_CODE(                        \
-                                                                    _ERROR_, UNREACHABLE, -31)
+#define BROTLI_DECODER_ERROR_CODES_LIST(BROTLI_ERROR_CODE, SEPARATOR)      \
+  BROTLI_ERROR_CODE(_, NO_ERROR, 0) SEPARATOR                              \
+  /* Same as BrotliDecoderResult values */                                 \
+  BROTLI_ERROR_CODE(_, SUCCESS, 1) SEPARATOR                               \
+  BROTLI_ERROR_CODE(_, NEEDS_MORE_INPUT, 2) SEPARATOR                      \
+  BROTLI_ERROR_CODE(_, NEEDS_MORE_OUTPUT, 3) SEPARATOR                     \
+                                                                           \
+  /* Errors caused by invalid input */                                     \
+  BROTLI_ERROR_CODE(_ERROR_FORMAT_, EXUBERANT_NIBBLE, -1) SEPARATOR        \
+  BROTLI_ERROR_CODE(_ERROR_FORMAT_, RESERVED, -2) SEPARATOR                \
+  BROTLI_ERROR_CODE(_ERROR_FORMAT_, EXUBERANT_META_NIBBLE, -3) SEPARATOR   \
+  BROTLI_ERROR_CODE(_ERROR_FORMAT_, SIMPLE_HUFFMAN_ALPHABET, -4) SEPARATOR \
+  BROTLI_ERROR_CODE(_ERROR_FORMAT_, SIMPLE_HUFFMAN_SAME, -5) SEPARATOR     \
+  BROTLI_ERROR_CODE(_ERROR_FORMAT_, CL_SPACE, -6) SEPARATOR                \
+  BROTLI_ERROR_CODE(_ERROR_FORMAT_, HUFFMAN_SPACE, -7) SEPARATOR           \
+  BROTLI_ERROR_CODE(_ERROR_FORMAT_, CONTEXT_MAP_REPEAT, -8) SEPARATOR      \
+  BROTLI_ERROR_CODE(_ERROR_FORMAT_, BLOCK_LENGTH_1, -9) SEPARATOR          \
+  BROTLI_ERROR_CODE(_ERROR_FORMAT_, BLOCK_LENGTH_2, -10) SEPARATOR         \
+  BROTLI_ERROR_CODE(_ERROR_FORMAT_, TRANSFORM, -11) SEPARATOR              \
+  BROTLI_ERROR_CODE(_ERROR_FORMAT_, DICTIONARY, -12) SEPARATOR             \
+  BROTLI_ERROR_CODE(_ERROR_FORMAT_, WINDOW_BITS, -13) SEPARATOR            \
+  BROTLI_ERROR_CODE(_ERROR_FORMAT_, PADDING_1, -14) SEPARATOR              \
+  BROTLI_ERROR_CODE(_ERROR_FORMAT_, PADDING_2, -15) SEPARATOR              \
+  BROTLI_ERROR_CODE(_ERROR_FORMAT_, DISTANCE, -16) SEPARATOR               \
+                                                                           \
+  /* -17 code is reserved */                                               \
+                                                                           \
+  BROTLI_ERROR_CODE(_ERROR_, COMPOUND_DICTIONARY, -18) SEPARATOR           \
+  BROTLI_ERROR_CODE(_ERROR_, DICTIONARY_NOT_SET, -19) SEPARATOR            \
+  BROTLI_ERROR_CODE(_ERROR_, INVALID_ARGUMENTS, -20) SEPARATOR             \
+                                                                           \
+  /* Memory allocation problems */                                         \
+  BROTLI_ERROR_CODE(_ERROR_ALLOC_, CONTEXT_MODES, -21) SEPARATOR           \
+  /* Literal, insert and distance trees together */                        \
+  BROTLI_ERROR_CODE(_ERROR_ALLOC_, TREE_GROUPS, -22) SEPARATOR             \
+  /* -23..-24 codes are reserved for distinct tree groups */               \
+  BROTLI_ERROR_CODE(_ERROR_ALLOC_, CONTEXT_MAP, -25) SEPARATOR             \
+  BROTLI_ERROR_CODE(_ERROR_ALLOC_, RING_BUFFER_1, -26) SEPARATOR           \
+  BROTLI_ERROR_CODE(_ERROR_ALLOC_, RING_BUFFER_2, -27) SEPARATOR           \
+  /* -28..-29 codes are reserved for dynamic ring-buffer allocation */     \
+  BROTLI_ERROR_CODE(_ERROR_ALLOC_, BLOCK_TYPE_TREES, -30) SEPARATOR        \
+                                                                           \
+  /* "Impossible" states */                                                \
+  BROTLI_ERROR_CODE(_ERROR_, UNREACHABLE, -31)
 
 /**
  * Error code for detailed logging / production debugging.
@@ -130,8 +113,9 @@ typedef enum {
  */
 typedef enum {
 #define BROTLI_COMMA_ ,
-#define BROTLI_ERROR_CODE_ENUM_ITEM_(PREFIX, NAME, CODE) BROTLI_DECODER##PREFIX##NAME = CODE
-    BROTLI_DECODER_ERROR_CODES_LIST(BROTLI_ERROR_CODE_ENUM_ITEM_, BROTLI_COMMA_)
+#define BROTLI_ERROR_CODE_ENUM_ITEM_(PREFIX, NAME, CODE) \
+    BROTLI_DECODER ## PREFIX ## NAME = CODE
+  BROTLI_DECODER_ERROR_CODES_LIST(BROTLI_ERROR_CODE_ENUM_ITEM_, BROTLI_COMMA_)
 } BrotliDecoderErrorCode;
 #undef BROTLI_ERROR_CODE_ENUM_ITEM_
 #undef BROTLI_COMMA_
@@ -147,17 +131,17 @@ typedef enum {
 
 /** Options to be used with ::BrotliDecoderSetParameter. */
 typedef enum BrotliDecoderParameter {
-    /**
-     * Disable "canny" ring buffer allocation strategy.
-     *
-     * Ring buffer is allocated according to window size, despite the real size of
-     * the content.
-     */
-    BROTLI_DECODER_PARAM_DISABLE_RING_BUFFER_REALLOCATION = 0,
-    /**
-     * Flag that determines if "Large Window Brotli" is used.
-     */
-    BROTLI_DECODER_PARAM_LARGE_WINDOW = 1
+  /**
+   * Disable "canny" ring buffer allocation strategy.
+   *
+   * Ring buffer is allocated according to window size, despite the real size of
+   * the content.
+   */
+  BROTLI_DECODER_PARAM_DISABLE_RING_BUFFER_REALLOCATION = 0,
+  /**
+   * Flag that determines if "Large Window Brotli" is used.
+   */
+  BROTLI_DECODER_PARAM_LARGE_WINDOW = 1
 } BrotliDecoderParameter;
 
 /**
@@ -169,8 +153,8 @@ typedef enum BrotliDecoderParameter {
  * @returns ::BROTLI_FALSE if parameter is unrecognized, or value is invalid
  * @returns ::BROTLI_TRUE if value is accepted
  */
-BROTLI_DEC_API BROTLI_BOOL BrotliDecoderSetParameter(BrotliDecoderState* state,
-                                                     BrotliDecoderParameter param, uint32_t value);
+BROTLI_DEC_API BROTLI_BOOL BrotliDecoderSetParameter(
+    BrotliDecoderState* state, BrotliDecoderParameter param, uint32_t value);
 
 /**
  * Adds LZ77 prefix dictionary, adds or replaces built-in static dictionary and
@@ -190,9 +174,9 @@ BROTLI_DEC_API BROTLI_BOOL BrotliDecoderSetParameter(BrotliDecoderState* state,
  *          or dictionary count limit is reached
  * @returns ::BROTLI_TRUE if dictionary is accepted / attached
  */
-BROTLI_DEC_API BROTLI_BOOL
-BrotliDecoderAttachDictionary(BrotliDecoderState* state, BrotliSharedDictionaryType type,
-                              size_t data_size, const uint8_t data[BROTLI_ARRAY_PARAM(data_size)]);
+BROTLI_DEC_API BROTLI_BOOL BrotliDecoderAttachDictionary(
+    BrotliDecoderState* state, BrotliSharedDictionaryType type,
+    size_t data_size, const uint8_t data[BROTLI_ARRAY_PARAM(data_size)]);
 
 /**
  * Creates an instance of ::BrotliDecoderState and initializes it.
@@ -212,9 +196,8 @@ BrotliDecoderAttachDictionary(BrotliDecoderState* state, BrotliSharedDictionaryT
  * @returns @c 0 if instance can not be allocated or initialized
  * @returns pointer to initialized ::BrotliDecoderState otherwise
  */
-BROTLI_DEC_API BrotliDecoderState* BrotliDecoderCreateInstance(brotli_alloc_func alloc_func,
-                                                               brotli_free_func free_func,
-                                                               void* opaque);
+BROTLI_DEC_API BrotliDecoderState* BrotliDecoderCreateInstance(
+    brotli_alloc_func alloc_func, brotli_free_func free_func, void* opaque);
 
 /**
  * Deinitializes and frees ::BrotliDecoderState instance.
@@ -241,8 +224,10 @@ BROTLI_DEC_API void BrotliDecoderDestroyInstance(BrotliDecoderState* state);
  * @returns ::BROTLI_DECODER_RESULT_SUCCESS otherwise
  */
 BROTLI_DEC_API BrotliDecoderResult BrotliDecoderDecompress(
-    size_t encoded_size, const uint8_t encoded_buffer[BROTLI_ARRAY_PARAM(encoded_size)],
-    size_t* decoded_size, uint8_t decoded_buffer[BROTLI_ARRAY_PARAM(*decoded_size)]);
+    size_t encoded_size,
+    const uint8_t encoded_buffer[BROTLI_ARRAY_PARAM(encoded_size)],
+    size_t* decoded_size,
+    uint8_t decoded_buffer[BROTLI_ARRAY_PARAM(*decoded_size)]);
 
 /**
  * Decompresses the input stream to the output stream.
@@ -283,8 +268,8 @@ BROTLI_DEC_API BrotliDecoderResult BrotliDecoderDecompress(
  *          input might be consumed and no more output will be produced
  */
 BROTLI_DEC_API BrotliDecoderResult BrotliDecoderDecompressStream(
-    BrotliDecoderState* state, size_t* available_in, const uint8_t** next_in, size_t* available_out,
-    uint8_t** next_out, size_t* total_out);
+  BrotliDecoderState* state, size_t* available_in, const uint8_t** next_in,
+  size_t* available_out, uint8_t** next_out, size_t* total_out);
 
 /**
  * Checks if decoder has more output.
@@ -293,7 +278,8 @@ BROTLI_DEC_API BrotliDecoderResult BrotliDecoderDecompressStream(
  * @returns ::BROTLI_TRUE, if decoder has some unconsumed output
  * @returns ::BROTLI_FALSE otherwise
  */
-BROTLI_DEC_API BROTLI_BOOL BrotliDecoderHasMoreOutput(const BrotliDecoderState* state);
+BROTLI_DEC_API BROTLI_BOOL BrotliDecoderHasMoreOutput(
+    const BrotliDecoderState* state);
 
 /**
  * Acquires pointer to internal output buffer.
@@ -323,7 +309,8 @@ BROTLI_DEC_API BROTLI_BOOL BrotliDecoderHasMoreOutput(const BrotliDecoderState* 
  *                 out value is never greater than in value, unless it is @c 0
  * @returns pointer to output data
  */
-BROTLI_DEC_API const uint8_t* BrotliDecoderTakeOutput(BrotliDecoderState* state, size_t* size);
+BROTLI_DEC_API const uint8_t* BrotliDecoderTakeOutput(
+    BrotliDecoderState* state, size_t* size);
 
 /**
  * Checks if instance has already consumed input.
@@ -345,7 +332,8 @@ BROTLI_DEC_API BROTLI_BOOL BrotliDecoderIsUsed(const BrotliDecoderState* state);
  *          the input and produced all of the output
  * @returns ::BROTLI_FALSE otherwise
  */
-BROTLI_DEC_API BROTLI_BOOL BrotliDecoderIsFinished(const BrotliDecoderState* state);
+BROTLI_DEC_API BROTLI_BOOL BrotliDecoderIsFinished(
+    const BrotliDecoderState* state);
 
 /**
  * Acquires a detailed error code.
@@ -358,7 +346,8 @@ BROTLI_DEC_API BROTLI_BOOL BrotliDecoderIsFinished(const BrotliDecoderState* sta
  * @param state decoder instance
  * @returns last saved error code
  */
-BROTLI_DEC_API BrotliDecoderErrorCode BrotliDecoderGetErrorCode(const BrotliDecoderState* state);
+BROTLI_DEC_API BrotliDecoderErrorCode BrotliDecoderGetErrorCode(
+    const BrotliDecoderState* state);
 
 /**
  * Converts error code to a c-string.
@@ -396,7 +385,9 @@ typedef void (*brotli_decoder_metadata_start_func)(void* opaque, size_t size);
  * @param data pointer to metadata contents
  * @param size size of metadata block chunk, at least @c 1
  */
-typedef void (*brotli_decoder_metadata_chunk_func)(void* opaque, const uint8_t* data, size_t size);
+typedef void (*brotli_decoder_metadata_chunk_func)(void* opaque,
+                                                   const uint8_t* data,
+                                                   size_t size);
 
 /**
  * Sets callback for receiving metadata blocks.
@@ -406,13 +397,13 @@ typedef void (*brotli_decoder_metadata_chunk_func)(void* opaque, const uint8_t* 
  * @param chunk_func callback on metadata block chunk
  * @param opaque callback handle
  */
-BROTLI_DEC_API void BrotliDecoderSetMetadataCallbacks(BrotliDecoderState* state,
-                                                      brotli_decoder_metadata_start_func start_func,
-                                                      brotli_decoder_metadata_chunk_func chunk_func,
-                                                      void* opaque);
+BROTLI_DEC_API void BrotliDecoderSetMetadataCallbacks(
+    BrotliDecoderState* state,
+    brotli_decoder_metadata_start_func start_func,
+    brotli_decoder_metadata_chunk_func chunk_func, void* opaque);
 
 #if defined(__cplusplus) || defined(c_plusplus)
 } /* extern "C" */
 #endif
 
-#endif /* BROTLI_DEC_DECODE_H_ */
+#endif  /* BROTLI_DEC_DECODE_H_ */

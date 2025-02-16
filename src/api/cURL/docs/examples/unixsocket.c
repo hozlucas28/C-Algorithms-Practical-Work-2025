@@ -25,8 +25,8 @@
  * Access HTTP server over Unix domain socket
  * </DESC>
  */
-#include <curl/curl.h>
 #include <stdio.h>
+#include <curl/curl.h>
 
 #ifdef USE_ABSTRACT
 /*
@@ -38,28 +38,30 @@
 #define PATH "/tmp/http-unix-domain"
 #endif
 
-int main(void) {
-    CURL *curl;
-    CURLcode res;
+int main(void)
+{
+  CURL *curl;
+  CURLcode res;
 
-    curl = curl_easy_init();
-    if (curl) {
-        curl_easy_setopt(curl, CURLOPT_URL, "http://example.com");
+  curl = curl_easy_init();
+  if(curl) {
+    curl_easy_setopt(curl, CURLOPT_URL, "http://example.com");
 
 #ifdef USE_ABSTRACT
-        curl_easy_setopt(curl, CURLOPT_ABSTRACT_UNIX_SOCKET, ABSTRACT);
+    curl_easy_setopt(curl, CURLOPT_ABSTRACT_UNIX_SOCKET, ABSTRACT);
 #else
-        curl_easy_setopt(curl, CURLOPT_UNIX_SOCKET_PATH, PATH);
+    curl_easy_setopt(curl, CURLOPT_UNIX_SOCKET_PATH, PATH);
 #endif
 
-        /* Perform the request, res gets the return code */
-        res = curl_easy_perform(curl);
-        /* Check for errors */
-        if (res != CURLE_OK)
-            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+    /* Perform the request, res gets the return code */
+    res = curl_easy_perform(curl);
+    /* Check for errors */
+    if(res != CURLE_OK)
+      fprintf(stderr, "curl_easy_perform() failed: %s\n",
+              curl_easy_strerror(res));
 
-        /* always cleanup */
-        curl_easy_cleanup(curl);
-    }
-    return 0;
+    /* always cleanup */
+    curl_easy_cleanup(curl);
+  }
+  return 0;
 }

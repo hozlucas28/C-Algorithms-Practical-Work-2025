@@ -72,27 +72,30 @@ extern "C" {
 #define CT_V1_HASHLEN SHA256_DIGEST_LENGTH
 
 typedef enum {
-    CT_LOG_ENTRY_TYPE_NOT_SET = -1,
-    CT_LOG_ENTRY_TYPE_X509 = 0,
-    CT_LOG_ENTRY_TYPE_PRECERT = 1
+	CT_LOG_ENTRY_TYPE_NOT_SET = -1,
+	CT_LOG_ENTRY_TYPE_X509 = 0,
+	CT_LOG_ENTRY_TYPE_PRECERT = 1
 } ct_log_entry_type_t;
 
-typedef enum { SCT_VERSION_NOT_SET = -1, SCT_VERSION_V1 = 0 } sct_version_t;
+typedef enum {
+	SCT_VERSION_NOT_SET = -1,
+	SCT_VERSION_V1 = 0
+} sct_version_t;
 
 typedef enum {
-    SCT_SOURCE_UNKNOWN,
-    SCT_SOURCE_TLS_EXTENSION,
-    SCT_SOURCE_X509V3_EXTENSION,
-    SCT_SOURCE_OCSP_STAPLED_RESPONSE
+	SCT_SOURCE_UNKNOWN,
+	SCT_SOURCE_TLS_EXTENSION,
+	SCT_SOURCE_X509V3_EXTENSION,
+	SCT_SOURCE_OCSP_STAPLED_RESPONSE
 } sct_source_t;
 
 typedef enum {
-    SCT_VALIDATION_STATUS_NOT_SET,
-    SCT_VALIDATION_STATUS_UNKNOWN_LOG,
-    SCT_VALIDATION_STATUS_VALID,
-    SCT_VALIDATION_STATUS_INVALID,
-    SCT_VALIDATION_STATUS_UNVERIFIED,
-    SCT_VALIDATION_STATUS_UNKNOWN_VERSION
+	SCT_VALIDATION_STATUS_NOT_SET,
+	SCT_VALIDATION_STATUS_UNKNOWN_LOG,
+	SCT_VALIDATION_STATUS_VALID,
+	SCT_VALIDATION_STATUS_INVALID,
+	SCT_VALIDATION_STATUS_UNVERIFIED,
+	SCT_VALIDATION_STATUS_UNKNOWN_VERSION
 } sct_validation_status_t;
 
 DECLARE_STACK_OF(SCT)
@@ -136,7 +139,8 @@ int CT_POLICY_EVAL_CTX_set1_issuer(CT_POLICY_EVAL_CTX *ctx, X509 *issuer);
 const CTLOG_STORE *CT_POLICY_EVAL_CTX_get0_log_store(const CT_POLICY_EVAL_CTX *ctx);
 
 /* Sets the log store that is in use. It must outlive the CT_POLICY_EVAL_CTX. */
-void CT_POLICY_EVAL_CTX_set_shared_CTLOG_STORE(CT_POLICY_EVAL_CTX *ctx, CTLOG_STORE *log_store);
+void CT_POLICY_EVAL_CTX_set_shared_CTLOG_STORE(CT_POLICY_EVAL_CTX *ctx,
+                                               CTLOG_STORE *log_store);
 
 /*
  * Gets the time, in milliseconds since the Unix epoch, that will be used as the
@@ -168,8 +172,8 @@ SCT *SCT_new(void);
  * The caller is responsible for calling SCT_free when finished with the SCT.
  */
 SCT *SCT_new_from_base64(unsigned char version, const char *logid_base64,
-                         ct_log_entry_type_t entry_type, uint64_t timestamp,
-                         const char *extensions_base64, const char *signature_base64);
+    ct_log_entry_type_t entry_type, uint64_t timestamp,
+    const char *extensions_base64, const char *signature_base64);
 
 /*
  * Frees the SCT and the underlying data structures.
@@ -180,7 +184,7 @@ void SCT_free(SCT *sct);
  * Free a stack of SCTs, and the underlying SCTs themselves.
  * Intended to be compatible with X509V3_EXT_FREE.
  */
-void SCT_LIST_free(STACK_OF(SCT) * a);
+void SCT_LIST_free(STACK_OF(SCT) *a);
 
 /*
  * Returns the version of the SCT.
@@ -223,7 +227,8 @@ int SCT_set0_log_id(SCT *sct, unsigned char *log_id, size_t log_id_len);
  * This makes a copy of the log_id.
  * Returns 1 on success, 0 otherwise.
  */
-int SCT_set1_log_id(SCT *sct, const unsigned char *log_id, size_t log_id_len);
+int SCT_set1_log_id(SCT *sct, const unsigned char *log_id,
+                           size_t log_id_len);
 
 /*
  * Returns the timestamp for the SCT (epoch time in milliseconds).
@@ -268,7 +273,8 @@ void SCT_set0_extensions(SCT *sct, unsigned char *ext, size_t ext_len);
  * This takes a copy of the ext.
  * Returns 1 on success, 0 otherwise.
  */
-int SCT_set1_extensions(SCT *sct, const unsigned char *ext, size_t ext_len);
+int SCT_set1_extensions(SCT *sct, const unsigned char *ext,
+                               size_t ext_len);
 
 /*
  * Set *sig to point to the signature for the SCT. sig must not be NULL.
@@ -287,7 +293,8 @@ void SCT_set0_signature(SCT *sct, unsigned char *sig, size_t sig_len);
  * Set the signature of an SCT to be a copy of the *sig specified.
  * Returns 1 on success, 0 otherwise.
  */
-int SCT_set1_signature(SCT *sct, const unsigned char *sig, size_t sig_len);
+int SCT_set1_signature(SCT *sct, const unsigned char *sig,
+    size_t sig_len);
 
 /*
  * The origin of this SCT, e.g. TLS extension, OCSP response, etc.
@@ -320,8 +327,8 @@ void SCT_print(const SCT *sct, BIO *out, int indent, const CTLOG_STORE *logs);
  * If |logs| is not NULL, it will be used to lookup the CT log that each SCT
  * came from, so that the log names can be printed.
  */
-void SCT_LIST_print(const STACK_OF(SCT) * sct_list, BIO *out, int indent, const char *separator,
-                    const CTLOG_STORE *logs);
+void SCT_LIST_print(const STACK_OF(SCT) *sct_list, BIO *out, int indent,
+    const char *separator, const CTLOG_STORE *logs);
 
 /*
  * Gets the last result of validating this SCT.
@@ -345,7 +352,9 @@ int SCT_validate(SCT *sct, const CT_POLICY_EVAL_CTX *ctx);
  * Returns 0 if at least one SCT is invalid or could not be verified.
  * Returns a negative integer if an error occurs.
  */
-int SCT_LIST_validate(const STACK_OF(SCT) * scts, CT_POLICY_EVAL_CTX *ctx);
+int SCT_LIST_validate(const STACK_OF(SCT) *scts,
+    CT_POLICY_EVAL_CTX *ctx);
+
 
 /*********************************
  * SCT parsing and serialisation *
@@ -363,7 +372,7 @@ int SCT_LIST_validate(const STACK_OF(SCT) * scts, CT_POLICY_EVAL_CTX *ctx);
  * Returns < 0 on error, >= 0 indicating bytes written (or would have been)
  * on success.
  */
-int i2o_SCT_LIST(const STACK_OF(SCT) * a, unsigned char **pp);
+int i2o_SCT_LIST(const STACK_OF(SCT) *a, unsigned char **pp);
 
 /*
  * Convert TLS format SCT list to a stack of SCTs.
@@ -375,7 +384,8 @@ int i2o_SCT_LIST(const STACK_OF(SCT) * a, unsigned char **pp);
  * Upon failure, a NULL pointer will be returned, and the position of "*pp" is
  * not defined.
  */
-STACK_OF(SCT) * o2i_SCT_LIST(STACK_OF(SCT) * *a, const unsigned char **pp, size_t len);
+STACK_OF(SCT) *o2i_SCT_LIST(STACK_OF(SCT) **a, const unsigned char **pp,
+    size_t len);
 
 /*
  * Serialize (to DER format) a stack of SCTs and return the length.
@@ -389,7 +399,7 @@ STACK_OF(SCT) * o2i_SCT_LIST(STACK_OF(SCT) * *a, const unsigned char **pp, size_
  * Returns < 0 on error, >= 0 indicating bytes written (or would have been)
  * on success.
  */
-int i2d_SCT_LIST(const STACK_OF(SCT) * a, unsigned char **pp);
+int i2d_SCT_LIST(const STACK_OF(SCT) *a, unsigned char **pp);
 
 /*
  * Parses an SCT list in DER format and returns it.
@@ -401,7 +411,8 @@ int i2d_SCT_LIST(const STACK_OF(SCT) * a, unsigned char **pp);
  * Upon failure, a NULL pointer will be returned, and the position of "*pp" is
  * not defined.
  */
-STACK_OF(SCT) * d2i_SCT_LIST(STACK_OF(SCT) * *a, const unsigned char **pp, long len);
+STACK_OF(SCT) *d2i_SCT_LIST(STACK_OF(SCT) **a, const unsigned char **pp,
+    long len);
 
 /*
  * Serialize (to TLS format) an |sct| and write it to |out|.
@@ -445,7 +456,8 @@ CTLOG *CTLOG_new(EVP_PKEY *public_key, const char *name);
  * Returns 1 on success, 0 on failure.
  * Should be deleted by the caller using CTLOG_free when no longer needed.
  */
-int CTLOG_new_from_base64(CTLOG **ct_log, const char *pkey_base64, const char *name);
+int CTLOG_new_from_base64(CTLOG **ct_log, const char *pkey_base64,
+    const char *name);
 
 /*
  * Deletes a CT log instance and its fields.
@@ -455,7 +467,8 @@ void CTLOG_free(CTLOG *log);
 /* Gets the name of the CT log */
 const char *CTLOG_get0_name(const CTLOG *log);
 /* Gets the ID of the CT log */
-void CTLOG_get0_log_id(const CTLOG *log, const uint8_t **log_id, size_t *log_id_len);
+void CTLOG_get0_log_id(const CTLOG *log, const uint8_t **log_id,
+                       size_t *log_id_len);
 /* Gets the public key of the CT log */
 EVP_PKEY *CTLOG_get0_public_key(const CTLOG *log);
 
@@ -478,8 +491,8 @@ void CTLOG_STORE_free(CTLOG_STORE *store);
  * Finds a CT log in the store based on its log ID.
  * Returns the CT log, or NULL if no match is found.
  */
-const CTLOG *CTLOG_STORE_get0_log_by_id(const CTLOG_STORE *store, const uint8_t *log_id,
-                                        size_t log_id_len);
+const CTLOG *CTLOG_STORE_get0_log_by_id(const CTLOG_STORE *store,
+    const uint8_t *log_id, size_t log_id_len);
 
 /*
  * Loads a CT log list into a |store| from a |file|.
@@ -498,54 +511,54 @@ int ERR_load_CT_strings(void);
 /*
  * CT function codes.
  */
-#define CT_F_CTLOG_NEW 117
-#define CT_F_CTLOG_NEW_FROM_BASE64 118
-#define CT_F_CTLOG_NEW_FROM_CONF 119
-#define CT_F_CTLOG_STORE_LOAD_CTX_NEW 122
-#define CT_F_CTLOG_STORE_LOAD_FILE 123
-#define CT_F_CTLOG_STORE_LOAD_LOG 130
-#define CT_F_CTLOG_STORE_NEW 131
-#define CT_F_CT_BASE64_DECODE 124
-#define CT_F_CT_POLICY_EVAL_CTX_NEW 133
-#define CT_F_CT_V1_LOG_ID_FROM_PKEY 125
-#define CT_F_I2O_SCT 107
-#define CT_F_I2O_SCT_LIST 108
-#define CT_F_I2O_SCT_SIGNATURE 109
-#define CT_F_O2I_SCT 110
-#define CT_F_O2I_SCT_LIST 111
-#define CT_F_O2I_SCT_SIGNATURE 112
-#define CT_F_SCT_CTX_NEW 126
-#define CT_F_SCT_CTX_VERIFY 128
-#define CT_F_SCT_NEW 100
-#define CT_F_SCT_NEW_FROM_BASE64 127
-#define CT_F_SCT_SET0_LOG_ID 101
-#define CT_F_SCT_SET1_EXTENSIONS 114
-#define CT_F_SCT_SET1_LOG_ID 115
-#define CT_F_SCT_SET1_SIGNATURE 116
-#define CT_F_SCT_SET_LOG_ENTRY_TYPE 102
-#define CT_F_SCT_SET_SIGNATURE_NID 103
-#define CT_F_SCT_SET_VERSION 104
+#  define CT_F_CTLOG_NEW                                   117
+#  define CT_F_CTLOG_NEW_FROM_BASE64                       118
+#  define CT_F_CTLOG_NEW_FROM_CONF                         119
+#  define CT_F_CTLOG_STORE_LOAD_CTX_NEW                    122
+#  define CT_F_CTLOG_STORE_LOAD_FILE                       123
+#  define CT_F_CTLOG_STORE_LOAD_LOG                        130
+#  define CT_F_CTLOG_STORE_NEW                             131
+#  define CT_F_CT_BASE64_DECODE                            124
+#  define CT_F_CT_POLICY_EVAL_CTX_NEW                      133
+#  define CT_F_CT_V1_LOG_ID_FROM_PKEY                      125
+#  define CT_F_I2O_SCT                                     107
+#  define CT_F_I2O_SCT_LIST                                108
+#  define CT_F_I2O_SCT_SIGNATURE                           109
+#  define CT_F_O2I_SCT                                     110
+#  define CT_F_O2I_SCT_LIST                                111
+#  define CT_F_O2I_SCT_SIGNATURE                           112
+#  define CT_F_SCT_CTX_NEW                                 126
+#  define CT_F_SCT_CTX_VERIFY                              128
+#  define CT_F_SCT_NEW                                     100
+#  define CT_F_SCT_NEW_FROM_BASE64                         127
+#  define CT_F_SCT_SET0_LOG_ID                             101
+#  define CT_F_SCT_SET1_EXTENSIONS                         114
+#  define CT_F_SCT_SET1_LOG_ID                             115
+#  define CT_F_SCT_SET1_SIGNATURE                          116
+#  define CT_F_SCT_SET_LOG_ENTRY_TYPE                      102
+#  define CT_F_SCT_SET_SIGNATURE_NID                       103
+#  define CT_F_SCT_SET_VERSION                             104
 
 /*
  * CT reason codes.
  */
-#define CT_R_BASE64_DECODE_ERROR 108
-#define CT_R_INVALID_LOG_ID_LENGTH 100
-#define CT_R_LOG_CONF_INVALID 109
-#define CT_R_LOG_CONF_INVALID_KEY 110
-#define CT_R_LOG_CONF_MISSING_DESCRIPTION 111
-#define CT_R_LOG_CONF_MISSING_KEY 112
-#define CT_R_LOG_KEY_INVALID 113
-#define CT_R_SCT_FUTURE_TIMESTAMP 116
-#define CT_R_SCT_INVALID 104
-#define CT_R_SCT_INVALID_SIGNATURE 107
-#define CT_R_SCT_LIST_INVALID 105
-#define CT_R_SCT_LOG_ID_MISMATCH 114
-#define CT_R_SCT_NOT_SET 106
-#define CT_R_SCT_UNSUPPORTED_VERSION 115
-#define CT_R_UNRECOGNIZED_SIGNATURE_NID 101
-#define CT_R_UNSUPPORTED_ENTRY_TYPE 102
-#define CT_R_UNSUPPORTED_VERSION 103
+#  define CT_R_BASE64_DECODE_ERROR                         108
+#  define CT_R_INVALID_LOG_ID_LENGTH                       100
+#  define CT_R_LOG_CONF_INVALID                            109
+#  define CT_R_LOG_CONF_INVALID_KEY                        110
+#  define CT_R_LOG_CONF_MISSING_DESCRIPTION                111
+#  define CT_R_LOG_CONF_MISSING_KEY                        112
+#  define CT_R_LOG_KEY_INVALID                             113
+#  define CT_R_SCT_FUTURE_TIMESTAMP                        116
+#  define CT_R_SCT_INVALID                                 104
+#  define CT_R_SCT_INVALID_SIGNATURE                       107
+#  define CT_R_SCT_LIST_INVALID                            105
+#  define CT_R_SCT_LOG_ID_MISMATCH                         114
+#  define CT_R_SCT_NOT_SET                                 106
+#  define CT_R_SCT_UNSUPPORTED_VERSION                     115
+#  define CT_R_UNRECOGNIZED_SIGNATURE_NID                  101
+#  define CT_R_UNSUPPORTED_ENTRY_TYPE                      102
+#  define CT_R_UNSUPPORTED_VERSION                         103
 
 #ifdef __cplusplus
 }

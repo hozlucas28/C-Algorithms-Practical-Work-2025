@@ -26,11 +26,12 @@
  * one the server supports/wants.
  * </DESC>
  */
-#include <curl/curl.h>
-#include <fcntl.h>
 #include <stdio.h>
-#include <sys/stat.h>
+#include <fcntl.h>
 #include <sys/types.h>
+#include <sys/stat.h>
+
+#include <curl/curl.h>
 
 #ifdef _WIN32
 #undef stat
@@ -56,96 +57,104 @@
  */
 
 /* seek callback function */
-static int my_seek(void *userp, curl_off_t offset, int origin) {
-    FILE *fp = (FILE *)userp;
+static int my_seek(void *userp, curl_off_t offset, int origin)
+{
+  FILE *fp = (FILE *) userp;
 
-    if (-1 == fseek(fp, (long)offset, origin)) /* could not seek */
-        return CURL_SEEKFUNC_CANTSEEK;
+  if(-1 == fseek(fp, (long) offset, origin))
+    /* could not seek */
+    return CURL_SEEKFUNC_CANTSEEK;
 
-    return CURL_SEEKFUNC_OK; /* success! */
+  return CURL_SEEKFUNC_OK; /* success! */
 }
 
 /* read callback function, fread() look alike */
-static size_t read_callback(char *ptr, size_t size, size_t nmemb, void *stream) {
-    size_t nread;
+static size_t read_callback(char *ptr, size_t size, size_t nmemb, void *stream)
+{
+  size_t nread;
 
-    nread = fread(ptr, size, nmemb, stream);
+  nread = fread(ptr, size, nmemb, stream);
 
-    if (nread > 0) {
-        fprintf(stderr, "*** We read %lu bytes from file\n", (unsigned long)nread);
-    }
+  if(nread > 0) {
+    fprintf(stderr, "*** We read %lu bytes from file\n", (unsigned long)nread);
+  }
 
-    return nread;
+  return nread;
 }
 
-int main(int argc, char **argv) {
-    CURL *curl;
-    CURLcode res;
-    FILE *fp;
-    struct stat file_info;
+int main(int argc, char **argv)
+{
+  CURL *curl;
+  CURLcode res;
+  FILE *fp;
+  struct stat file_info;
 
-    char *file;
-    char *url;
+  char *file;
+  char *url;
 
-    if (argc < 3) return 1;
+  if(argc < 3)
+    return 1;
 
-    file = argv[1];
-    url = argv[2];
+  file = argv[1];
+  url = argv[2];
 
-    /* get the file size of the local file */
-    fp = fopen(file, "rb");
-    if (!fp) return 2;
+  /* get the file size of the local file */
+  fp = fopen(file, "rb");
+  if(!fp)
+    return 2;
 
-    fstat(fileno(fp), &file_info);
+  fstat(fileno(fp), &file_info);
 
-    /* In Windows, this inits the Winsock stuff */
-    curl_global_init(CURL_GLOBAL_ALL);
+  /* In Windows, this inits the Winsock stuff */
+  curl_global_init(CURL_GLOBAL_ALL);
 
-    /* get a curl handle */
-    curl = curl_easy_init();
-    if (curl) {
-        /* we want to use our own read function */
-        curl_easy_setopt(curl, CURLOPT_READFUNCTION, read_callback);
+  /* get a curl handle */
+  curl = curl_easy_init();
+  if(curl) {
+    /* we want to use our own read function */
+    curl_easy_setopt(curl, CURLOPT_READFUNCTION, read_callback);
 
-        /* which file to upload */
-        curl_easy_setopt(curl, CURLOPT_READDATA, (void *)fp);
+    /* which file to upload */
+    curl_easy_setopt(curl, CURLOPT_READDATA, (void *) fp);
 
-        /* set the seek function */
-        curl_easy_setopt(curl, CURLOPT_SEEKFUNCTION, my_seek);
+    /* set the seek function */
+    curl_easy_setopt(curl, CURLOPT_SEEKFUNCTION, my_seek);
 
-        /* pass the file descriptor to the seek callback as well */
-        curl_easy_setopt(curl, CURLOPT_SEEKDATA, (void *)fp);
+    /* pass the file descriptor to the seek callback as well */
+    curl_easy_setopt(curl, CURLOPT_SEEKDATA, (void *) fp);
 
-        /* enable "uploading" (which means PUT when doing HTTP) */
-        curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
+    /* enable "uploading" (which means PUT when doing HTTP) */
+    curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
 
-        /* specify target URL, and note that this URL should also include a file
-           name, not only a directory (as you can do with GTP uploads) */
-        curl_easy_setopt(curl, CURLOPT_URL, url);
+    /* specify target URL, and note that this URL should also include a file
+       name, not only a directory (as you can do with GTP uploads) */
+    curl_easy_setopt(curl, CURLOPT_URL, url);
 
-        /* and give the size of the upload, this supports large file sizes
-           on systems that have general support for it */
-        curl_easy_setopt(curl, CURLOPT_INFILESIZE_LARGE, (curl_off_t)file_info.st_size);
+    /* and give the size of the upload, this supports large file sizes
+       on systems that have general support for it */
+    curl_easy_setopt(curl, CURLOPT_INFILESIZE_LARGE,
+                     (curl_off_t)file_info.st_size);
 
-        /* tell libcurl we can use "any" auth, which lets the lib pick one, but it
-           also costs one extra round-trip and possibly sending of all the PUT
-           data twice!!! */
-        curl_easy_setopt(curl, CURLOPT_HTTPAUTH, (long)CURLAUTH_ANY);
+    /* tell libcurl we can use "any" auth, which lets the lib pick one, but it
+       also costs one extra round-trip and possibly sending of all the PUT
+       data twice!!! */
+    curl_easy_setopt(curl, CURLOPT_HTTPAUTH, (long)CURLAUTH_ANY);
 
-        /* set user name and password for the authentication */
-        curl_easy_setopt(curl, CURLOPT_USERPWD, "user:password");
+    /* set user name and password for the authentication */
+    curl_easy_setopt(curl, CURLOPT_USERPWD, "user:password");
 
-        /* Now run off and do what you have been told! */
-        res = curl_easy_perform(curl);
-        /* Check for errors */
-        if (res != CURLE_OK)
-            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+    /* Now run off and do what you have been told! */
+    res = curl_easy_perform(curl);
+    /* Check for errors */
+    if(res != CURLE_OK)
+      fprintf(stderr, "curl_easy_perform() failed: %s\n",
+              curl_easy_strerror(res));
 
-        /* always cleanup */
-        curl_easy_cleanup(curl);
-    }
-    fclose(fp); /* close the local file */
+    /* always cleanup */
+    curl_easy_cleanup(curl);
+  }
+  fclose(fp); /* close the local file */
 
-    curl_global_cleanup();
-    return 0;
+  curl_global_cleanup();
+  return 0;
 }

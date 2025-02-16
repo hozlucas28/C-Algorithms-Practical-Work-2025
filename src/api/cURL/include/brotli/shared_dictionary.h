@@ -33,13 +33,13 @@ typedef struct BrotliSharedDictionaryStruct BrotliSharedDictionary;
  * Input data type for ::BrotliSharedDictionaryAttach.
  */
 typedef enum BrotliSharedDictionaryType {
-    /** Raw LZ77 prefix dictionary. */
-    BROTLI_SHARED_DICTIONARY_RAW = 0,
-    /** Serialized shared dictionary.
-     *
-     * DO NOT USE: methods accepting this value will fail.
-     */
-    BROTLI_SHARED_DICTIONARY_SERIALIZED = 1
+  /** Raw LZ77 prefix dictionary. */
+  BROTLI_SHARED_DICTIONARY_RAW = 0,
+  /** Serialized shared dictionary.
+   *
+   * DO NOT USE: methods accepting this value will fail.
+   */
+  BROTLI_SHARED_DICTIONARY_SERIALIZED = 1
 } BrotliSharedDictionaryType;
 
 /**
@@ -67,7 +67,8 @@ BROTLI_COMMON_API BrotliSharedDictionary* BrotliSharedDictionaryCreateInstance(
  *
  * @param dict shared dictionary instance to be cleaned up and deallocated
  */
-BROTLI_COMMON_API void BrotliSharedDictionaryDestroyInstance(BrotliSharedDictionary* dict);
+BROTLI_COMMON_API void BrotliSharedDictionaryDestroyInstance(
+    BrotliSharedDictionary* dict);
 
 /**
  * Attaches dictionary to a given instance of ::BrotliSharedDictionary.
@@ -88,12 +89,12 @@ BROTLI_COMMON_API void BrotliSharedDictionaryDestroyInstance(BrotliSharedDiction
  * @returns ::BROTLI_TRUE if provided dictionary is successfully attached
  * @returns ::BROTLI_FALSE otherwise
  */
-BROTLI_COMMON_API BROTLI_BOOL
-BrotliSharedDictionaryAttach(BrotliSharedDictionary* dict, BrotliSharedDictionaryType type,
-                             size_t data_size, const uint8_t data[BROTLI_ARRAY_PARAM(data_size)]);
+BROTLI_COMMON_API BROTLI_BOOL BrotliSharedDictionaryAttach(
+    BrotliSharedDictionary* dict, BrotliSharedDictionaryType type,
+    size_t data_size, const uint8_t data[BROTLI_ARRAY_PARAM(data_size)]);
 
 #if defined(__cplusplus) || defined(c_plusplus)
-} /* extern "C" */
+}  /* extern "C" */
 #endif
 
-#endif /* BROTLI_COMMON_SHARED_DICTIONARY_H_ */
+#endif  /* BROTLI_COMMON_SHARED_DICTIONARY_H_ */
