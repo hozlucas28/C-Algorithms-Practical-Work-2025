@@ -27,31 +27,28 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#ifdef  __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
 typedef struct {
-	unsigned int input[16];
-	unsigned char ks[64];
-	unsigned char unused;
+    unsigned int input[16];
+    unsigned char ks[64];
+    unsigned char unused;
 } ChaCha_ctx;
 
-void ChaCha_set_key(ChaCha_ctx *ctx, const unsigned char *key,
-    unsigned int keybits);
-void ChaCha_set_iv(ChaCha_ctx *ctx, const unsigned char *iv,
-    const unsigned char *counter);
-void ChaCha(ChaCha_ctx *ctx, unsigned char *out, const unsigned char *in,
-    size_t len);
+void ChaCha_set_key(ChaCha_ctx *ctx, const unsigned char *key, unsigned int keybits);
+void ChaCha_set_iv(ChaCha_ctx *ctx, const unsigned char *iv, const unsigned char *counter);
+void ChaCha(ChaCha_ctx *ctx, unsigned char *out, const unsigned char *in, size_t len);
 
 void CRYPTO_chacha_20(unsigned char *out, const unsigned char *in, size_t len,
-    const unsigned char key[32], const unsigned char iv[8], uint64_t counter);
+                      const unsigned char key[32], const unsigned char iv[8], uint64_t counter);
 void CRYPTO_xchacha_20(unsigned char *out, const unsigned char *in, size_t len,
-    const unsigned char key[32], const unsigned char iv[24]);
-void CRYPTO_hchacha_20(unsigned char out[32],
-    const unsigned char key[32], const unsigned char iv[16]);
+                       const unsigned char key[32], const unsigned char iv[24]);
+void CRYPTO_hchacha_20(unsigned char out[32], const unsigned char key[32],
+                       const unsigned char iv[16]);
 
-#ifdef  __cplusplus
+#ifdef __cplusplus
 }
 #endif
 

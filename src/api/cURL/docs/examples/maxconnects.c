@@ -25,42 +25,38 @@
  * Set maximum number of persistent connections to 1.
  * </DESC>
  */
-#include <stdio.h>
 #include <curl/curl.h>
+#include <stdio.h>
 
-int main(void)
-{
-  CURL *curl;
-  CURLcode res;
+int main(void) {
+    CURL *curl;
+    CURLcode res;
 
-  curl = curl_easy_init();
-  if(curl) {
-    const char *urls[] = { "https://example.com",
-      "https://curl.se",
-      "https://www.example/",
-      NULL /* end of list */
-    };
-    int i = 0;
+    curl = curl_easy_init();
+    if (curl) {
+        const char *urls[] = {
+            "https://example.com", "https://curl.se", "https://www.example/", NULL /* end of list */
+        };
+        int i = 0;
 
-    /* Change the maximum number of persistent connection   */
-    curl_easy_setopt(curl, CURLOPT_MAXCONNECTS, 1L);
+        /* Change the maximum number of persistent connection   */
+        curl_easy_setopt(curl, CURLOPT_MAXCONNECTS, 1L);
 
-    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+        curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 
-    /* loop over the URLs */
-    while(urls[i]) {
-      curl_easy_setopt(curl, CURLOPT_URL, urls[i]);
+        /* loop over the URLs */
+        while (urls[i]) {
+            curl_easy_setopt(curl, CURLOPT_URL, urls[i]);
 
-      /* Perform the request, res gets the return code */
-      res = curl_easy_perform(curl);
-      /* Check for errors */
-      if(res != CURLE_OK)
-        fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                curl_easy_strerror(res));
-      i++;
+            /* Perform the request, res gets the return code */
+            res = curl_easy_perform(curl);
+            /* Check for errors */
+            if (res != CURLE_OK)
+                fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+            i++;
+        }
+        /* always cleanup */
+        curl_easy_cleanup(curl);
     }
-    /* always cleanup */
-    curl_easy_cleanup(curl);
-  }
-  return 0;
+    return 0;
 }
