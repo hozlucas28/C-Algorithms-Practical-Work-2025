@@ -1,5 +1,7 @@
 #include "./main.h"
 
+#include <time.h>
+
 #include "../macros.h"
 
 // Private methods
@@ -149,6 +151,8 @@ void randomSortSList(SList* _list) {
     _list = firstNode;
 
     if (length == 1) return;
+
+    srand(time(NULL));
 
     if (length == 2) {
         rndIndex = rand() % length;

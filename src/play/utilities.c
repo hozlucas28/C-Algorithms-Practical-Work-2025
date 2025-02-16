@@ -1,42 +1,78 @@
 
 #include "./utilities.h"
 
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 
 #include "../../libs/main.h"
 #include "../macros.h"
 #include "../structs.h"
+#include "../utilities.h"
 
-unsigned char requestPlayerNames(SList* players) {
-    char* lineBreak;
+unsigned char formatPlayerName(char *_name) {
+    char *linepointer;
 
-    Player player = {.points = 0, .gamesWons = 0, .lostGames = 0, .tiedGames = 0};
+    linepointer = strrchr(_name, '\0');
+    if (linepointer == NULL) return 0;
+    linepointer--;
+    while (!isalpha(*linepointer) && linepointer > _name) {
+        linepointer--;
+    }
+    *(linepointer + 1) = '\0';
+    return 1;
+}
 
+unsigned char checkPlayerName(char *_name) {
+    char *lineBreak;
+
+    lineBreak = strrchr(_name, '\n');
+
+    if (lineBreak == NULL) return 0;
+    *lineBreak = '\0';
+
+    if (*lineBreak == '0') return 0;
+
+    if (isspace(*_name) || *_name == '\0') {
+        printf("> Name is required.\n\n");
+        return 0;
+    }
+    return 1;
+}
+
+void requestPlayerName(char *name) {
     printf("> Enter a player name (0 to exit): ");
-    fflush(stdin);
-    fgets(player.name, PLAYER_NAME_LENGTH, stdin);
-    puts("");
-
-    lineBreak = strrchr(player.name, '\n');
-    if (lineBreak != NULL) *lineBreak = '\0';
-
-    if (*(player.name) == '0' || !pushSListElement(players, &player, sizeof(player))) return 0;
-
-    while (*(player.name) != '0') {
-        printf("> Enter a player name (0 to exit): ");
+    do {
         fflush(stdin);
-        fgets(player.name, PLAYER_NAME_LENGTH, stdin);
+        fgets(name, PLAYER_NAME_LENGTH, stdin);
+        fflush(stdin);
         puts("");
 
-        lineBreak = strrchr(player.name, '\n');
-        if (lineBreak != NULL) *lineBreak = '\0';
+    } while (!checkPlayerName(name));
+    return;
+}
 
-        if (*(player.name) == '0') break;
+unsigned char requestPlayerNames(SList *players) {
+    Player player;
+    char playerName[PLAYER_NAME_LENGTH];
+
+    requestPlayerName(playerName);
+    formatPlayerName(playerName);
+    if (*playerName == '0') return 0;
+
+    newPlayer(&player, playerName);
+
+    if (!pushSListElement(players, &player, sizeof(player))) return 0;
+
+    while (*playerName != '0') {
+        requestPlayerName(playerName);
+        formatPlayerName(playerName);
+
+        if (*playerName == '0') break;
+        newPlayer(&player, playerName);
 
         if (!pushSListElement(players, &player, sizeof(player))) return 0;
     };
-
     return 1;
 }
 
