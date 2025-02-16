@@ -9,8 +9,6 @@
 #include "../player/main.h"
 
 unsigned char requestPlayerNames(SList *players) {
-    char *lineBreak;
-
     Player player;
     char playerName[PLAYER_NAME_LENGTH];
 
@@ -19,10 +17,9 @@ unsigned char requestPlayerNames(SList *players) {
     fgets(playerName, PLAYER_NAME_LENGTH, stdin);
     puts("");
 
-    lineBreak = strrchr(playerName, '\n');
-    if (lineBreak != NULL) *lineBreak = '\0';
+    trimString(playerName);
 
-    if (*playerName == '0') return 0;
+    if (strlen(playerName) == 0 || *playerName == '0') return 0;
 
     newPlayer(&player, playerName);
 
@@ -34,10 +31,9 @@ unsigned char requestPlayerNames(SList *players) {
         fgets(playerName, PLAYER_NAME_LENGTH, stdin);
         puts("");
 
-        lineBreak = strrchr(playerName, '\n');
-        if (lineBreak != NULL) *lineBreak = '\0';
+        trimString(playerName);
 
-        if (*playerName == '0') break;
+        if (strlen(playerName) == 0 || *playerName == '0') break;
 
         newPlayer(&player, playerName);
 
