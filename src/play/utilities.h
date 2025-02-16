@@ -6,8 +6,14 @@
 #include "../structs.h"
 #include "./tateti/main.h"
 
-unsigned char requestPlayerNames(SList* players);
+unsigned char checkPlayerName(char *_name);
+
+unsigned char formatPlayerName(char *_name);
+
+unsigned char requestPlayerNames(SList *players);
 
 void isPlayerReady();
+
+void requestPlayerName(char *name);
 
 #endif  // SRC_PLAY_UTILITIES_H_INCLUDED
