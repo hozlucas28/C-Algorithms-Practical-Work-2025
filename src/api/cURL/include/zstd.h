@@ -355,33 +355,34 @@ typedef enum {
      * It's possible to pin down compression parameters to some specific values.
      * In which case, these values are no longer dynamically selected by the compressor */
     ZSTD_c_windowLog =
-        101,                   /* Maximum allowed back-reference distance, expressed as power of 2.
-                                * This will set a memory budget for streaming decompression,
-                                * with larger values requiring more memory
-                                * and typically compressing more.
-                                * Must be clamped between ZSTD_WINDOWLOG_MIN and ZSTD_WINDOWLOG_MAX.
-                                * Special: value 0 means "use default windowLog".
-                                * Note: Using a windowLog greater than ZSTD_WINDOWLOG_LIMIT_DEFAULT
-                                *       requires explicitly allowing such size at streaming decompression stage. */
-    ZSTD_c_hashLog = 102,      /* Size of the initial probe table, as a power of 2.
-                                * Resulting memory usage is (1 << (hashLog+2)).
-                                * Must be clamped between ZSTD_HASHLOG_MIN and ZSTD_HASHLOG_MAX.
-                                * Larger tables improve compression ratio of strategies <= dFast,
-                                * and improve speed of strategies > dFast.
-                                * Special: value 0 means "use default hashLog". */
-    ZSTD_c_chainLog = 103,     /* Size of the multi-probe search table, as a power of 2.
-                                * Resulting memory usage is (1 << (chainLog+2)).
-                                * Must be clamped between ZSTD_CHAINLOG_MIN and ZSTD_CHAINLOG_MAX.
-                                * Larger tables result in better and slower compression.
-                                * This parameter is useless for "fast" strategy.
-                                * It's still useful when using "dfast" strategy,
-                                * in which case it defines a secondary probe table.
-                                * Special: value 0 means "use default chainLog". */
-    ZSTD_c_searchLog = 104,    /* Number of search attempts, as a power of 2.
-                                * More attempts result in better and slower compression.
-                                * This parameter is useless for "fast" and "dFast" strategies.
-                                * Special: value 0 means "use default searchLog". */
-    ZSTD_c_minMatch = 105,     /* Minimum size of searched matches.
+        101,                /* Maximum allowed back-reference distance, expressed as power of 2.
+                             * This will set a memory budget for streaming decompression,
+                             * with larger values requiring more memory
+                             * and typically compressing more.
+                             * Must be clamped between ZSTD_WINDOWLOG_MIN and ZSTD_WINDOWLOG_MAX.
+                             * Special: value 0 means "use default windowLog".
+                             * Note: Using a windowLog greater than ZSTD_WINDOWLOG_LIMIT_DEFAULT
+                             *       requires explicitly allowing such size at streaming decompression stage. */
+    ZSTD_c_hashLog = 102,   /* Size of the initial probe table, as a power of 2.
+                             * Resulting memory usage is (1 << (hashLog+2)).
+                             * Must be clamped between ZSTD_HASHLOG_MIN and ZSTD_HASHLOG_MAX.
+                             * Larger tables improve compression ratio of strategies <= dFast,
+                             * and improve speed of strategies > dFast.
+                             * Special: value 0 means "use default hashLog". */
+    ZSTD_c_chainLog = 103,  /* Size of the multi-probe search table, as a power of 2.
+                             * Resulting memory usage is (1 << (chainLog+2)).
+                             * Must be clamped between ZSTD_CHAINLOG_MIN and ZSTD_CHAINLOG_MAX.
+                             * Larger tables result in better and slower compression.
+                             * This parameter is useless for "fast" strategy.
+                             * It's still useful when using "dfast" strategy,
+                             * in which case it defines a secondary probe table.
+                             * Special: value 0 means "use default chainLog". */
+    ZSTD_c_searchLog = 104, /* Number of search attempts, as a power of 2.
+                             * More attempts result in better and slower compression.
+                             * This parameter is useless for "fast" and "dFast" strategies.
+                             * Special: value 0 means "use default searchLog". */
+    ZSTD_c_minMatch =
+        105,                   /* Minimum size of searched matches.
                                 * Note that Zstandard can still find matches of smaller size,
                                 * it just tweaks its search algorithm to look for this size and larger.
                                 * Larger values increase compression and decompression speed, but
