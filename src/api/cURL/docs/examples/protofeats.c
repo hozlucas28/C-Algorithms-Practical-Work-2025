@@ -25,25 +25,28 @@
  * Outputs all protocols and features supported
  * </DESC>
  */
-#include <curl/curl.h>
 #include <stdio.h>
+#include <curl/curl.h>
 
-#if !CURL_AT_LEAST_VERSION(7, 87, 0)
+#if !CURL_AT_LEAST_VERSION(7,87,0)
 #error "too old libcurl"
 #endif
 
-int main(void) {
-    curl_version_info_data *ver;
-    const char *const *ptr;
+int main(void)
+{
+  curl_version_info_data *ver;
+  const char *const *ptr;
 
-    curl_global_init(CURL_GLOBAL_ALL);
+  curl_global_init(CURL_GLOBAL_ALL);
 
-    ver = curl_version_info(CURLVERSION_NOW);
-    printf("Protocols:\n");
-    for (ptr = ver->protocols; *ptr; ++ptr) printf("  %s\n", *ptr);
-    printf("Features:\n");
-    for (ptr = ver->feature_names; *ptr; ++ptr) printf("  %s\n", *ptr);
+  ver = curl_version_info(CURLVERSION_NOW);
+  printf("Protocols:\n");
+  for(ptr = ver->protocols; *ptr; ++ptr)
+    printf("  %s\n", *ptr);
+  printf("Features:\n");
+  for(ptr = ver->feature_names; *ptr; ++ptr)
+    printf("  %s\n", *ptr);
 
-    curl_global_cleanup();
-    return 0;
+  curl_global_cleanup();
+  return 0;
 }

@@ -61,50 +61,52 @@
 
 #include <openssl/obj_mac.h>
 
-#define SN_ED25519 SN_Ed25519
-#define NID_ED25519 NID_Ed25519
-#define OBJ_ED25519 OBJ_Ed25519
+#define SN_ED25519			SN_Ed25519
+#define NID_ED25519			NID_Ed25519
+#define OBJ_ED25519			OBJ_Ed25519
 
-#include <openssl/asn1.h>
 #include <openssl/bio.h>
+#include <openssl/asn1.h>
 
-#define OBJ_NAME_TYPE_UNDEF 0x00
-#define OBJ_NAME_TYPE_MD_METH 0x01
-#define OBJ_NAME_TYPE_CIPHER_METH 0x02
-#define OBJ_NAME_TYPE_NUM 0x03
+#define	OBJ_NAME_TYPE_UNDEF		0x00
+#define	OBJ_NAME_TYPE_MD_METH		0x01
+#define	OBJ_NAME_TYPE_CIPHER_METH	0x02
+#define	OBJ_NAME_TYPE_NUM		0x03
 
-#define OBJ_NAME_ALIAS 0x8000
+#define	OBJ_NAME_ALIAS			0x8000
 
-#ifdef __cplusplus
+#ifdef  __cplusplus
 extern "C" {
 #endif
 
 typedef struct obj_name_st {
-    int type;
-    int alias;
-    const char *name;
-    const void *data;
+	int type;
+	int alias;
+	const char *name;
+	const void *data;
 } OBJ_NAME;
 
-void OBJ_NAME_do_all(int type, void (*fn)(const OBJ_NAME *, void *arg), void *arg);
-void OBJ_NAME_do_all_sorted(int type, void (*fn)(const OBJ_NAME *, void *arg), void *arg);
+void OBJ_NAME_do_all(int type, void (*fn)(const OBJ_NAME *, void *arg),
+    void *arg);
+void OBJ_NAME_do_all_sorted(int type, void (*fn)(const OBJ_NAME *, void *arg),
+    void *arg);
 
-ASN1_OBJECT *OBJ_dup(const ASN1_OBJECT *o);
-ASN1_OBJECT *OBJ_nid2obj(int n);
-const char *OBJ_nid2ln(int n);
-const char *OBJ_nid2sn(int n);
-int OBJ_obj2nid(const ASN1_OBJECT *o);
-ASN1_OBJECT *OBJ_txt2obj(const char *s, int no_name);
-int OBJ_obj2txt(char *buf, int buf_len, const ASN1_OBJECT *a, int no_name);
-int OBJ_txt2nid(const char *s);
-int OBJ_ln2nid(const char *s);
-int OBJ_sn2nid(const char *s);
-int OBJ_cmp(const ASN1_OBJECT *a, const ASN1_OBJECT *b);
+ASN1_OBJECT *	OBJ_dup(const ASN1_OBJECT *o);
+ASN1_OBJECT *	OBJ_nid2obj(int n);
+const char *	OBJ_nid2ln(int n);
+const char *	OBJ_nid2sn(int n);
+int		OBJ_obj2nid(const ASN1_OBJECT *o);
+ASN1_OBJECT *	OBJ_txt2obj(const char *s, int no_name);
+int	OBJ_obj2txt(char *buf, int buf_len, const ASN1_OBJECT *a, int no_name);
+int		OBJ_txt2nid(const char *s);
+int		OBJ_ln2nid(const char *s);
+int		OBJ_sn2nid(const char *s);
+int		OBJ_cmp(const ASN1_OBJECT *a, const ASN1_OBJECT *b);
 
-int OBJ_new_nid(int num);
-int OBJ_create(const char *oid, const char *sn, const char *ln);
-void OBJ_cleanup(void);
-int OBJ_create_objects(BIO *in);
+int		OBJ_new_nid(int num);
+int		OBJ_create(const char *oid, const char *sn, const char *ln);
+void		OBJ_cleanup(void);
+int		OBJ_create_objects(BIO *in);
 
 size_t OBJ_length(const ASN1_OBJECT *obj);
 const unsigned char *OBJ_get0_data(const ASN1_OBJECT *obj);
@@ -117,19 +119,19 @@ void ERR_load_OBJ_strings(void);
 /* Error codes for the OBJ functions. */
 
 /* Function codes. */
-#define OBJ_F_OBJ_ADD_OBJECT 105
-#define OBJ_F_OBJ_CREATE 100
-#define OBJ_F_OBJ_DUP 101
-#define OBJ_F_OBJ_NAME_NEW_INDEX 106
-#define OBJ_F_OBJ_NID2LN 102
-#define OBJ_F_OBJ_NID2OBJ 103
-#define OBJ_F_OBJ_NID2SN 104
+#define OBJ_F_OBJ_ADD_OBJECT				 105
+#define OBJ_F_OBJ_CREATE				 100
+#define OBJ_F_OBJ_DUP					 101
+#define OBJ_F_OBJ_NAME_NEW_INDEX			 106
+#define OBJ_F_OBJ_NID2LN				 102
+#define OBJ_F_OBJ_NID2OBJ				 103
+#define OBJ_F_OBJ_NID2SN				 104
 
 /* Reason codes. */
-#define OBJ_R_MALLOC_FAILURE 100
-#define OBJ_R_UNKNOWN_NID 101
+#define OBJ_R_MALLOC_FAILURE				 100
+#define OBJ_R_UNKNOWN_NID				 101
 
-#ifdef __cplusplus
+#ifdef  __cplusplus
 }
 #endif
 #endif

@@ -48,7 +48,7 @@ int OPENSSL_tm_to_posix(const struct tm *tm, int64_t *out);
 int OPENSSL_timegm(const struct tm *tm, time_t *out);
 
 #if defined(__cplusplus)
-} /* extern C */
+}  /* extern C */
 #endif
 
-#endif /* OPENSSL_HEADER_POSIX_TIME_H */
+#endif  /* OPENSSL_HEADER_POSIX_TIME_H */

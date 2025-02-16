@@ -27,53 +27,58 @@
  * </DESC>
  */
 
-#include <curl/curl.h>
 #include <stdio.h>
 #include <string.h>
+#include <curl/curl.h>
 
 /* This is a simple example showing how to retrieve mail using libcurl's POP3
  * capabilities. It builds on the pop3-retr.c example to demonstrate how to use
  * libcurl's multi interface.
  */
 
-int main(void) {
-    CURL *curl;
-    CURLM *mcurl;
-    int still_running = 1;
+int main(void)
+{
+  CURL *curl;
+  CURLM *mcurl;
+  int still_running = 1;
 
-    curl_global_init(CURL_GLOBAL_DEFAULT);
+  curl_global_init(CURL_GLOBAL_DEFAULT);
 
-    curl = curl_easy_init();
-    if (!curl) return 1;
+  curl = curl_easy_init();
+  if(!curl)
+    return 1;
 
-    mcurl = curl_multi_init();
-    if (!mcurl) return 2;
+  mcurl = curl_multi_init();
+  if(!mcurl)
+    return 2;
 
-    /* Set username and password */
-    curl_easy_setopt(curl, CURLOPT_USERNAME, "user");
-    curl_easy_setopt(curl, CURLOPT_PASSWORD, "secret");
+  /* Set username and password */
+  curl_easy_setopt(curl, CURLOPT_USERNAME, "user");
+  curl_easy_setopt(curl, CURLOPT_PASSWORD, "secret");
 
-    /* This retrieves message 1 from the user's mailbox */
-    curl_easy_setopt(curl, CURLOPT_URL, "pop3://pop.example.com/1");
+  /* This retrieves message 1 from the user's mailbox */
+  curl_easy_setopt(curl, CURLOPT_URL, "pop3://pop.example.com/1");
 
-    /* Tell the multi stack about our easy handle */
-    curl_multi_add_handle(mcurl, curl);
+  /* Tell the multi stack about our easy handle */
+  curl_multi_add_handle(mcurl, curl);
 
-    do {
-        CURLMcode mc = curl_multi_perform(mcurl, &still_running);
+  do {
+    CURLMcode mc = curl_multi_perform(mcurl, &still_running);
 
-        if (still_running) /* wait for activity, timeout or "nothing" */
-            mc = curl_multi_poll(mcurl, NULL, 0, 1000, NULL);
+    if(still_running)
+      /* wait for activity, timeout or "nothing" */
+      mc = curl_multi_poll(mcurl, NULL, 0, 1000, NULL);
 
-        if (mc) break;
+    if(mc)
+      break;
 
-    } while (still_running);
+  } while(still_running);
 
-    /* Always cleanup */
-    curl_multi_remove_handle(mcurl, curl);
-    curl_multi_cleanup(mcurl);
-    curl_easy_cleanup(curl);
-    curl_global_cleanup();
+  /* Always cleanup */
+  curl_multi_remove_handle(mcurl, curl);
+  curl_multi_cleanup(mcurl);
+  curl_easy_cleanup(curl);
+  curl_global_cleanup();
 
-    return 0;
+  return 0;
 }

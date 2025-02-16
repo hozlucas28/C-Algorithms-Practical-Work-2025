@@ -12,7 +12,7 @@
 #ifndef BROTLI_COMMON_TYPES_H_
 #define BROTLI_COMMON_TYPES_H_
 
-#include <stddef.h> /* for size_t */
+#include <stddef.h>  /* for size_t */
 
 #if defined(_MSC_VER) && (_MSC_VER < 1600)
 typedef __int8 int8_t;
@@ -25,7 +25,7 @@ typedef unsigned __int64 uint64_t;
 typedef __int64 int64_t;
 #else
 #include <stdint.h>
-#endif /* defined(_MSC_VER) && (_MSC_VER < 1600) */
+#endif  /* defined(_MSC_VER) && (_MSC_VER < 1600) */
 
 /**
  * A portable @c bool replacement.
@@ -80,4 +80,4 @@ typedef void* (*brotli_alloc_func)(void* opaque, size_t size);
  */
 typedef void (*brotli_free_func)(void* opaque, void* address);
 
-#endif /* BROTLI_COMMON_TYPES_H_ */
+#endif  /* BROTLI_COMMON_TYPES_H_ */

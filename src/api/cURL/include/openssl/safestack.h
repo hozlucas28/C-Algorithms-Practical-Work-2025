@@ -7,7 +7,7 @@
  * are met:
  *
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
+ *    notice, this list of conditions and the following disclaimer. 
  *
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
@@ -59,23 +59,27 @@
 #include <openssl/stack.h>
 
 #ifndef CHECKED_PTR_OF
-#define CHECKED_PTR_OF(type, p) ((void *)(1 ? p : (type *)0))
+#define CHECKED_PTR_OF(type, p) \
+    ((void*) (1 ? p : (type*)0))
 #endif
 
 /* In C++ we get problems because an explicit cast is needed from (void *)
  * we use CHECKED_STACK_OF to ensure the correct type is passed in the macros
- * below.
+ * below. 
  */
 
-#define CHECKED_STACK_OF(type, p) ((_STACK *)(1 ? p : (STACK_OF(type) *)0))
+#define CHECKED_STACK_OF(type, p) \
+    ((_STACK*) (1 ? p : (STACK_OF(type)*)0))
 
-#define CHECKED_SK_FREE_FUNC(type, p) ((void (*)(void *))((1 ? p : (void (*)(type *))0)))
+#define CHECKED_SK_FREE_FUNC(type, p) \
+    ((void (*)(void *)) ((1 ? p : (void (*)(type *))0)))
 
-#define CHECKED_SK_FREE_FUNC2(type, p) ((void (*)(void *))((1 ? p : (void (*)(type))0)))
+#define CHECKED_SK_FREE_FUNC2(type, p) \
+    ((void (*)(void *)) ((1 ? p : (void (*)(type))0)))
 
-#define CHECKED_SK_CMP_FUNC(type, p)        \
-    ((int (*)(const void *, const void *))( \
-        (1 ? p : (int (*)(const type *const *, const type *const *))0)))
+#define CHECKED_SK_CMP_FUNC(type, p) \
+    ((int (*)(const void *, const void *)) \
+	((1 ? p : (int (*)(const type * const *, const type * const *))0)))
 
 #define STACK_OF(type) struct stack_st_##type
 #define PREDECLARE_STACK_OF(type) STACK_OF(type);
@@ -84,6 +88,7 @@
 #define DECLARE_SPECIAL_STACK_OF(type, type2) STACK_OF(type);
 
 #define IMPLEMENT_STACK_OF(type) /* nada (obsolete in new safestack approach)*/
+
 
 /* Strings are special: normally an lhash entry will point to a single
  * (somewhat) mutable object. In the case of strings:
@@ -114,33 +119,47 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 
 /* SKM_sk_... stack macros are internal to safestack.h:
  * never use them directly, use sk_<type>_... instead */
-#define SKM_sk_new(type, cmp) ((STACK_OF(type) *)sk_new(CHECKED_SK_CMP_FUNC(type, cmp)))
-#define SKM_sk_new_null(type) ((STACK_OF(type) *)sk_new_null())
-#define SKM_sk_free(type, st) sk_free(CHECKED_STACK_OF(type, st))
-#define SKM_sk_num(type, st) sk_num(CHECKED_STACK_OF(type, st))
-#define SKM_sk_value(type, st, i) ((type *)sk_value(CHECKED_STACK_OF(type, st), i))
-#define SKM_sk_set(type, st, i, val) \
-    sk_set(CHECKED_STACK_OF(type, st), i, CHECKED_PTR_OF(type, val))
-#define SKM_sk_zero(type, st) sk_zero(CHECKED_STACK_OF(type, st))
-#define SKM_sk_push(type, st, val) sk_push(CHECKED_STACK_OF(type, st), CHECKED_PTR_OF(type, val))
+#define SKM_sk_new(type, cmp) \
+	((STACK_OF(type) *)sk_new(CHECKED_SK_CMP_FUNC(type, cmp)))
+#define SKM_sk_new_null(type) \
+	((STACK_OF(type) *)sk_new_null())
+#define SKM_sk_free(type, st) \
+	sk_free(CHECKED_STACK_OF(type, st))
+#define SKM_sk_num(type, st) \
+	sk_num(CHECKED_STACK_OF(type, st))
+#define SKM_sk_value(type, st,i) \
+	((type *)sk_value(CHECKED_STACK_OF(type, st), i))
+#define SKM_sk_set(type, st,i,val) \
+	sk_set(CHECKED_STACK_OF(type, st), i, CHECKED_PTR_OF(type, val))
+#define SKM_sk_zero(type, st) \
+	sk_zero(CHECKED_STACK_OF(type, st))
+#define SKM_sk_push(type, st, val) \
+	sk_push(CHECKED_STACK_OF(type, st), CHECKED_PTR_OF(type, val))
 #define SKM_sk_unshift(type, st, val) \
-    sk_unshift(CHECKED_STACK_OF(type, st), CHECKED_PTR_OF(type, val))
-#define SKM_sk_find(type, st, val) sk_find(CHECKED_STACK_OF(type, st), CHECKED_PTR_OF(type, val))
-#define SKM_sk_delete(type, st, i) (type *)sk_delete(CHECKED_STACK_OF(type, st), i)
+	sk_unshift(CHECKED_STACK_OF(type, st), CHECKED_PTR_OF(type, val))
+#define SKM_sk_find(type, st, val) \
+	sk_find(CHECKED_STACK_OF(type, st), CHECKED_PTR_OF(type, val))
+#define SKM_sk_delete(type, st, i) \
+	(type *)sk_delete(CHECKED_STACK_OF(type, st), i)
 #define SKM_sk_delete_ptr(type, st, ptr) \
-    (type *)sk_delete_ptr(CHECKED_STACK_OF(type, st), CHECKED_PTR_OF(type, ptr))
-#define SKM_sk_insert(type, st, val, i) \
-    sk_insert(CHECKED_STACK_OF(type, st), CHECKED_PTR_OF(type, val), i)
-#define SKM_sk_set_cmp_func(type, st, cmp)                               \
-    ((int (*)(const type *const *, const type *const *))sk_set_cmp_func( \
-        CHECKED_STACK_OF(type, st), CHECKED_SK_CMP_FUNC(type, cmp)))
-#define SKM_sk_dup(type, st) (STACK_OF(type) *)sk_dup(CHECKED_STACK_OF(type, st))
+	(type *)sk_delete_ptr(CHECKED_STACK_OF(type, st), CHECKED_PTR_OF(type, ptr))
+#define SKM_sk_insert(type, st,val, i) \
+	sk_insert(CHECKED_STACK_OF(type, st), CHECKED_PTR_OF(type, val), i)
+#define SKM_sk_set_cmp_func(type, st, cmp) \
+	((int (*)(const type * const *,const type * const *)) \
+	sk_set_cmp_func(CHECKED_STACK_OF(type, st), CHECKED_SK_CMP_FUNC(type, cmp)))
+#define SKM_sk_dup(type, st) \
+	(STACK_OF(type) *)sk_dup(CHECKED_STACK_OF(type, st))
 #define SKM_sk_pop_free(type, st, free_func) \
-    sk_pop_free(CHECKED_STACK_OF(type, st), CHECKED_SK_FREE_FUNC(type, free_func))
-#define SKM_sk_shift(type, st) (type *)sk_shift(CHECKED_STACK_OF(type, st))
-#define SKM_sk_pop(type, st) (type *)sk_pop(CHECKED_STACK_OF(type, st))
-#define SKM_sk_sort(type, st) sk_sort(CHECKED_STACK_OF(type, st))
-#define SKM_sk_is_sorted(type, st) sk_is_sorted(CHECKED_STACK_OF(type, st))
+	sk_pop_free(CHECKED_STACK_OF(type, st), CHECKED_SK_FREE_FUNC(type, free_func))
+#define SKM_sk_shift(type, st) \
+	(type *)sk_shift(CHECKED_STACK_OF(type, st))
+#define SKM_sk_pop(type, st) \
+	(type *)sk_pop(CHECKED_STACK_OF(type, st))
+#define SKM_sk_sort(type, st) \
+	sk_sort(CHECKED_STACK_OF(type, st))
+#define SKM_sk_is_sorted(type, st) \
+	sk_is_sorted(CHECKED_STACK_OF(type, st))
 
 #define sk_ACCESS_DESCRIPTION_new(cmp) SKM_sk_new(ACCESS_DESCRIPTION, (cmp))
 #define sk_ACCESS_DESCRIPTION_new_null() SKM_sk_new_null(ACCESS_DESCRIPTION)
@@ -155,11 +174,9 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_ACCESS_DESCRIPTION_delete(st, i) SKM_sk_delete(ACCESS_DESCRIPTION, (st), (i))
 #define sk_ACCESS_DESCRIPTION_delete_ptr(st, ptr) SKM_sk_delete_ptr(ACCESS_DESCRIPTION, (st), (ptr))
 #define sk_ACCESS_DESCRIPTION_insert(st, val, i) SKM_sk_insert(ACCESS_DESCRIPTION, (st), (val), (i))
-#define sk_ACCESS_DESCRIPTION_set_cmp_func(st, cmp) \
-    SKM_sk_set_cmp_func(ACCESS_DESCRIPTION, (st), (cmp))
+#define sk_ACCESS_DESCRIPTION_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(ACCESS_DESCRIPTION, (st), (cmp))
 #define sk_ACCESS_DESCRIPTION_dup(st) SKM_sk_dup(ACCESS_DESCRIPTION, st)
-#define sk_ACCESS_DESCRIPTION_pop_free(st, free_func) \
-    SKM_sk_pop_free(ACCESS_DESCRIPTION, (st), (free_func))
+#define sk_ACCESS_DESCRIPTION_pop_free(st, free_func) SKM_sk_pop_free(ACCESS_DESCRIPTION, (st), (free_func))
 #define sk_ACCESS_DESCRIPTION_shift(st) SKM_sk_shift(ACCESS_DESCRIPTION, (st))
 #define sk_ACCESS_DESCRIPTION_pop(st) SKM_sk_pop(ACCESS_DESCRIPTION, (st))
 #define sk_ACCESS_DESCRIPTION_sort(st) SKM_sk_sort(ACCESS_DESCRIPTION, (st))
@@ -199,11 +216,9 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_ASN1_GENERALSTRING_delete(st, i) SKM_sk_delete(ASN1_GENERALSTRING, (st), (i))
 #define sk_ASN1_GENERALSTRING_delete_ptr(st, ptr) SKM_sk_delete_ptr(ASN1_GENERALSTRING, (st), (ptr))
 #define sk_ASN1_GENERALSTRING_insert(st, val, i) SKM_sk_insert(ASN1_GENERALSTRING, (st), (val), (i))
-#define sk_ASN1_GENERALSTRING_set_cmp_func(st, cmp) \
-    SKM_sk_set_cmp_func(ASN1_GENERALSTRING, (st), (cmp))
+#define sk_ASN1_GENERALSTRING_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(ASN1_GENERALSTRING, (st), (cmp))
 #define sk_ASN1_GENERALSTRING_dup(st) SKM_sk_dup(ASN1_GENERALSTRING, st)
-#define sk_ASN1_GENERALSTRING_pop_free(st, free_func) \
-    SKM_sk_pop_free(ASN1_GENERALSTRING, (st), (free_func))
+#define sk_ASN1_GENERALSTRING_pop_free(st, free_func) SKM_sk_pop_free(ASN1_GENERALSTRING, (st), (free_func))
 #define sk_ASN1_GENERALSTRING_shift(st) SKM_sk_shift(ASN1_GENERALSTRING, (st))
 #define sk_ASN1_GENERALSTRING_pop(st) SKM_sk_pop(ASN1_GENERALSTRING, (st))
 #define sk_ASN1_GENERALSTRING_sort(st) SKM_sk_sort(ASN1_GENERALSTRING, (st))
@@ -287,8 +302,7 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_ASN1_UTF8STRING_insert(st, val, i) SKM_sk_insert(ASN1_UTF8STRING, (st), (val), (i))
 #define sk_ASN1_UTF8STRING_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(ASN1_UTF8STRING, (st), (cmp))
 #define sk_ASN1_UTF8STRING_dup(st) SKM_sk_dup(ASN1_UTF8STRING, st)
-#define sk_ASN1_UTF8STRING_pop_free(st, free_func) \
-    SKM_sk_pop_free(ASN1_UTF8STRING, (st), (free_func))
+#define sk_ASN1_UTF8STRING_pop_free(st, free_func) SKM_sk_pop_free(ASN1_UTF8STRING, (st), (free_func))
 #define sk_ASN1_UTF8STRING_shift(st) SKM_sk_shift(ASN1_UTF8STRING, (st))
 #define sk_ASN1_UTF8STRING_pop(st) SKM_sk_pop(ASN1_UTF8STRING, (st))
 #define sk_ASN1_UTF8STRING_sort(st) SKM_sk_sort(ASN1_UTF8STRING, (st))
@@ -383,23 +397,17 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_CMS_CertificateChoices_free(st) SKM_sk_free(CMS_CertificateChoices, (st))
 #define sk_CMS_CertificateChoices_num(st) SKM_sk_num(CMS_CertificateChoices, (st))
 #define sk_CMS_CertificateChoices_value(st, i) SKM_sk_value(CMS_CertificateChoices, (st), (i))
-#define sk_CMS_CertificateChoices_set(st, i, val) \
-    SKM_sk_set(CMS_CertificateChoices, (st), (i), (val))
+#define sk_CMS_CertificateChoices_set(st, i, val) SKM_sk_set(CMS_CertificateChoices, (st), (i), (val))
 #define sk_CMS_CertificateChoices_zero(st) SKM_sk_zero(CMS_CertificateChoices, (st))
 #define sk_CMS_CertificateChoices_push(st, val) SKM_sk_push(CMS_CertificateChoices, (st), (val))
-#define sk_CMS_CertificateChoices_unshift(st, val) \
-    SKM_sk_unshift(CMS_CertificateChoices, (st), (val))
+#define sk_CMS_CertificateChoices_unshift(st, val) SKM_sk_unshift(CMS_CertificateChoices, (st), (val))
 #define sk_CMS_CertificateChoices_find(st, val) SKM_sk_find(CMS_CertificateChoices, (st), (val))
 #define sk_CMS_CertificateChoices_delete(st, i) SKM_sk_delete(CMS_CertificateChoices, (st), (i))
-#define sk_CMS_CertificateChoices_delete_ptr(st, ptr) \
-    SKM_sk_delete_ptr(CMS_CertificateChoices, (st), (ptr))
-#define sk_CMS_CertificateChoices_insert(st, val, i) \
-    SKM_sk_insert(CMS_CertificateChoices, (st), (val), (i))
-#define sk_CMS_CertificateChoices_set_cmp_func(st, cmp) \
-    SKM_sk_set_cmp_func(CMS_CertificateChoices, (st), (cmp))
+#define sk_CMS_CertificateChoices_delete_ptr(st, ptr) SKM_sk_delete_ptr(CMS_CertificateChoices, (st), (ptr))
+#define sk_CMS_CertificateChoices_insert(st, val, i) SKM_sk_insert(CMS_CertificateChoices, (st), (val), (i))
+#define sk_CMS_CertificateChoices_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(CMS_CertificateChoices, (st), (cmp))
 #define sk_CMS_CertificateChoices_dup(st) SKM_sk_dup(CMS_CertificateChoices, st)
-#define sk_CMS_CertificateChoices_pop_free(st, free_func) \
-    SKM_sk_pop_free(CMS_CertificateChoices, (st), (free_func))
+#define sk_CMS_CertificateChoices_pop_free(st, free_func) SKM_sk_pop_free(CMS_CertificateChoices, (st), (free_func))
 #define sk_CMS_CertificateChoices_shift(st) SKM_sk_shift(CMS_CertificateChoices, (st))
 #define sk_CMS_CertificateChoices_pop(st) SKM_sk_pop(CMS_CertificateChoices, (st))
 #define sk_CMS_CertificateChoices_sort(st) SKM_sk_sort(CMS_CertificateChoices, (st))
@@ -410,26 +418,17 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_CMS_RecipientEncryptedKey_free(st) SKM_sk_free(CMS_RecipientEncryptedKey, (st))
 #define sk_CMS_RecipientEncryptedKey_num(st) SKM_sk_num(CMS_RecipientEncryptedKey, (st))
 #define sk_CMS_RecipientEncryptedKey_value(st, i) SKM_sk_value(CMS_RecipientEncryptedKey, (st), (i))
-#define sk_CMS_RecipientEncryptedKey_set(st, i, val) \
-    SKM_sk_set(CMS_RecipientEncryptedKey, (st), (i), (val))
+#define sk_CMS_RecipientEncryptedKey_set(st, i, val) SKM_sk_set(CMS_RecipientEncryptedKey, (st), (i), (val))
 #define sk_CMS_RecipientEncryptedKey_zero(st) SKM_sk_zero(CMS_RecipientEncryptedKey, (st))
-#define sk_CMS_RecipientEncryptedKey_push(st, val) \
-    SKM_sk_push(CMS_RecipientEncryptedKey, (st), (val))
-#define sk_CMS_RecipientEncryptedKey_unshift(st, val) \
-    SKM_sk_unshift(CMS_RecipientEncryptedKey, (st), (val))
-#define sk_CMS_RecipientEncryptedKey_find(st, val) \
-    SKM_sk_find(CMS_RecipientEncryptedKey, (st), (val))
-#define sk_CMS_RecipientEncryptedKey_delete(st, i) \
-    SKM_sk_delete(CMS_RecipientEncryptedKey, (st), (i))
-#define sk_CMS_RecipientEncryptedKey_delete_ptr(st, ptr) \
-    SKM_sk_delete_ptr(CMS_RecipientEncryptedKey, (st), (ptr))
-#define sk_CMS_RecipientEncryptedKey_insert(st, val, i) \
-    SKM_sk_insert(CMS_RecipientEncryptedKey, (st), (val), (i))
-#define sk_CMS_RecipientEncryptedKey_set_cmp_func(st, cmp) \
-    SKM_sk_set_cmp_func(CMS_RecipientEncryptedKey, (st), (cmp))
+#define sk_CMS_RecipientEncryptedKey_push(st, val) SKM_sk_push(CMS_RecipientEncryptedKey, (st), (val))
+#define sk_CMS_RecipientEncryptedKey_unshift(st, val) SKM_sk_unshift(CMS_RecipientEncryptedKey, (st), (val))
+#define sk_CMS_RecipientEncryptedKey_find(st, val) SKM_sk_find(CMS_RecipientEncryptedKey, (st), (val))
+#define sk_CMS_RecipientEncryptedKey_delete(st, i) SKM_sk_delete(CMS_RecipientEncryptedKey, (st), (i))
+#define sk_CMS_RecipientEncryptedKey_delete_ptr(st, ptr) SKM_sk_delete_ptr(CMS_RecipientEncryptedKey, (st), (ptr))
+#define sk_CMS_RecipientEncryptedKey_insert(st, val, i) SKM_sk_insert(CMS_RecipientEncryptedKey, (st), (val), (i))
+#define sk_CMS_RecipientEncryptedKey_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(CMS_RecipientEncryptedKey, (st), (cmp))
 #define sk_CMS_RecipientEncryptedKey_dup(st) SKM_sk_dup(CMS_RecipientEncryptedKey, st)
-#define sk_CMS_RecipientEncryptedKey_pop_free(st, free_func) \
-    SKM_sk_pop_free(CMS_RecipientEncryptedKey, (st), (free_func))
+#define sk_CMS_RecipientEncryptedKey_pop_free(st, free_func) SKM_sk_pop_free(CMS_RecipientEncryptedKey, (st), (free_func))
 #define sk_CMS_RecipientEncryptedKey_shift(st) SKM_sk_shift(CMS_RecipientEncryptedKey, (st))
 #define sk_CMS_RecipientEncryptedKey_pop(st) SKM_sk_pop(CMS_RecipientEncryptedKey, (st))
 #define sk_CMS_RecipientEncryptedKey_sort(st) SKM_sk_sort(CMS_RecipientEncryptedKey, (st))
@@ -448,11 +447,9 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_CMS_RecipientInfo_delete(st, i) SKM_sk_delete(CMS_RecipientInfo, (st), (i))
 #define sk_CMS_RecipientInfo_delete_ptr(st, ptr) SKM_sk_delete_ptr(CMS_RecipientInfo, (st), (ptr))
 #define sk_CMS_RecipientInfo_insert(st, val, i) SKM_sk_insert(CMS_RecipientInfo, (st), (val), (i))
-#define sk_CMS_RecipientInfo_set_cmp_func(st, cmp) \
-    SKM_sk_set_cmp_func(CMS_RecipientInfo, (st), (cmp))
+#define sk_CMS_RecipientInfo_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(CMS_RecipientInfo, (st), (cmp))
 #define sk_CMS_RecipientInfo_dup(st) SKM_sk_dup(CMS_RecipientInfo, st)
-#define sk_CMS_RecipientInfo_pop_free(st, free_func) \
-    SKM_sk_pop_free(CMS_RecipientInfo, (st), (free_func))
+#define sk_CMS_RecipientInfo_pop_free(st, free_func) SKM_sk_pop_free(CMS_RecipientInfo, (st), (free_func))
 #define sk_CMS_RecipientInfo_shift(st) SKM_sk_shift(CMS_RecipientInfo, (st))
 #define sk_CMS_RecipientInfo_pop(st) SKM_sk_pop(CMS_RecipientInfo, (st))
 #define sk_CMS_RecipientInfo_sort(st) SKM_sk_sort(CMS_RecipientInfo, (st))
@@ -463,23 +460,17 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_CMS_RevocationInfoChoice_free(st) SKM_sk_free(CMS_RevocationInfoChoice, (st))
 #define sk_CMS_RevocationInfoChoice_num(st) SKM_sk_num(CMS_RevocationInfoChoice, (st))
 #define sk_CMS_RevocationInfoChoice_value(st, i) SKM_sk_value(CMS_RevocationInfoChoice, (st), (i))
-#define sk_CMS_RevocationInfoChoice_set(st, i, val) \
-    SKM_sk_set(CMS_RevocationInfoChoice, (st), (i), (val))
+#define sk_CMS_RevocationInfoChoice_set(st, i, val) SKM_sk_set(CMS_RevocationInfoChoice, (st), (i), (val))
 #define sk_CMS_RevocationInfoChoice_zero(st) SKM_sk_zero(CMS_RevocationInfoChoice, (st))
 #define sk_CMS_RevocationInfoChoice_push(st, val) SKM_sk_push(CMS_RevocationInfoChoice, (st), (val))
-#define sk_CMS_RevocationInfoChoice_unshift(st, val) \
-    SKM_sk_unshift(CMS_RevocationInfoChoice, (st), (val))
+#define sk_CMS_RevocationInfoChoice_unshift(st, val) SKM_sk_unshift(CMS_RevocationInfoChoice, (st), (val))
 #define sk_CMS_RevocationInfoChoice_find(st, val) SKM_sk_find(CMS_RevocationInfoChoice, (st), (val))
 #define sk_CMS_RevocationInfoChoice_delete(st, i) SKM_sk_delete(CMS_RevocationInfoChoice, (st), (i))
-#define sk_CMS_RevocationInfoChoice_delete_ptr(st, ptr) \
-    SKM_sk_delete_ptr(CMS_RevocationInfoChoice, (st), (ptr))
-#define sk_CMS_RevocationInfoChoice_insert(st, val, i) \
-    SKM_sk_insert(CMS_RevocationInfoChoice, (st), (val), (i))
-#define sk_CMS_RevocationInfoChoice_set_cmp_func(st, cmp) \
-    SKM_sk_set_cmp_func(CMS_RevocationInfoChoice, (st), (cmp))
+#define sk_CMS_RevocationInfoChoice_delete_ptr(st, ptr) SKM_sk_delete_ptr(CMS_RevocationInfoChoice, (st), (ptr))
+#define sk_CMS_RevocationInfoChoice_insert(st, val, i) SKM_sk_insert(CMS_RevocationInfoChoice, (st), (val), (i))
+#define sk_CMS_RevocationInfoChoice_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(CMS_RevocationInfoChoice, (st), (cmp))
 #define sk_CMS_RevocationInfoChoice_dup(st) SKM_sk_dup(CMS_RevocationInfoChoice, st)
-#define sk_CMS_RevocationInfoChoice_pop_free(st, free_func) \
-    SKM_sk_pop_free(CMS_RevocationInfoChoice, (st), (free_func))
+#define sk_CMS_RevocationInfoChoice_pop_free(st, free_func) SKM_sk_pop_free(CMS_RevocationInfoChoice, (st), (free_func))
 #define sk_CMS_RevocationInfoChoice_shift(st) SKM_sk_shift(CMS_RevocationInfoChoice, (st))
 #define sk_CMS_RevocationInfoChoice_pop(st) SKM_sk_pop(CMS_RevocationInfoChoice, (st))
 #define sk_CMS_RevocationInfoChoice_sort(st) SKM_sk_sort(CMS_RevocationInfoChoice, (st))
@@ -708,15 +699,11 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_EVP_PKEY_ASN1_METHOD_unshift(st, val) SKM_sk_unshift(EVP_PKEY_ASN1_METHOD, (st), (val))
 #define sk_EVP_PKEY_ASN1_METHOD_find(st, val) SKM_sk_find(EVP_PKEY_ASN1_METHOD, (st), (val))
 #define sk_EVP_PKEY_ASN1_METHOD_delete(st, i) SKM_sk_delete(EVP_PKEY_ASN1_METHOD, (st), (i))
-#define sk_EVP_PKEY_ASN1_METHOD_delete_ptr(st, ptr) \
-    SKM_sk_delete_ptr(EVP_PKEY_ASN1_METHOD, (st), (ptr))
-#define sk_EVP_PKEY_ASN1_METHOD_insert(st, val, i) \
-    SKM_sk_insert(EVP_PKEY_ASN1_METHOD, (st), (val), (i))
-#define sk_EVP_PKEY_ASN1_METHOD_set_cmp_func(st, cmp) \
-    SKM_sk_set_cmp_func(EVP_PKEY_ASN1_METHOD, (st), (cmp))
+#define sk_EVP_PKEY_ASN1_METHOD_delete_ptr(st, ptr) SKM_sk_delete_ptr(EVP_PKEY_ASN1_METHOD, (st), (ptr))
+#define sk_EVP_PKEY_ASN1_METHOD_insert(st, val, i) SKM_sk_insert(EVP_PKEY_ASN1_METHOD, (st), (val), (i))
+#define sk_EVP_PKEY_ASN1_METHOD_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(EVP_PKEY_ASN1_METHOD, (st), (cmp))
 #define sk_EVP_PKEY_ASN1_METHOD_dup(st) SKM_sk_dup(EVP_PKEY_ASN1_METHOD, st)
-#define sk_EVP_PKEY_ASN1_METHOD_pop_free(st, free_func) \
-    SKM_sk_pop_free(EVP_PKEY_ASN1_METHOD, (st), (free_func))
+#define sk_EVP_PKEY_ASN1_METHOD_pop_free(st, free_func) SKM_sk_pop_free(EVP_PKEY_ASN1_METHOD, (st), (free_func))
 #define sk_EVP_PKEY_ASN1_METHOD_shift(st) SKM_sk_shift(EVP_PKEY_ASN1_METHOD, (st))
 #define sk_EVP_PKEY_ASN1_METHOD_pop(st) SKM_sk_pop(EVP_PKEY_ASN1_METHOD, (st))
 #define sk_EVP_PKEY_ASN1_METHOD_sort(st) SKM_sk_sort(EVP_PKEY_ASN1_METHOD, (st))
@@ -737,8 +724,7 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_EVP_PKEY_METHOD_insert(st, val, i) SKM_sk_insert(EVP_PKEY_METHOD, (st), (val), (i))
 #define sk_EVP_PKEY_METHOD_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(EVP_PKEY_METHOD, (st), (cmp))
 #define sk_EVP_PKEY_METHOD_dup(st) SKM_sk_dup(EVP_PKEY_METHOD, st)
-#define sk_EVP_PKEY_METHOD_pop_free(st, free_func) \
-    SKM_sk_pop_free(EVP_PKEY_METHOD, (st), (free_func))
+#define sk_EVP_PKEY_METHOD_pop_free(st, free_func) SKM_sk_pop_free(EVP_PKEY_METHOD, (st), (free_func))
 #define sk_EVP_PKEY_METHOD_shift(st) SKM_sk_shift(EVP_PKEY_METHOD, (st))
 #define sk_EVP_PKEY_METHOD_pop(st) SKM_sk_pop(EVP_PKEY_METHOD, (st))
 #define sk_EVP_PKEY_METHOD_sort(st) SKM_sk_sort(EVP_PKEY_METHOD, (st))
@@ -801,8 +787,7 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_GENERAL_SUBTREE_insert(st, val, i) SKM_sk_insert(GENERAL_SUBTREE, (st), (val), (i))
 #define sk_GENERAL_SUBTREE_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(GENERAL_SUBTREE, (st), (cmp))
 #define sk_GENERAL_SUBTREE_dup(st) SKM_sk_dup(GENERAL_SUBTREE, st)
-#define sk_GENERAL_SUBTREE_pop_free(st, free_func) \
-    SKM_sk_pop_free(GENERAL_SUBTREE, (st), (free_func))
+#define sk_GENERAL_SUBTREE_pop_free(st, free_func) SKM_sk_pop_free(GENERAL_SUBTREE, (st), (free_func))
 #define sk_GENERAL_SUBTREE_shift(st) SKM_sk_shift(GENERAL_SUBTREE, (st))
 #define sk_GENERAL_SUBTREE_pop(st) SKM_sk_pop(GENERAL_SUBTREE, (st))
 #define sk_GENERAL_SUBTREE_sort(st) SKM_sk_sort(GENERAL_SUBTREE, (st))
@@ -823,8 +808,7 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_IPAddressFamily_insert(st, val, i) SKM_sk_insert(IPAddressFamily, (st), (val), (i))
 #define sk_IPAddressFamily_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(IPAddressFamily, (st), (cmp))
 #define sk_IPAddressFamily_dup(st) SKM_sk_dup(IPAddressFamily, st)
-#define sk_IPAddressFamily_pop_free(st, free_func) \
-    SKM_sk_pop_free(IPAddressFamily, (st), (free_func))
+#define sk_IPAddressFamily_pop_free(st, free_func) SKM_sk_pop_free(IPAddressFamily, (st), (free_func))
 #define sk_IPAddressFamily_shift(st) SKM_sk_shift(IPAddressFamily, (st))
 #define sk_IPAddressFamily_pop(st) SKM_sk_pop(IPAddressFamily, (st))
 #define sk_IPAddressFamily_sort(st) SKM_sk_sort(IPAddressFamily, (st))
@@ -845,8 +829,7 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_IPAddressOrRange_insert(st, val, i) SKM_sk_insert(IPAddressOrRange, (st), (val), (i))
 #define sk_IPAddressOrRange_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(IPAddressOrRange, (st), (cmp))
 #define sk_IPAddressOrRange_dup(st) SKM_sk_dup(IPAddressOrRange, st)
-#define sk_IPAddressOrRange_pop_free(st, free_func) \
-    SKM_sk_pop_free(IPAddressOrRange, (st), (free_func))
+#define sk_IPAddressOrRange_pop_free(st, free_func) SKM_sk_pop_free(IPAddressOrRange, (st), (free_func))
 #define sk_IPAddressOrRange_shift(st) SKM_sk_shift(IPAddressOrRange, (st))
 #define sk_IPAddressOrRange_pop(st) SKM_sk_pop(IPAddressOrRange, (st))
 #define sk_IPAddressOrRange_sort(st) SKM_sk_sort(IPAddressOrRange, (st))
@@ -993,8 +976,7 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_OCSP_SINGLERESP_insert(st, val, i) SKM_sk_insert(OCSP_SINGLERESP, (st), (val), (i))
 #define sk_OCSP_SINGLERESP_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(OCSP_SINGLERESP, (st), (cmp))
 #define sk_OCSP_SINGLERESP_dup(st) SKM_sk_dup(OCSP_SINGLERESP, st)
-#define sk_OCSP_SINGLERESP_pop_free(st, free_func) \
-    SKM_sk_pop_free(OCSP_SINGLERESP, (st), (free_func))
+#define sk_OCSP_SINGLERESP_pop_free(st, free_func) SKM_sk_pop_free(OCSP_SINGLERESP, (st), (free_func))
 #define sk_OCSP_SINGLERESP_shift(st) SKM_sk_shift(OCSP_SINGLERESP, (st))
 #define sk_OCSP_SINGLERESP_pop(st) SKM_sk_pop(OCSP_SINGLERESP, (st))
 #define sk_OCSP_SINGLERESP_sort(st) SKM_sk_sort(OCSP_SINGLERESP, (st))
@@ -1057,8 +1039,7 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_PKCS7_RECIP_INFO_insert(st, val, i) SKM_sk_insert(PKCS7_RECIP_INFO, (st), (val), (i))
 #define sk_PKCS7_RECIP_INFO_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(PKCS7_RECIP_INFO, (st), (cmp))
 #define sk_PKCS7_RECIP_INFO_dup(st) SKM_sk_dup(PKCS7_RECIP_INFO, st)
-#define sk_PKCS7_RECIP_INFO_pop_free(st, free_func) \
-    SKM_sk_pop_free(PKCS7_RECIP_INFO, (st), (free_func))
+#define sk_PKCS7_RECIP_INFO_pop_free(st, free_func) SKM_sk_pop_free(PKCS7_RECIP_INFO, (st), (free_func))
 #define sk_PKCS7_RECIP_INFO_shift(st) SKM_sk_shift(PKCS7_RECIP_INFO, (st))
 #define sk_PKCS7_RECIP_INFO_pop(st) SKM_sk_pop(PKCS7_RECIP_INFO, (st))
 #define sk_PKCS7_RECIP_INFO_sort(st) SKM_sk_sort(PKCS7_RECIP_INFO, (st))
@@ -1077,11 +1058,9 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_PKCS7_SIGNER_INFO_delete(st, i) SKM_sk_delete(PKCS7_SIGNER_INFO, (st), (i))
 #define sk_PKCS7_SIGNER_INFO_delete_ptr(st, ptr) SKM_sk_delete_ptr(PKCS7_SIGNER_INFO, (st), (ptr))
 #define sk_PKCS7_SIGNER_INFO_insert(st, val, i) SKM_sk_insert(PKCS7_SIGNER_INFO, (st), (val), (i))
-#define sk_PKCS7_SIGNER_INFO_set_cmp_func(st, cmp) \
-    SKM_sk_set_cmp_func(PKCS7_SIGNER_INFO, (st), (cmp))
+#define sk_PKCS7_SIGNER_INFO_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(PKCS7_SIGNER_INFO, (st), (cmp))
 #define sk_PKCS7_SIGNER_INFO_dup(st) SKM_sk_dup(PKCS7_SIGNER_INFO, st)
-#define sk_PKCS7_SIGNER_INFO_pop_free(st, free_func) \
-    SKM_sk_pop_free(PKCS7_SIGNER_INFO, (st), (free_func))
+#define sk_PKCS7_SIGNER_INFO_pop_free(st, free_func) SKM_sk_pop_free(PKCS7_SIGNER_INFO, (st), (free_func))
 #define sk_PKCS7_SIGNER_INFO_shift(st) SKM_sk_shift(PKCS7_SIGNER_INFO, (st))
 #define sk_PKCS7_SIGNER_INFO_pop(st) SKM_sk_pop(PKCS7_SIGNER_INFO, (st))
 #define sk_PKCS7_SIGNER_INFO_sort(st) SKM_sk_sort(PKCS7_SIGNER_INFO, (st))
@@ -1176,23 +1155,17 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_SRTP_PROTECTION_PROFILE_free(st) SKM_sk_free(SRTP_PROTECTION_PROFILE, (st))
 #define sk_SRTP_PROTECTION_PROFILE_num(st) SKM_sk_num(SRTP_PROTECTION_PROFILE, (st))
 #define sk_SRTP_PROTECTION_PROFILE_value(st, i) SKM_sk_value(SRTP_PROTECTION_PROFILE, (st), (i))
-#define sk_SRTP_PROTECTION_PROFILE_set(st, i, val) \
-    SKM_sk_set(SRTP_PROTECTION_PROFILE, (st), (i), (val))
+#define sk_SRTP_PROTECTION_PROFILE_set(st, i, val) SKM_sk_set(SRTP_PROTECTION_PROFILE, (st), (i), (val))
 #define sk_SRTP_PROTECTION_PROFILE_zero(st) SKM_sk_zero(SRTP_PROTECTION_PROFILE, (st))
 #define sk_SRTP_PROTECTION_PROFILE_push(st, val) SKM_sk_push(SRTP_PROTECTION_PROFILE, (st), (val))
-#define sk_SRTP_PROTECTION_PROFILE_unshift(st, val) \
-    SKM_sk_unshift(SRTP_PROTECTION_PROFILE, (st), (val))
+#define sk_SRTP_PROTECTION_PROFILE_unshift(st, val) SKM_sk_unshift(SRTP_PROTECTION_PROFILE, (st), (val))
 #define sk_SRTP_PROTECTION_PROFILE_find(st, val) SKM_sk_find(SRTP_PROTECTION_PROFILE, (st), (val))
 #define sk_SRTP_PROTECTION_PROFILE_delete(st, i) SKM_sk_delete(SRTP_PROTECTION_PROFILE, (st), (i))
-#define sk_SRTP_PROTECTION_PROFILE_delete_ptr(st, ptr) \
-    SKM_sk_delete_ptr(SRTP_PROTECTION_PROFILE, (st), (ptr))
-#define sk_SRTP_PROTECTION_PROFILE_insert(st, val, i) \
-    SKM_sk_insert(SRTP_PROTECTION_PROFILE, (st), (val), (i))
-#define sk_SRTP_PROTECTION_PROFILE_set_cmp_func(st, cmp) \
-    SKM_sk_set_cmp_func(SRTP_PROTECTION_PROFILE, (st), (cmp))
+#define sk_SRTP_PROTECTION_PROFILE_delete_ptr(st, ptr) SKM_sk_delete_ptr(SRTP_PROTECTION_PROFILE, (st), (ptr))
+#define sk_SRTP_PROTECTION_PROFILE_insert(st, val, i) SKM_sk_insert(SRTP_PROTECTION_PROFILE, (st), (val), (i))
+#define sk_SRTP_PROTECTION_PROFILE_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(SRTP_PROTECTION_PROFILE, (st), (cmp))
 #define sk_SRTP_PROTECTION_PROFILE_dup(st) SKM_sk_dup(SRTP_PROTECTION_PROFILE, st)
-#define sk_SRTP_PROTECTION_PROFILE_pop_free(st, free_func) \
-    SKM_sk_pop_free(SRTP_PROTECTION_PROFILE, (st), (free_func))
+#define sk_SRTP_PROTECTION_PROFILE_pop_free(st, free_func) SKM_sk_pop_free(SRTP_PROTECTION_PROFILE, (st), (free_func))
 #define sk_SRTP_PROTECTION_PROFILE_shift(st) SKM_sk_shift(SRTP_PROTECTION_PROFILE, (st))
 #define sk_SRTP_PROTECTION_PROFILE_pop(st) SKM_sk_pop(SRTP_PROTECTION_PROFILE, (st))
 #define sk_SRTP_PROTECTION_PROFILE_sort(st) SKM_sk_sort(SRTP_PROTECTION_PROFILE, (st))
@@ -1245,23 +1218,17 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_STACK_OF_X509_NAME_ENTRY_free(st) SKM_sk_free(STACK_OF_X509_NAME_ENTRY, (st))
 #define sk_STACK_OF_X509_NAME_ENTRY_num(st) SKM_sk_num(STACK_OF_X509_NAME_ENTRY, (st))
 #define sk_STACK_OF_X509_NAME_ENTRY_value(st, i) SKM_sk_value(STACK_OF_X509_NAME_ENTRY, (st), (i))
-#define sk_STACK_OF_X509_NAME_ENTRY_set(st, i, val) \
-    SKM_sk_set(STACK_OF_X509_NAME_ENTRY, (st), (i), (val))
+#define sk_STACK_OF_X509_NAME_ENTRY_set(st, i, val) SKM_sk_set(STACK_OF_X509_NAME_ENTRY, (st), (i), (val))
 #define sk_STACK_OF_X509_NAME_ENTRY_zero(st) SKM_sk_zero(STACK_OF_X509_NAME_ENTRY, (st))
 #define sk_STACK_OF_X509_NAME_ENTRY_push(st, val) SKM_sk_push(STACK_OF_X509_NAME_ENTRY, (st), (val))
-#define sk_STACK_OF_X509_NAME_ENTRY_unshift(st, val) \
-    SKM_sk_unshift(STACK_OF_X509_NAME_ENTRY, (st), (val))
+#define sk_STACK_OF_X509_NAME_ENTRY_unshift(st, val) SKM_sk_unshift(STACK_OF_X509_NAME_ENTRY, (st), (val))
 #define sk_STACK_OF_X509_NAME_ENTRY_find(st, val) SKM_sk_find(STACK_OF_X509_NAME_ENTRY, (st), (val))
 #define sk_STACK_OF_X509_NAME_ENTRY_delete(st, i) SKM_sk_delete(STACK_OF_X509_NAME_ENTRY, (st), (i))
-#define sk_STACK_OF_X509_NAME_ENTRY_delete_ptr(st, ptr) \
-    SKM_sk_delete_ptr(STACK_OF_X509_NAME_ENTRY, (st), (ptr))
-#define sk_STACK_OF_X509_NAME_ENTRY_insert(st, val, i) \
-    SKM_sk_insert(STACK_OF_X509_NAME_ENTRY, (st), (val), (i))
-#define sk_STACK_OF_X509_NAME_ENTRY_set_cmp_func(st, cmp) \
-    SKM_sk_set_cmp_func(STACK_OF_X509_NAME_ENTRY, (st), (cmp))
+#define sk_STACK_OF_X509_NAME_ENTRY_delete_ptr(st, ptr) SKM_sk_delete_ptr(STACK_OF_X509_NAME_ENTRY, (st), (ptr))
+#define sk_STACK_OF_X509_NAME_ENTRY_insert(st, val, i) SKM_sk_insert(STACK_OF_X509_NAME_ENTRY, (st), (val), (i))
+#define sk_STACK_OF_X509_NAME_ENTRY_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(STACK_OF_X509_NAME_ENTRY, (st), (cmp))
 #define sk_STACK_OF_X509_NAME_ENTRY_dup(st) SKM_sk_dup(STACK_OF_X509_NAME_ENTRY, st)
-#define sk_STACK_OF_X509_NAME_ENTRY_pop_free(st, free_func) \
-    SKM_sk_pop_free(STACK_OF_X509_NAME_ENTRY, (st), (free_func))
+#define sk_STACK_OF_X509_NAME_ENTRY_pop_free(st, free_func) SKM_sk_pop_free(STACK_OF_X509_NAME_ENTRY, (st), (free_func))
 #define sk_STACK_OF_X509_NAME_ENTRY_shift(st) SKM_sk_shift(STACK_OF_X509_NAME_ENTRY, (st))
 #define sk_STACK_OF_X509_NAME_ENTRY_pop(st) SKM_sk_pop(STACK_OF_X509_NAME_ENTRY, (st))
 #define sk_STACK_OF_X509_NAME_ENTRY_sort(st) SKM_sk_sort(STACK_OF_X509_NAME_ENTRY, (st))
@@ -1282,8 +1249,7 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_STORE_ATTR_INFO_insert(st, val, i) SKM_sk_insert(STORE_ATTR_INFO, (st), (val), (i))
 #define sk_STORE_ATTR_INFO_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(STORE_ATTR_INFO, (st), (cmp))
 #define sk_STORE_ATTR_INFO_dup(st) SKM_sk_dup(STORE_ATTR_INFO, st)
-#define sk_STORE_ATTR_INFO_pop_free(st, free_func) \
-    SKM_sk_pop_free(STORE_ATTR_INFO, (st), (free_func))
+#define sk_STORE_ATTR_INFO_pop_free(st, free_func) SKM_sk_pop_free(STORE_ATTR_INFO, (st), (free_func))
 #define sk_STORE_ATTR_INFO_shift(st) SKM_sk_shift(STORE_ATTR_INFO, (st))
 #define sk_STORE_ATTR_INFO_pop(st) SKM_sk_pop(STORE_ATTR_INFO, (st))
 #define sk_STORE_ATTR_INFO_sort(st) SKM_sk_sort(STORE_ATTR_INFO, (st))
@@ -1365,11 +1331,9 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_X509V3_EXT_METHOD_delete(st, i) SKM_sk_delete(X509V3_EXT_METHOD, (st), (i))
 #define sk_X509V3_EXT_METHOD_delete_ptr(st, ptr) SKM_sk_delete_ptr(X509V3_EXT_METHOD, (st), (ptr))
 #define sk_X509V3_EXT_METHOD_insert(st, val, i) SKM_sk_insert(X509V3_EXT_METHOD, (st), (val), (i))
-#define sk_X509V3_EXT_METHOD_set_cmp_func(st, cmp) \
-    SKM_sk_set_cmp_func(X509V3_EXT_METHOD, (st), (cmp))
+#define sk_X509V3_EXT_METHOD_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(X509V3_EXT_METHOD, (st), (cmp))
 #define sk_X509V3_EXT_METHOD_dup(st) SKM_sk_dup(X509V3_EXT_METHOD, st)
-#define sk_X509V3_EXT_METHOD_pop_free(st, free_func) \
-    SKM_sk_pop_free(X509V3_EXT_METHOD, (st), (free_func))
+#define sk_X509V3_EXT_METHOD_pop_free(st, free_func) SKM_sk_pop_free(X509V3_EXT_METHOD, (st), (free_func))
 #define sk_X509V3_EXT_METHOD_shift(st) SKM_sk_shift(X509V3_EXT_METHOD, (st))
 #define sk_X509V3_EXT_METHOD_pop(st) SKM_sk_pop(X509V3_EXT_METHOD, (st))
 #define sk_X509V3_EXT_METHOD_sort(st) SKM_sk_sort(X509V3_EXT_METHOD, (st))
@@ -1537,8 +1501,7 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_X509_NAME_ENTRY_insert(st, val, i) SKM_sk_insert(X509_NAME_ENTRY, (st), (val), (i))
 #define sk_X509_NAME_ENTRY_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(X509_NAME_ENTRY, (st), (cmp))
 #define sk_X509_NAME_ENTRY_dup(st) SKM_sk_dup(X509_NAME_ENTRY, st)
-#define sk_X509_NAME_ENTRY_pop_free(st, free_func) \
-    SKM_sk_pop_free(X509_NAME_ENTRY, (st), (free_func))
+#define sk_X509_NAME_ENTRY_pop_free(st, free_func) SKM_sk_pop_free(X509_NAME_ENTRY, (st), (free_func))
 #define sk_X509_NAME_ENTRY_shift(st) SKM_sk_shift(X509_NAME_ENTRY, (st))
 #define sk_X509_NAME_ENTRY_pop(st) SKM_sk_pop(X509_NAME_ENTRY, (st))
 #define sk_X509_NAME_ENTRY_sort(st) SKM_sk_sort(X509_NAME_ENTRY, (st))
@@ -1599,11 +1562,9 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_X509_VERIFY_PARAM_delete(st, i) SKM_sk_delete(X509_VERIFY_PARAM, (st), (i))
 #define sk_X509_VERIFY_PARAM_delete_ptr(st, ptr) SKM_sk_delete_ptr(X509_VERIFY_PARAM, (st), (ptr))
 #define sk_X509_VERIFY_PARAM_insert(st, val, i) SKM_sk_insert(X509_VERIFY_PARAM, (st), (val), (i))
-#define sk_X509_VERIFY_PARAM_set_cmp_func(st, cmp) \
-    SKM_sk_set_cmp_func(X509_VERIFY_PARAM, (st), (cmp))
+#define sk_X509_VERIFY_PARAM_set_cmp_func(st, cmp) SKM_sk_set_cmp_func(X509_VERIFY_PARAM, (st), (cmp))
 #define sk_X509_VERIFY_PARAM_dup(st) SKM_sk_dup(X509_VERIFY_PARAM, st)
-#define sk_X509_VERIFY_PARAM_pop_free(st, free_func) \
-    SKM_sk_pop_free(X509_VERIFY_PARAM, (st), (free_func))
+#define sk_X509_VERIFY_PARAM_pop_free(st, free_func) SKM_sk_pop_free(X509_VERIFY_PARAM, (st), (free_func))
 #define sk_X509_VERIFY_PARAM_shift(st) SKM_sk_shift(X509_VERIFY_PARAM, (st))
 #define sk_X509_VERIFY_PARAM_pop(st) SKM_sk_pop(X509_VERIFY_PARAM, (st))
 #define sk_X509_VERIFY_PARAM_sort(st) SKM_sk_sort(X509_VERIFY_PARAM, (st))
@@ -1630,170 +1591,149 @@ DECLARE_SPECIAL_STACK_OF(OPENSSL_STRING, char)
 #define sk_void_sort(st) SKM_sk_sort(void, (st))
 #define sk_void_is_sorted(st) SKM_sk_is_sorted(void, (st))
 
-#define sk_OPENSSL_STRING_new(cmp) \
-    ((STACK_OF(OPENSSL_STRING) *)sk_new(CHECKED_SK_CMP_FUNC(char, cmp)))
+#define sk_OPENSSL_STRING_new(cmp) ((STACK_OF(OPENSSL_STRING) *)sk_new(CHECKED_SK_CMP_FUNC(char, cmp)))
 #define sk_OPENSSL_STRING_new_null() ((STACK_OF(OPENSSL_STRING) *)sk_new_null())
-#define sk_OPENSSL_STRING_push(st, val) \
-    sk_push(CHECKED_STACK_OF(OPENSSL_STRING, st), CHECKED_PTR_OF(char, val))
-#define sk_OPENSSL_STRING_find(st, val) \
-    sk_find(CHECKED_STACK_OF(OPENSSL_STRING, st), CHECKED_PTR_OF(char, val))
-#define sk_OPENSSL_STRING_value(st, i) \
-    ((OPENSSL_STRING)sk_value(CHECKED_STACK_OF(OPENSSL_STRING, st), i))
+#define sk_OPENSSL_STRING_push(st, val) sk_push(CHECKED_STACK_OF(OPENSSL_STRING, st), CHECKED_PTR_OF(char, val))
+#define sk_OPENSSL_STRING_find(st, val) sk_find(CHECKED_STACK_OF(OPENSSL_STRING, st), CHECKED_PTR_OF(char, val))
+#define sk_OPENSSL_STRING_value(st, i) ((OPENSSL_STRING)sk_value(CHECKED_STACK_OF(OPENSSL_STRING, st), i))
 #define sk_OPENSSL_STRING_num(st) SKM_sk_num(OPENSSL_STRING, st)
-#define sk_OPENSSL_STRING_pop_free(st, free_func)     \
-    sk_pop_free(CHECKED_STACK_OF(OPENSSL_STRING, st), \
-                CHECKED_SK_FREE_FUNC2(OPENSSL_STRING, free_func))
-#define sk_OPENSSL_STRING_insert(st, val, i) \
-    sk_insert(CHECKED_STACK_OF(OPENSSL_STRING, st), CHECKED_PTR_OF(char, val), i)
+#define sk_OPENSSL_STRING_pop_free(st, free_func) sk_pop_free(CHECKED_STACK_OF(OPENSSL_STRING, st), CHECKED_SK_FREE_FUNC2(OPENSSL_STRING, free_func))
+#define sk_OPENSSL_STRING_insert(st, val, i) sk_insert(CHECKED_STACK_OF(OPENSSL_STRING, st), CHECKED_PTR_OF(char, val), i)
 #define sk_OPENSSL_STRING_free(st) SKM_sk_free(OPENSSL_STRING, st)
-#define sk_OPENSSL_STRING_set(st, i, val) \
-    sk_set(CHECKED_STACK_OF(OPENSSL_STRING, st), i, CHECKED_PTR_OF(char, val))
+#define sk_OPENSSL_STRING_set(st, i, val) sk_set(CHECKED_STACK_OF(OPENSSL_STRING, st), i, CHECKED_PTR_OF(char, val))
 #define sk_OPENSSL_STRING_zero(st) SKM_sk_zero(OPENSSL_STRING, (st))
-#define sk_OPENSSL_STRING_unshift(st, val) \
-    sk_unshift(CHECKED_STACK_OF(OPENSSL_STRING, st), CHECKED_PTR_OF(char, val))
+#define sk_OPENSSL_STRING_unshift(st, val) sk_unshift(CHECKED_STACK_OF(OPENSSL_STRING, st), CHECKED_PTR_OF(char, val))
 #define sk_OPENSSL_STRING_delete(st, i) SKM_sk_delete(OPENSSL_STRING, (st), (i))
-#define sk_OPENSSL_STRING_delete_ptr(st, ptr) \
-    (OPENSSL_STRING *)sk_delete_ptr(CHECKED_STACK_OF(OPENSSL_STRING, st), CHECKED_PTR_OF(char, ptr))
-#define sk_OPENSSL_STRING_set_cmp_func(st, cmp)                          \
-    ((int (*)(const char *const *, const char *const *))sk_set_cmp_func( \
-        CHECKED_STACK_OF(OPENSSL_STRING, st), CHECKED_SK_CMP_FUNC(char, cmp)))
+#define sk_OPENSSL_STRING_delete_ptr(st, ptr) (OPENSSL_STRING *)sk_delete_ptr(CHECKED_STACK_OF(OPENSSL_STRING, st), CHECKED_PTR_OF(char, ptr))
+#define sk_OPENSSL_STRING_set_cmp_func(st, cmp)  \
+	((int (*)(const char * const *,const char * const *)) \
+	sk_set_cmp_func(CHECKED_STACK_OF(OPENSSL_STRING, st), CHECKED_SK_CMP_FUNC(char, cmp)))
 #define sk_OPENSSL_STRING_dup(st) SKM_sk_dup(OPENSSL_STRING, st)
 #define sk_OPENSSL_STRING_shift(st) SKM_sk_shift(OPENSSL_STRING, (st))
 #define sk_OPENSSL_STRING_pop(st) (char *)sk_pop(CHECKED_STACK_OF(OPENSSL_STRING, st))
 #define sk_OPENSSL_STRING_sort(st) SKM_sk_sort(OPENSSL_STRING, (st))
 #define sk_OPENSSL_STRING_is_sorted(st) SKM_sk_is_sorted(OPENSSL_STRING, (st))
 
-#define sk_OPENSSL_PSTRING_new(cmp) \
-    ((STACK_OF(OPENSSL_PSTRING) *)sk_new(CHECKED_SK_CMP_FUNC(OPENSSL_STRING, cmp)))
+#define sk_OPENSSL_PSTRING_new(cmp) ((STACK_OF(OPENSSL_PSTRING) *)sk_new(CHECKED_SK_CMP_FUNC(OPENSSL_STRING, cmp)))
 #define sk_OPENSSL_PSTRING_new_null() ((STACK_OF(OPENSSL_PSTRING) *)sk_new_null())
-#define sk_OPENSSL_PSTRING_push(st, val) \
-    sk_push(CHECKED_STACK_OF(OPENSSL_PSTRING, st), CHECKED_PTR_OF(OPENSSL_STRING, val))
-#define sk_OPENSSL_PSTRING_find(st, val) \
-    sk_find(CHECKED_STACK_OF(OPENSSL_PSTRING, st), CHECKED_PTR_OF(OPENSSL_STRING, val))
-#define sk_OPENSSL_PSTRING_value(st, i) \
-    ((OPENSSL_PSTRING)sk_value(CHECKED_STACK_OF(OPENSSL_PSTRING, st), i))
+#define sk_OPENSSL_PSTRING_push(st, val) sk_push(CHECKED_STACK_OF(OPENSSL_PSTRING, st), CHECKED_PTR_OF(OPENSSL_STRING, val))
+#define sk_OPENSSL_PSTRING_find(st, val) sk_find(CHECKED_STACK_OF(OPENSSL_PSTRING, st), CHECKED_PTR_OF(OPENSSL_STRING, val))
+#define sk_OPENSSL_PSTRING_value(st, i) ((OPENSSL_PSTRING)sk_value(CHECKED_STACK_OF(OPENSSL_PSTRING, st), i))
 #define sk_OPENSSL_PSTRING_num(st) SKM_sk_num(OPENSSL_PSTRING, st)
-#define sk_OPENSSL_PSTRING_pop_free(st, free_func)     \
-    sk_pop_free(CHECKED_STACK_OF(OPENSSL_PSTRING, st), \
-                CHECKED_SK_FREE_FUNC2(OPENSSL_PSTRING, free_func))
-#define sk_OPENSSL_PSTRING_insert(st, val, i) \
-    sk_insert(CHECKED_STACK_OF(OPENSSL_PSTRING, st), CHECKED_PTR_OF(OPENSSL_STRING, val), i)
+#define sk_OPENSSL_PSTRING_pop_free(st, free_func) sk_pop_free(CHECKED_STACK_OF(OPENSSL_PSTRING, st), CHECKED_SK_FREE_FUNC2(OPENSSL_PSTRING, free_func))
+#define sk_OPENSSL_PSTRING_insert(st, val, i) sk_insert(CHECKED_STACK_OF(OPENSSL_PSTRING, st), CHECKED_PTR_OF(OPENSSL_STRING, val), i)
 #define sk_OPENSSL_PSTRING_free(st) SKM_sk_free(OPENSSL_PSTRING, st)
-#define sk_OPENSSL_PSTRING_set(st, i, val) \
-    sk_set(CHECKED_STACK_OF(OPENSSL_PSTRING, st), i, CHECKED_PTR_OF(OPENSSL_STRING, val))
+#define sk_OPENSSL_PSTRING_set(st, i, val) sk_set(CHECKED_STACK_OF(OPENSSL_PSTRING, st), i, CHECKED_PTR_OF(OPENSSL_STRING, val))
 #define sk_OPENSSL_PSTRING_zero(st) SKM_sk_zero(OPENSSL_PSTRING, (st))
-#define sk_OPENSSL_PSTRING_unshift(st, val) \
-    sk_unshift(CHECKED_STACK_OF(OPENSSL_PSTRING, st), CHECKED_PTR_OF(OPENSSL_STRING, val))
+#define sk_OPENSSL_PSTRING_unshift(st, val) sk_unshift(CHECKED_STACK_OF(OPENSSL_PSTRING, st), CHECKED_PTR_OF(OPENSSL_STRING, val))
 #define sk_OPENSSL_PSTRING_delete(st, i) SKM_sk_delete(OPENSSL_PSTRING, (st), (i))
-#define sk_OPENSSL_PSTRING_delete_ptr(st, ptr)                              \
-    (OPENSSL_PSTRING *)sk_delete_ptr(CHECKED_STACK_OF(OPENSSL_PSTRING, st), \
-                                     CHECKED_PTR_OF(OPENSSL_STRING, ptr))
-#define sk_OPENSSL_PSTRING_set_cmp_func(st, cmp)                                             \
-    ((int (*)(const OPENSSL_STRING *const *, const OPENSSL_STRING *const *))sk_set_cmp_func( \
-        CHECKED_STACK_OF(OPENSSL_PSTRING, st), CHECKED_SK_CMP_FUNC(OPENSSL_STRING, cmp)))
+#define sk_OPENSSL_PSTRING_delete_ptr(st, ptr) (OPENSSL_PSTRING *)sk_delete_ptr(CHECKED_STACK_OF(OPENSSL_PSTRING, st), CHECKED_PTR_OF(OPENSSL_STRING, ptr))
+#define sk_OPENSSL_PSTRING_set_cmp_func(st, cmp)  \
+	((int (*)(const OPENSSL_STRING * const *,const OPENSSL_STRING * const *)) \
+	sk_set_cmp_func(CHECKED_STACK_OF(OPENSSL_PSTRING, st), CHECKED_SK_CMP_FUNC(OPENSSL_STRING, cmp)))
 #define sk_OPENSSL_PSTRING_dup(st) SKM_sk_dup(OPENSSL_PSTRING, st)
 #define sk_OPENSSL_PSTRING_shift(st) SKM_sk_shift(OPENSSL_PSTRING, (st))
 #define sk_OPENSSL_PSTRING_pop(st) (OPENSSL_STRING *)sk_pop(CHECKED_STACK_OF(OPENSSL_PSTRING, st))
 #define sk_OPENSSL_PSTRING_sort(st) SKM_sk_sort(OPENSSL_PSTRING, (st))
 #define sk_OPENSSL_PSTRING_is_sorted(st) SKM_sk_is_sorted(OPENSSL_PSTRING, (st))
 
-#define lh_ADDED_OBJ_new() LHM_lh_new(ADDED_OBJ, added_obj)
-#define lh_ADDED_OBJ_insert(lh, inst) LHM_lh_insert(ADDED_OBJ, lh, inst)
-#define lh_ADDED_OBJ_retrieve(lh, inst) LHM_lh_retrieve(ADDED_OBJ, lh, inst)
-#define lh_ADDED_OBJ_delete(lh, inst) LHM_lh_delete(ADDED_OBJ, lh, inst)
-#define lh_ADDED_OBJ_doall(lh, fn) LHM_lh_doall(ADDED_OBJ, lh, fn)
-#define lh_ADDED_OBJ_doall_arg(lh, fn, arg_type, arg) \
-    LHM_lh_doall_arg(ADDED_OBJ, lh, fn, arg_type, arg)
-#define lh_ADDED_OBJ_error(lh) LHM_lh_error(ADDED_OBJ, lh)
-#define lh_ADDED_OBJ_num_items(lh) LHM_lh_num_items(ADDED_OBJ, lh)
-#define lh_ADDED_OBJ_free(lh) LHM_lh_free(ADDED_OBJ, lh)
+#define lh_ADDED_OBJ_new() LHM_lh_new(ADDED_OBJ,added_obj)
+#define lh_ADDED_OBJ_insert(lh,inst) LHM_lh_insert(ADDED_OBJ,lh,inst)
+#define lh_ADDED_OBJ_retrieve(lh,inst) LHM_lh_retrieve(ADDED_OBJ,lh,inst)
+#define lh_ADDED_OBJ_delete(lh,inst) LHM_lh_delete(ADDED_OBJ,lh,inst)
+#define lh_ADDED_OBJ_doall(lh,fn) LHM_lh_doall(ADDED_OBJ,lh,fn)
+#define lh_ADDED_OBJ_doall_arg(lh,fn,arg_type,arg) \
+  LHM_lh_doall_arg(ADDED_OBJ,lh,fn,arg_type,arg)
+#define lh_ADDED_OBJ_error(lh) LHM_lh_error(ADDED_OBJ,lh)
+#define lh_ADDED_OBJ_num_items(lh) LHM_lh_num_items(ADDED_OBJ,lh)
+#define lh_ADDED_OBJ_free(lh) LHM_lh_free(ADDED_OBJ,lh)
 
-#define lh_CONF_VALUE_new() LHM_lh_new(CONF_VALUE, conf_value)
-#define lh_CONF_VALUE_insert(lh, inst) LHM_lh_insert(CONF_VALUE, lh, inst)
-#define lh_CONF_VALUE_retrieve(lh, inst) LHM_lh_retrieve(CONF_VALUE, lh, inst)
-#define lh_CONF_VALUE_delete(lh, inst) LHM_lh_delete(CONF_VALUE, lh, inst)
-#define lh_CONF_VALUE_doall(lh, fn) LHM_lh_doall(CONF_VALUE, lh, fn)
-#define lh_CONF_VALUE_doall_arg(lh, fn, arg_type, arg) \
-    LHM_lh_doall_arg(CONF_VALUE, lh, fn, arg_type, arg)
-#define lh_CONF_VALUE_error(lh) LHM_lh_error(CONF_VALUE, lh)
-#define lh_CONF_VALUE_num_items(lh) LHM_lh_num_items(CONF_VALUE, lh)
-#define lh_CONF_VALUE_free(lh) LHM_lh_free(CONF_VALUE, lh)
+#define lh_CONF_VALUE_new() LHM_lh_new(CONF_VALUE,conf_value)
+#define lh_CONF_VALUE_insert(lh,inst) LHM_lh_insert(CONF_VALUE,lh,inst)
+#define lh_CONF_VALUE_retrieve(lh,inst) LHM_lh_retrieve(CONF_VALUE,lh,inst)
+#define lh_CONF_VALUE_delete(lh,inst) LHM_lh_delete(CONF_VALUE,lh,inst)
+#define lh_CONF_VALUE_doall(lh,fn) LHM_lh_doall(CONF_VALUE,lh,fn)
+#define lh_CONF_VALUE_doall_arg(lh,fn,arg_type,arg) \
+  LHM_lh_doall_arg(CONF_VALUE,lh,fn,arg_type,arg)
+#define lh_CONF_VALUE_error(lh) LHM_lh_error(CONF_VALUE,lh)
+#define lh_CONF_VALUE_num_items(lh) LHM_lh_num_items(CONF_VALUE,lh)
+#define lh_CONF_VALUE_free(lh) LHM_lh_free(CONF_VALUE,lh)
 
-#define lh_ERR_STATE_new() LHM_lh_new(ERR_STATE, err_state)
-#define lh_ERR_STATE_insert(lh, inst) LHM_lh_insert(ERR_STATE, lh, inst)
-#define lh_ERR_STATE_retrieve(lh, inst) LHM_lh_retrieve(ERR_STATE, lh, inst)
-#define lh_ERR_STATE_delete(lh, inst) LHM_lh_delete(ERR_STATE, lh, inst)
-#define lh_ERR_STATE_doall(lh, fn) LHM_lh_doall(ERR_STATE, lh, fn)
-#define lh_ERR_STATE_doall_arg(lh, fn, arg_type, arg) \
-    LHM_lh_doall_arg(ERR_STATE, lh, fn, arg_type, arg)
-#define lh_ERR_STATE_error(lh) LHM_lh_error(ERR_STATE, lh)
-#define lh_ERR_STATE_num_items(lh) LHM_lh_num_items(ERR_STATE, lh)
-#define lh_ERR_STATE_free(lh) LHM_lh_free(ERR_STATE, lh)
+#define lh_ERR_STATE_new() LHM_lh_new(ERR_STATE,err_state)
+#define lh_ERR_STATE_insert(lh,inst) LHM_lh_insert(ERR_STATE,lh,inst)
+#define lh_ERR_STATE_retrieve(lh,inst) LHM_lh_retrieve(ERR_STATE,lh,inst)
+#define lh_ERR_STATE_delete(lh,inst) LHM_lh_delete(ERR_STATE,lh,inst)
+#define lh_ERR_STATE_doall(lh,fn) LHM_lh_doall(ERR_STATE,lh,fn)
+#define lh_ERR_STATE_doall_arg(lh,fn,arg_type,arg) \
+  LHM_lh_doall_arg(ERR_STATE,lh,fn,arg_type,arg)
+#define lh_ERR_STATE_error(lh) LHM_lh_error(ERR_STATE,lh)
+#define lh_ERR_STATE_num_items(lh) LHM_lh_num_items(ERR_STATE,lh)
+#define lh_ERR_STATE_free(lh) LHM_lh_free(ERR_STATE,lh)
 
-#define lh_ERR_STRING_DATA_new() LHM_lh_new(ERR_STRING_DATA, err_string_data)
-#define lh_ERR_STRING_DATA_insert(lh, inst) LHM_lh_insert(ERR_STRING_DATA, lh, inst)
-#define lh_ERR_STRING_DATA_retrieve(lh, inst) LHM_lh_retrieve(ERR_STRING_DATA, lh, inst)
-#define lh_ERR_STRING_DATA_delete(lh, inst) LHM_lh_delete(ERR_STRING_DATA, lh, inst)
-#define lh_ERR_STRING_DATA_doall(lh, fn) LHM_lh_doall(ERR_STRING_DATA, lh, fn)
-#define lh_ERR_STRING_DATA_doall_arg(lh, fn, arg_type, arg) \
-    LHM_lh_doall_arg(ERR_STRING_DATA, lh, fn, arg_type, arg)
-#define lh_ERR_STRING_DATA_error(lh) LHM_lh_error(ERR_STRING_DATA, lh)
-#define lh_ERR_STRING_DATA_num_items(lh) LHM_lh_num_items(ERR_STRING_DATA, lh)
-#define lh_ERR_STRING_DATA_free(lh) LHM_lh_free(ERR_STRING_DATA, lh)
+#define lh_ERR_STRING_DATA_new() LHM_lh_new(ERR_STRING_DATA,err_string_data)
+#define lh_ERR_STRING_DATA_insert(lh,inst) LHM_lh_insert(ERR_STRING_DATA,lh,inst)
+#define lh_ERR_STRING_DATA_retrieve(lh,inst) LHM_lh_retrieve(ERR_STRING_DATA,lh,inst)
+#define lh_ERR_STRING_DATA_delete(lh,inst) LHM_lh_delete(ERR_STRING_DATA,lh,inst)
+#define lh_ERR_STRING_DATA_doall(lh,fn) LHM_lh_doall(ERR_STRING_DATA,lh,fn)
+#define lh_ERR_STRING_DATA_doall_arg(lh,fn,arg_type,arg) \
+  LHM_lh_doall_arg(ERR_STRING_DATA,lh,fn,arg_type,arg)
+#define lh_ERR_STRING_DATA_error(lh) LHM_lh_error(ERR_STRING_DATA,lh)
+#define lh_ERR_STRING_DATA_num_items(lh) LHM_lh_num_items(ERR_STRING_DATA,lh)
+#define lh_ERR_STRING_DATA_free(lh) LHM_lh_free(ERR_STRING_DATA,lh)
 
-#define lh_EX_CLASS_ITEM_new() LHM_lh_new(EX_CLASS_ITEM, ex_class_item)
-#define lh_EX_CLASS_ITEM_insert(lh, inst) LHM_lh_insert(EX_CLASS_ITEM, lh, inst)
-#define lh_EX_CLASS_ITEM_retrieve(lh, inst) LHM_lh_retrieve(EX_CLASS_ITEM, lh, inst)
-#define lh_EX_CLASS_ITEM_delete(lh, inst) LHM_lh_delete(EX_CLASS_ITEM, lh, inst)
-#define lh_EX_CLASS_ITEM_doall(lh, fn) LHM_lh_doall(EX_CLASS_ITEM, lh, fn)
-#define lh_EX_CLASS_ITEM_doall_arg(lh, fn, arg_type, arg) \
-    LHM_lh_doall_arg(EX_CLASS_ITEM, lh, fn, arg_type, arg)
-#define lh_EX_CLASS_ITEM_error(lh) LHM_lh_error(EX_CLASS_ITEM, lh)
-#define lh_EX_CLASS_ITEM_num_items(lh) LHM_lh_num_items(EX_CLASS_ITEM, lh)
-#define lh_EX_CLASS_ITEM_free(lh) LHM_lh_free(EX_CLASS_ITEM, lh)
+#define lh_EX_CLASS_ITEM_new() LHM_lh_new(EX_CLASS_ITEM,ex_class_item)
+#define lh_EX_CLASS_ITEM_insert(lh,inst) LHM_lh_insert(EX_CLASS_ITEM,lh,inst)
+#define lh_EX_CLASS_ITEM_retrieve(lh,inst) LHM_lh_retrieve(EX_CLASS_ITEM,lh,inst)
+#define lh_EX_CLASS_ITEM_delete(lh,inst) LHM_lh_delete(EX_CLASS_ITEM,lh,inst)
+#define lh_EX_CLASS_ITEM_doall(lh,fn) LHM_lh_doall(EX_CLASS_ITEM,lh,fn)
+#define lh_EX_CLASS_ITEM_doall_arg(lh,fn,arg_type,arg) \
+  LHM_lh_doall_arg(EX_CLASS_ITEM,lh,fn,arg_type,arg)
+#define lh_EX_CLASS_ITEM_error(lh) LHM_lh_error(EX_CLASS_ITEM,lh)
+#define lh_EX_CLASS_ITEM_num_items(lh) LHM_lh_num_items(EX_CLASS_ITEM,lh)
+#define lh_EX_CLASS_ITEM_free(lh) LHM_lh_free(EX_CLASS_ITEM,lh)
 
-#define lh_FUNCTION_new() LHM_lh_new(FUNCTION, function)
-#define lh_FUNCTION_insert(lh, inst) LHM_lh_insert(FUNCTION, lh, inst)
-#define lh_FUNCTION_retrieve(lh, inst) LHM_lh_retrieve(FUNCTION, lh, inst)
-#define lh_FUNCTION_delete(lh, inst) LHM_lh_delete(FUNCTION, lh, inst)
-#define lh_FUNCTION_doall(lh, fn) LHM_lh_doall(FUNCTION, lh, fn)
-#define lh_FUNCTION_doall_arg(lh, fn, arg_type, arg) \
-    LHM_lh_doall_arg(FUNCTION, lh, fn, arg_type, arg)
-#define lh_FUNCTION_error(lh) LHM_lh_error(FUNCTION, lh)
-#define lh_FUNCTION_num_items(lh) LHM_lh_num_items(FUNCTION, lh)
-#define lh_FUNCTION_free(lh) LHM_lh_free(FUNCTION, lh)
+#define lh_FUNCTION_new() LHM_lh_new(FUNCTION,function)
+#define lh_FUNCTION_insert(lh,inst) LHM_lh_insert(FUNCTION,lh,inst)
+#define lh_FUNCTION_retrieve(lh,inst) LHM_lh_retrieve(FUNCTION,lh,inst)
+#define lh_FUNCTION_delete(lh,inst) LHM_lh_delete(FUNCTION,lh,inst)
+#define lh_FUNCTION_doall(lh,fn) LHM_lh_doall(FUNCTION,lh,fn)
+#define lh_FUNCTION_doall_arg(lh,fn,arg_type,arg) \
+  LHM_lh_doall_arg(FUNCTION,lh,fn,arg_type,arg)
+#define lh_FUNCTION_error(lh) LHM_lh_error(FUNCTION,lh)
+#define lh_FUNCTION_num_items(lh) LHM_lh_num_items(FUNCTION,lh)
+#define lh_FUNCTION_free(lh) LHM_lh_free(FUNCTION,lh)
 
-#define lh_OBJ_NAME_new() LHM_lh_new(OBJ_NAME, obj_name)
-#define lh_OBJ_NAME_insert(lh, inst) LHM_lh_insert(OBJ_NAME, lh, inst)
-#define lh_OBJ_NAME_retrieve(lh, inst) LHM_lh_retrieve(OBJ_NAME, lh, inst)
-#define lh_OBJ_NAME_delete(lh, inst) LHM_lh_delete(OBJ_NAME, lh, inst)
-#define lh_OBJ_NAME_doall(lh, fn) LHM_lh_doall(OBJ_NAME, lh, fn)
-#define lh_OBJ_NAME_doall_arg(lh, fn, arg_type, arg) \
-    LHM_lh_doall_arg(OBJ_NAME, lh, fn, arg_type, arg)
-#define lh_OBJ_NAME_error(lh) LHM_lh_error(OBJ_NAME, lh)
-#define lh_OBJ_NAME_num_items(lh) LHM_lh_num_items(OBJ_NAME, lh)
-#define lh_OBJ_NAME_free(lh) LHM_lh_free(OBJ_NAME, lh)
+#define lh_OBJ_NAME_new() LHM_lh_new(OBJ_NAME,obj_name)
+#define lh_OBJ_NAME_insert(lh,inst) LHM_lh_insert(OBJ_NAME,lh,inst)
+#define lh_OBJ_NAME_retrieve(lh,inst) LHM_lh_retrieve(OBJ_NAME,lh,inst)
+#define lh_OBJ_NAME_delete(lh,inst) LHM_lh_delete(OBJ_NAME,lh,inst)
+#define lh_OBJ_NAME_doall(lh,fn) LHM_lh_doall(OBJ_NAME,lh,fn)
+#define lh_OBJ_NAME_doall_arg(lh,fn,arg_type,arg) \
+  LHM_lh_doall_arg(OBJ_NAME,lh,fn,arg_type,arg)
+#define lh_OBJ_NAME_error(lh) LHM_lh_error(OBJ_NAME,lh)
+#define lh_OBJ_NAME_num_items(lh) LHM_lh_num_items(OBJ_NAME,lh)
+#define lh_OBJ_NAME_free(lh) LHM_lh_free(OBJ_NAME,lh)
 
-#define lh_OPENSSL_STRING_new() LHM_lh_new(OPENSSL_STRING, openssl_string)
-#define lh_OPENSSL_STRING_insert(lh, inst) LHM_lh_insert(OPENSSL_STRING, lh, inst)
-#define lh_OPENSSL_STRING_retrieve(lh, inst) LHM_lh_retrieve(OPENSSL_STRING, lh, inst)
-#define lh_OPENSSL_STRING_delete(lh, inst) LHM_lh_delete(OPENSSL_STRING, lh, inst)
-#define lh_OPENSSL_STRING_doall(lh, fn) LHM_lh_doall(OPENSSL_STRING, lh, fn)
-#define lh_OPENSSL_STRING_doall_arg(lh, fn, arg_type, arg) \
-    LHM_lh_doall_arg(OPENSSL_STRING, lh, fn, arg_type, arg)
-#define lh_OPENSSL_STRING_error(lh) LHM_lh_error(OPENSSL_STRING, lh)
-#define lh_OPENSSL_STRING_num_items(lh) LHM_lh_num_items(OPENSSL_STRING, lh)
-#define lh_OPENSSL_STRING_free(lh) LHM_lh_free(OPENSSL_STRING, lh)
+#define lh_OPENSSL_STRING_new() LHM_lh_new(OPENSSL_STRING,openssl_string)
+#define lh_OPENSSL_STRING_insert(lh,inst) LHM_lh_insert(OPENSSL_STRING,lh,inst)
+#define lh_OPENSSL_STRING_retrieve(lh,inst) LHM_lh_retrieve(OPENSSL_STRING,lh,inst)
+#define lh_OPENSSL_STRING_delete(lh,inst) LHM_lh_delete(OPENSSL_STRING,lh,inst)
+#define lh_OPENSSL_STRING_doall(lh,fn) LHM_lh_doall(OPENSSL_STRING,lh,fn)
+#define lh_OPENSSL_STRING_doall_arg(lh,fn,arg_type,arg) \
+  LHM_lh_doall_arg(OPENSSL_STRING,lh,fn,arg_type,arg)
+#define lh_OPENSSL_STRING_error(lh) LHM_lh_error(OPENSSL_STRING,lh)
+#define lh_OPENSSL_STRING_num_items(lh) LHM_lh_num_items(OPENSSL_STRING,lh)
+#define lh_OPENSSL_STRING_free(lh) LHM_lh_free(OPENSSL_STRING,lh)
 
-#define lh_SSL_SESSION_new() LHM_lh_new(SSL_SESSION, ssl_session)
-#define lh_SSL_SESSION_insert(lh, inst) LHM_lh_insert(SSL_SESSION, lh, inst)
-#define lh_SSL_SESSION_retrieve(lh, inst) LHM_lh_retrieve(SSL_SESSION, lh, inst)
-#define lh_SSL_SESSION_delete(lh, inst) LHM_lh_delete(SSL_SESSION, lh, inst)
-#define lh_SSL_SESSION_doall(lh, fn) LHM_lh_doall(SSL_SESSION, lh, fn)
-#define lh_SSL_SESSION_doall_arg(lh, fn, arg_type, arg) \
-    LHM_lh_doall_arg(SSL_SESSION, lh, fn, arg_type, arg)
-#define lh_SSL_SESSION_error(lh) LHM_lh_error(SSL_SESSION, lh)
-#define lh_SSL_SESSION_num_items(lh) LHM_lh_num_items(SSL_SESSION, lh)
-#define lh_SSL_SESSION_free(lh) LHM_lh_free(SSL_SESSION, lh)
+#define lh_SSL_SESSION_new() LHM_lh_new(SSL_SESSION,ssl_session)
+#define lh_SSL_SESSION_insert(lh,inst) LHM_lh_insert(SSL_SESSION,lh,inst)
+#define lh_SSL_SESSION_retrieve(lh,inst) LHM_lh_retrieve(SSL_SESSION,lh,inst)
+#define lh_SSL_SESSION_delete(lh,inst) LHM_lh_delete(SSL_SESSION,lh,inst)
+#define lh_SSL_SESSION_doall(lh,fn) LHM_lh_doall(SSL_SESSION,lh,fn)
+#define lh_SSL_SESSION_doall_arg(lh,fn,arg_type,arg) \
+  LHM_lh_doall_arg(SSL_SESSION,lh,fn,arg_type,arg)
+#define lh_SSL_SESSION_error(lh) LHM_lh_error(SSL_SESSION,lh)
+#define lh_SSL_SESSION_num_items(lh) LHM_lh_num_items(SSL_SESSION,lh)
+#define lh_SSL_SESSION_free(lh) LHM_lh_free(SSL_SESSION,lh)
 
 #endif /* !defined HEADER_SAFESTACK_H */

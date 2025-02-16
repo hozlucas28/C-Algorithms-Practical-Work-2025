@@ -25,42 +25,46 @@
  * reusing handles to do HTTP persistent connections
  * </DESC>
  */
-#include <curl/curl.h>
 #include <stdio.h>
 
-int main(void) {
-    CURL *curl;
-    CURLcode res;
+#include <curl/curl.h>
 
-    curl_global_init(CURL_GLOBAL_ALL);
+int main(void)
+{
+  CURL *curl;
+  CURLcode res;
 
-    curl = curl_easy_init();
-    if (curl) {
-        curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-        curl_easy_setopt(curl, CURLOPT_HEADER, 1L);
+  curl_global_init(CURL_GLOBAL_ALL);
 
-        /* get the first document */
-        curl_easy_setopt(curl, CURLOPT_URL, "https://example.com/");
+  curl = curl_easy_init();
+  if(curl) {
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+    curl_easy_setopt(curl, CURLOPT_HEADER, 1L);
 
-        /* Perform the request, res gets the return code */
-        res = curl_easy_perform(curl);
-        /* Check for errors */
-        if (res != CURLE_OK)
-            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+    /* get the first document */
+    curl_easy_setopt(curl, CURLOPT_URL, "https://example.com/");
 
-        /* get another document from the same server using the same
-           connection */
-        curl_easy_setopt(curl, CURLOPT_URL, "https://example.com/docs/");
+    /* Perform the request, res gets the return code */
+    res = curl_easy_perform(curl);
+    /* Check for errors */
+    if(res != CURLE_OK)
+      fprintf(stderr, "curl_easy_perform() failed: %s\n",
+              curl_easy_strerror(res));
 
-        /* Perform the request, res gets the return code */
-        res = curl_easy_perform(curl);
-        /* Check for errors */
-        if (res != CURLE_OK)
-            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+    /* get another document from the same server using the same
+       connection */
+    curl_easy_setopt(curl, CURLOPT_URL, "https://example.com/docs/");
 
-        /* always cleanup */
-        curl_easy_cleanup(curl);
-    }
+    /* Perform the request, res gets the return code */
+    res = curl_easy_perform(curl);
+    /* Check for errors */
+    if(res != CURLE_OK)
+      fprintf(stderr, "curl_easy_perform() failed: %s\n",
+              curl_easy_strerror(res));
 
-    return 0;
+    /* always cleanup */
+    curl_easy_cleanup(curl);
+  }
+
+  return 0;
 }
