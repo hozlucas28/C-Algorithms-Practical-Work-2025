@@ -225,31 +225,28 @@ void getValidatedInput(inputValuePlayer *datainput) {
     char _input[4];
 
     do {
-        puts("\n> Enter a coordinate to play. (ex: 0,0) \n WARNING:\n\t(maximum is (2,2)\n");
+        puts(
+            "\n> Enter a coordinate to play. (ex: 1,1) \n WARNING:\n\t(maximum is (3,3) / minimum)"
+            "is (1,1)\n");
         fflush(stdin);
-        fgets(_input, sizeof(_input), stdin);  // TODO: prevent negative or out range
+        fgets(_input, sizeof(_input), stdin);
         fflush(stdin);
     } while (!checkInputFormat(datainput, _input));
     return;
 }
 unsigned char checkInputFormat(inputValuePlayer *datainput, char *_input) {
-    char *pointer = _input;
-    int raw, column;
+    int raw, column, finalvalue = 2;
 
-    raw = atoi(pointer);
-    if (raw < 0 || raw > 3) {
+    if (finalvalue != sscanf(_input, "%d,%d", &raw, &column)) {
         puts("\n> No valid Format. Try Again \n");
         return 0;
     }
-    pointer++;
-    pointer++;
-    column = atoi(pointer);
-    if (column < 0 || column > 3) {
-        puts("\n> No valid Format. Try Again \n");
+    if ((raw < 1 || raw > 3) || (column < 1 || column > 3)) {
+        puts("\n> No valid number range. Try Again \n");
         return 0;
     }
-    datainput->column = column;
-    datainput->raw = raw;
+    datainput->column = column - 1;
+    datainput->raw = raw - 1;
     return 1;
 }
 
