@@ -63,12 +63,12 @@ Este repositorio contiene el trabajo práctico de la materia Algoritmos y Estruc
 4. Selecciona el proyecto [src.cbp](../../../src/src.cbp) (proyecto principal), ejecútalo en modo Release y disfrútalo.
 
 > [!TIP]
-> Si lo deseas, puedes usar [Visual Studio Code](https://code.visualstudio.com/) para ejecutar este proyecto. Para hacerlo, simplemente navega a [src/main.c](./src/main.c), luego haz clic en el botón _C/C++ File_ en la parte superior derecha de la ventana de [VSCode](https://code.visualstudio.com/). Toda la aplicación, incluidas las bibliotecas y archivos fuente, se compilará, y la aplicación se ejecutará automáticamente dentro del terminal integrado.
+> Si lo deseas, puedes usar [Visual Studio Code](https://code.visualstudio.com/) para ejecutar este proyecto. Para hacerlo, simplemente navega a [src/main.c](../../../src/main.c), luego haz clic en el botón _C/C++ File_ en la parte superior derecha de la ventana de [VSCode](https://code.visualstudio.com/). Toda la aplicación, incluidas las bibliotecas y archivos fuente, se compilará, y la aplicación se ejecutará automáticamente dentro del terminal integrado.
 
 ### Problemas conocidos
 
-| Problema                                                                     | Solución                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| :--------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Problema                                                                 | Solución                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| :----------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Proyecto [src.cbp](../../../src/src.cbp) (proyecto principal) no compila | _Selecciona el proyecto [libs.cbp](../../../libs/libs.cbp) (proyecto con las librerías) y compílalo en modo Release y en modo Debug. Luego, selecciona el proyecto [src.cbp](../../../src/src.cbp) (proyecto principal), haz clic derecho sobre este, elige la opción `Build Options` y ve a la pestaña `Linker settings`. Allí, añade los archivos `libs.a` que se encuentran dentro de las carpetas `libs/bin/Debug` y `libs/bin/Release`. Finalmente vuelve a intentar compilar el proyecto principal._ |
 
 ## Cómo jugar
@@ -175,16 +175,25 @@ C-Algorithms-Practical-Work-2025/
 │   ├── libs.cbp
 │   ├── macros.h
 │   ├── main.h
-│   ├── utilities.c
-│   └── utilities.h
+│   ├── structs.h
+│   │
+│   ├── singly-list/
+│   └── time/
 │
 ├── src/
+│   ├── libcurl-x64.dll
+│   ├── macros.h
 │   ├── main.c
 │   ├── src.cbp
+│   ├── structs.h
 │   ├── utilities.c
 │   ├── utilities.h
 │   │
-│   └── configuration/
+│   ├── api/
+│   ├── configuration/
+│   ├── play/
+│   ├── show-ranking/
+│   └── statics/
 │
 ├── .clang-format
 ├── .gitignore
@@ -206,17 +215,26 @@ C-Algorithms-Practical-Work-2025/
     -   [libs.cbp](../../../libs/libs.cbp) - Archivo de configuración del proyecto.
     -   [macros.h](../../../libs/macros.h) - Archivo con las macros esenciales del proyecto.
     -   [main.h](../../../libs/main.h) - Archivo que indexa todos los archivos `.h` del proyecto.
-    -   [utilities.c](../../../libs/utilities.c) - Archivo con el desarrollo de los prototipos de función presentes en `utilities.h`.
-    -   [utilities.h](../../../libs/utilities.h) - Archivo con los prototipos de función de uso común.
+    -   [structs.h](../../../libs/structs.h) - File with general structs declarations.
+
+    -   [singly-list](../../../libs/singly-list/) - Módulo de lista enlazada simple.
+    -   [time](../../../libs/time/) - Módulo de tiempo.
 
 -   [src](../../../src) - Proyecto principal de la aplicación.
 
+    -   [libcurl-x64.dll](../../../src/libcurl-x64.dll) - DLL para ejecutar [CUrl](https://curl.se/).
+    -   [macros.h](../../../src/macros.h) - Archivo con las macros esenciales del proyecto.
     -   [main.c](../../../src/main.c) - Archivo de ejecución principal.
     -   [src.cbp](../../../src/src.cbp) - Archivo de configuración del proyecto.
+    -   [structs.h](../../../libs/structs.h) - File with general structs declarations.
     -   [utilities.c](../../../src/utilities.c) - Archivo con el desarrollo de los prototipos de función presentes en `utilities.h`.
     -   [utilities.h](../../../src/utilities.h) - Archivo con los prototipos de función para configurar el proyecto.
 
-    -   [configuration](./src/configuration/) - Módulo con las funciones, estructuras y macros para extraer la configuración.
+    -   [api](../../../src/api/) - Módulo de APIs.
+    -   [configuration](../../../src/configuration/) - Módulo de configuración.
+    -   [play](../../../src/play/) - Módulo de juego.
+    -   [show-ranking](../../../src/show-ranking/) - Módulo de mostrar clasificación.
+    -   [statics](../../../src/statics/) - Módulo de estáticos.
 
 -   [.clang-format](../../../.clang-format) - Archivo de configuración de la herramienta de formateo de código [clang-format](https://clang.llvm.org/docs/ClangFormat.html).
 -   [.gitignore](../../../.gitignore) - Archivo de configuración de Git para evitar el rastreo de archivos no deseados.

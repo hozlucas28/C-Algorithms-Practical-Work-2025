@@ -67,8 +67,8 @@ This repository contains the practical work for the Algorithms and Data Structur
 
 ### Known issues
 
-| Issue                                                       | Solution                                                                                                                                                                                                                                                                                                                                                                                                         |
-| :---------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Issue                                                   | Solution                                                                                                                                                                                                                                                                                                                                                                                                         |
+| :------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [src.cbp](./src/src.cbp) (main project) doesn't compile | _Select the [libs.cbp](./libs/libs.cbp) project (library project) and compile it in Release mode and Debug mode. Then, select the [src.cbp](./src/src.cbp) project (main project), right-click on it, choose `Build Options`, and go to the `Linker settings` tab. There, add the `libs.a` files located in the `libs/bin/Debug` and `libs/bin/Release` folders. Finally, try compiling the main project again._ |
 
 ## How to play
@@ -175,16 +175,25 @@ C-Algorithms-Practical-Work-2025/
 │   ├── libs.cbp
 │   ├── macros.h
 │   ├── main.h
-│   ├── utilities.c
-│   └── utilities.h
+│   ├── structs.h
+│   │
+│   ├── singly-list/
+│   └── time/
 │
 ├── src/
+│   ├── libcurl-x64.dll
+│   ├── macros.h
 │   ├── main.c
 │   ├── src.cbp
+│   ├── structs.h
 │   ├── utilities.c
 │   ├── utilities.h
 │   │
-│   └── configuration/
+│   ├── api/
+│   ├── configuration/
+│   ├── play/
+│   ├── show-ranking/
+│   └── statics/
 │
 ├── .clang-format
 ├── .gitignore
@@ -206,17 +215,26 @@ C-Algorithms-Practical-Work-2025/
     -   [libs.cbp](./libs/libs.cbp) - Project configuration file.
     -   [macros.h](./libs/macros.h) - File with essential project macros.
     -   [main.h](./libs/main.h) - File indexing all `.h` files of the project.
-    -   [utilities.c](./libs/utilities.c) - File with the implementation of the function prototypes found in `utilities.h`.
-    -   [utilities.h](./libs/utilities.h) - File with common function prototypes.
+    -   [structs.h](./libs/structs.h) - File with general structs declarations.
+
+    -   [singly-list](./libs/singly-list/) - Singly linked list module.
+    -   [time](./libs/time/) - Time module.
 
 -   [src](./src) - Main project of the application.
 
+    -   [libcurl-x64.dll](./src/libcurl-x64.dll) - DLL for execute [CUrl](https://curl.se/).
+    -   [macros.h](./src/macros.h) - File with essential project macros.
     -   [main.c](./src/main.c) - Main execution file.
     -   [src.cbp](./src/src.cbp) - Project configuration file.
+    -   [structs.h](./libs/structs.h) - File with general structs declarations.
     -   [utilities.c](./src/utilities.c) - File with the implementation of the function prototypes found in `utilities.h`.
     -   [utilities.h](./src/utilities.h) - File with the function prototypes for configuring the project.
 
-    -   [configuration](./src/configuration/) - Module with functions, macros, and structures to extract the configuration.
+    -   [api](./src/api/) - APIs module.
+    -   [configuration](./src/configuration/) - Configuration module.
+    -   [play](./src/play/) - Play module.
+    -   [show-ranking](./src/show-ranking/) - Show ranking module.
+    -   [statics](./src/statics/) - Statics module.
 
 -   [.clang-format](./.clang-format) - Configuration file for the [clang-format](https://clang.llvm.org/docs/ClangFormat.html) code formatting tool.
 -   [.gitignore](./.gitignore) - Git configuration file to avoid tracking unwanted files.
