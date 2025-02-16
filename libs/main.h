@@ -9,6 +9,9 @@
 // Singly linked list
 #include "./singly-list/main.h"
 
+// String
+#include "./string/main.h"
+
 // Time
 #include "./time/main.h"
 

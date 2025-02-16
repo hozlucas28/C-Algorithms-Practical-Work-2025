@@ -40,6 +40,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="singly-list/main.h" />
+		<Unit filename="string/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="string/main.h" />
 		<Unit filename="structs.h" />
 		<Unit filename="time/main.c">
 			<Option compilerVar="CC" />
