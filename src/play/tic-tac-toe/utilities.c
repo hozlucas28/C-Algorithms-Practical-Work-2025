@@ -66,20 +66,20 @@ unsigned char _playPlayer(Player *player, Board *board, int opponentAssignedForm
 
     int winningValue;
 
-    printf("> In which position do you want to insert the \"%c\"? (Row / Column) ",
+    printf("> In which position do you want to insert the \"%c\"? [Min: 1 | Max: 3] (Row, Column) ",
            getPlayerAssignedForm(player));
     fflush(stdin);
-    fieldsRead = scanf("%d / %d", &row, &col);
+    fieldsRead = scanf("%d , %d", &row, &col);
     puts("");
 
     while (fieldsRead != 2 || row < 1 || row > getBoardRows(board) || col < 1 ||
            col > getBoardCols(board) || !isBoardPositionFree(board, row - 1, col - 1)) {
         puts("> Invalid position! Try again...\n");
 
-        printf("> In which position do you want to insert the \"%c\"? (Row / Column) ",
+        printf("> In which position do you want to insert the \"%c\"? [Min: 1 | Max: 3] (Row, Column) ",
                getPlayerAssignedForm(player));
         fflush(stdin);
-        fieldsRead = scanf("%d / %d", &row, &col);
+        fieldsRead = scanf("%d , %d", &row, &col);
         puts("");
     };
 
