@@ -42,6 +42,7 @@ unsigned char checkTotalDiagonal(int **_board, int valueToWin);
 unsigned char checkIfPlayerWon(int **_board, int userForm);
 void showGameInformation(IPlayer *player01, IPlayer *player02);
 void initializesArray2D(int **_2dArray, int value, int raws, int columns);
+void destroy2DArray(int **matrix, int raws);
 
 // CONSTRUCTORS
 void DataComputerConstructor(DataAI *data);
@@ -113,6 +114,8 @@ int playGame(Player *player) {
         printTicTacToe(getArray2D(&_board), &player01, &player02);
         if (player02Won) break;
     }
+
+    destroy2DArray(getArray2D(&_board), RAWS);
 
     if (!player01Won && !player02Won) {
         puts(">TIE");  // TODO. improve output
@@ -363,6 +366,15 @@ int CreateInt2DArray(Board *_board, int columns, int raws) {
     }
     _board->array2D = array;
     return 1;
+}
+
+void destroy2DArray(int **matrix, int raws) {
+    int i;
+
+    for (i = 0; i < raws; i++) {
+        free(matrix[i]);
+    }
+    free(matrix);
 }
 
 int makeMove(IPlayer *_player, Board *_board, int opponentValue) {
