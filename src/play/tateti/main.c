@@ -255,6 +255,7 @@ unsigned char checkInputFormat(inputValuePlayer *datainput, char *_input) {
 
 int playComputer(IPlayer *_AI, Board *_board, int opponentValue) {
     DataAI _AIdata;
+    int drawThis, winThis;
 
     if (getEmptySpaces(_board) > 6) {
         randomMovement(getArray2D(_board), getInternalForm(_AI));
@@ -264,8 +265,8 @@ int playComputer(IPlayer *_AI, Board *_board, int opponentValue) {
 
     DataComputerConstructor(&_AIdata);
 
-    int winThis = getInternalForm(_AI) * getInternalForm(_AI);
-    int drawThis = opponentValue * opponentValue;
+    winThis = getInternalForm(_AI) * getInternalForm(_AI);
+    drawThis = opponentValue * opponentValue;
 
     checkRaws(getArray2D(_board), &_AIdata, winThis, drawThis);
     checkColumns(getArray2D(_board), &_AIdata, winThis, drawThis);
