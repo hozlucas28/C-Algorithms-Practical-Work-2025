@@ -15,10 +15,4 @@ typedef struct Node {
     struct Node* __next; /** Pointer to the next linked node. */
 } Node;
 
-// TODO: create doxygen documentation
-typedef struct {
-    size_t x;
-    size_t y;
-} Position;
-
 #endif  // LIBS_STRUCTS_H_INCLUDED
