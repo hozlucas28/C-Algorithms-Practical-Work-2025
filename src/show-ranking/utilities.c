@@ -1,5 +1,6 @@
 
 #include "./utilities.h"
+
 #include "../api/main.h"
 
 int cmpAPIPlayersAsc(const void* playerA, const void* playerB) {

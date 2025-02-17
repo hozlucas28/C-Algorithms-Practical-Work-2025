@@ -1,8 +1,8 @@
 #ifndef SRC__PLAY__TICTACTOE__AI_H_INCLUDED
 #define SRC__PLAY__TICTACTOE__AI_H_INCLUDED
 
-#include "./macros.h"
 #include "../board/main.h"
+#include "./macros.h"
 
 typedef struct {
     int __row;      /** Row where there is a winning move. */

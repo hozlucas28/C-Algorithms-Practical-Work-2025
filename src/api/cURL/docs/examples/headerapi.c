@@ -25,57 +25,51 @@
  * Extract headers post transfer with the header API
  * </DESC>
  */
-#include <stdio.h>
 #include <curl/curl.h>
+#include <stdio.h>
 
-static size_t write_cb(char *data, size_t n, size_t l, void *userp)
-{
-  /* take care of the data here, ignored in this example */
-  (void)data;
-  (void)userp;
-  return n*l;
+static size_t write_cb(char *data, size_t n, size_t l, void *userp) {
+    /* take care of the data here, ignored in this example */
+    (void)data;
+    (void)userp;
+    return n * l;
 }
 
-int main(void)
-{
-  CURL *curl;
+int main(void) {
+    CURL *curl;
 
-  curl = curl_easy_init();
-  if(curl) {
-    CURLcode res;
-    struct curl_header *header;
-    curl_easy_setopt(curl, CURLOPT_URL, "https://example.com");
-    /* example.com is redirected, so we tell libcurl to follow redirection */
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl = curl_easy_init();
+    if (curl) {
+        CURLcode res;
+        struct curl_header *header;
+        curl_easy_setopt(curl, CURLOPT_URL, "https://example.com");
+        /* example.com is redirected, so we tell libcurl to follow redirection */
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 
-    /* this example just ignores the content */
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_cb);
+        /* this example just ignores the content */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_cb);
 
-    /* Perform the request, res gets the return code */
-    res = curl_easy_perform(curl);
-    /* Check for errors */
-    if(res != CURLE_OK)
-      fprintf(stderr, "curl_easy_perform() failed: %s\n",
-              curl_easy_strerror(res));
+        /* Perform the request, res gets the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if (res != CURLE_OK)
+            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
 
-    if(CURLHE_OK == curl_easy_header(curl, "Content-Type", 0, CURLH_HEADER,
-                                     -1, &header))
-      printf("Got content-type: %s\n", header->value);
+        if (CURLHE_OK == curl_easy_header(curl, "Content-Type", 0, CURLH_HEADER, -1, &header))
+            printf("Got content-type: %s\n", header->value);
 
-    printf("All server headers:\n");
-    {
-      struct curl_header *h;
-      struct curl_header *prev = NULL;
-      do {
-        h = curl_easy_nextheader(curl, CURLH_HEADER, -1, prev);
-        if(h)
-          printf(" %s: %s (%u)\n", h->name, h->value, (int)h->amount);
-        prev = h;
-      } while(h);
-
+        printf("All server headers:\n");
+        {
+            struct curl_header *h;
+            struct curl_header *prev = NULL;
+            do {
+                h = curl_easy_nextheader(curl, CURLH_HEADER, -1, prev);
+                if (h) printf(" %s: %s (%u)\n", h->name, h->value, (int)h->amount);
+                prev = h;
+            } while (h);
+        }
+        /* always cleanup */
+        curl_easy_cleanup(curl);
     }
-    /* always cleanup */
-    curl_easy_cleanup(curl);
-  }
-  return 0;
+    return 0;
 }

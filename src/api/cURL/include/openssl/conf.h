@@ -56,26 +56,24 @@
  * [including the GNU Public Licence.]
  */
 
-#ifndef  HEADER_CONF_H
+#ifndef HEADER_CONF_H
 #define HEADER_CONF_H
-
-#include <openssl/opensslconf.h>
 
 #include <openssl/bio.h>
 #include <openssl/lhash.h>
-#include <openssl/stack.h>
-#include <openssl/safestack.h>
-
+#include <openssl/opensslconf.h>
 #include <openssl/ossl_typ.h>
+#include <openssl/safestack.h>
+#include <openssl/stack.h>
 
-#ifdef  __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
 typedef struct {
-	char *section;
-	char *name;
-	char *value;
+    char *section;
+    char *name;
+    char *value;
 } CONF_VALUE;
 
 DECLARE_STACK_OF(CONF_VALUE)
@@ -97,12 +95,12 @@ DECLARE_STACK_OF(CONF_IMODULE)
 typedef int conf_init_func(CONF_IMODULE *md, const CONF *cnf);
 typedef void conf_finish_func(CONF_IMODULE *md);
 
-#define	CONF_MFLAGS_IGNORE_ERRORS	0x1
-#define CONF_MFLAGS_IGNORE_RETURN_CODES	0x2
-#define CONF_MFLAGS_SILENT		0x4
-#define CONF_MFLAGS_NO_DSO		0x8
-#define CONF_MFLAGS_IGNORE_MISSING_FILE	0x10
-#define CONF_MFLAGS_DEFAULT_SECTION	0x20
+#define CONF_MFLAGS_IGNORE_ERRORS 0x1
+#define CONF_MFLAGS_IGNORE_RETURN_CODES 0x2
+#define CONF_MFLAGS_SILENT 0x4
+#define CONF_MFLAGS_NO_DSO 0x8
+#define CONF_MFLAGS_IGNORE_MISSING_FILE 0x10
+#define CONF_MFLAGS_DEFAULT_SECTION 0x20
 
 void OPENSSL_config(const char *config_name);
 void OPENSSL_no_config(void);
@@ -111,8 +109,8 @@ void OPENSSL_no_config(void);
    If that wasn't the case, the above functions would have been replaced */
 
 struct conf_st {
-	const CONF_METHOD *meth;
-	LHASH_OF(CONF_VALUE) *data;
+    const CONF_METHOD *meth;
+    LHASH_OF(CONF_VALUE) * data;
 };
 
 CONF *NCONF_new(const CONF_METHOD *meth);
@@ -120,19 +118,16 @@ void NCONF_free(CONF *conf);
 
 int NCONF_load(CONF *conf, const char *file, long *eline);
 int NCONF_load_bio(CONF *conf, BIO *bp, long *eline);
-STACK_OF(CONF_VALUE) *NCONF_get_section(const CONF *conf, const char *section);
+STACK_OF(CONF_VALUE) * NCONF_get_section(const CONF *conf, const char *section);
 char *NCONF_get_string(const CONF *conf, const char *group, const char *name);
-int NCONF_get_number_e(const CONF *conf, const char *group, const char *name,
-    long *result);
+int NCONF_get_number_e(const CONF *conf, const char *group, const char *name, long *result);
 
-#define NCONF_get_number(c,g,n,r) NCONF_get_number_e(c,g,n,r)
+#define NCONF_get_number(c, g, n, r) NCONF_get_number_e(c, g, n, r)
 
 /* Module functions */
 
-int CONF_modules_load(const CONF *cnf, const char *appname,
-    unsigned long flags);
-int CONF_modules_load_file(const char *filename, const char *appname,
-    unsigned long flags);
+int CONF_modules_load(const CONF *cnf, const char *appname, unsigned long flags);
+int CONF_modules_load_file(const char *filename, const char *appname, unsigned long flags);
 void CONF_modules_unload(int all);
 void CONF_modules_finish(void);
 void CONF_modules_free(void);
@@ -144,49 +139,49 @@ void ERR_load_CONF_strings(void);
 /* Error codes for the CONF functions. */
 
 /* Function codes. */
-#define CONF_F_CONF_DUMP_FP				 104
-#define CONF_F_CONF_LOAD				 100
-#define CONF_F_CONF_LOAD_BIO				 102
-#define CONF_F_CONF_LOAD_FP				 103
-#define CONF_F_CONF_MODULES_LOAD			 116
-#define CONF_F_CONF_PARSE_LIST				 119
-#define CONF_F_DEF_LOAD					 120
-#define CONF_F_DEF_LOAD_BIO				 121
-#define CONF_F_MODULE_INIT				 115
-#define CONF_F_MODULE_LOAD_DSO				 117
-#define CONF_F_MODULE_RUN				 118
-#define CONF_F_NCONF_DUMP_BIO				 105
-#define CONF_F_NCONF_DUMP_FP				 106
-#define CONF_F_NCONF_GET_NUMBER				 107
-#define CONF_F_NCONF_GET_NUMBER_E			 112
-#define CONF_F_NCONF_GET_SECTION			 108
-#define CONF_F_NCONF_GET_STRING				 109
-#define CONF_F_NCONF_LOAD				 113
-#define CONF_F_NCONF_LOAD_BIO				 110
-#define CONF_F_NCONF_LOAD_FP				 114
-#define CONF_F_NCONF_NEW				 111
-#define CONF_F_STR_COPY					 101
+#define CONF_F_CONF_DUMP_FP 104
+#define CONF_F_CONF_LOAD 100
+#define CONF_F_CONF_LOAD_BIO 102
+#define CONF_F_CONF_LOAD_FP 103
+#define CONF_F_CONF_MODULES_LOAD 116
+#define CONF_F_CONF_PARSE_LIST 119
+#define CONF_F_DEF_LOAD 120
+#define CONF_F_DEF_LOAD_BIO 121
+#define CONF_F_MODULE_INIT 115
+#define CONF_F_MODULE_LOAD_DSO 117
+#define CONF_F_MODULE_RUN 118
+#define CONF_F_NCONF_DUMP_BIO 105
+#define CONF_F_NCONF_DUMP_FP 106
+#define CONF_F_NCONF_GET_NUMBER 107
+#define CONF_F_NCONF_GET_NUMBER_E 112
+#define CONF_F_NCONF_GET_SECTION 108
+#define CONF_F_NCONF_GET_STRING 109
+#define CONF_F_NCONF_LOAD 113
+#define CONF_F_NCONF_LOAD_BIO 110
+#define CONF_F_NCONF_LOAD_FP 114
+#define CONF_F_NCONF_NEW 111
+#define CONF_F_STR_COPY 101
 
 /* Reason codes. */
-#define CONF_R_ERROR_LOADING_DSO			 110
-#define CONF_R_LIST_CANNOT_BE_NULL			 115
-#define CONF_R_MISSING_CLOSE_SQUARE_BRACKET		 100
-#define CONF_R_MISSING_EQUAL_SIGN			 101
-#define CONF_R_MISSING_FINISH_FUNCTION			 111
-#define CONF_R_MISSING_INIT_FUNCTION			 112
-#define CONF_R_MODULE_INITIALIZATION_ERROR		 109
-#define CONF_R_NO_CLOSE_BRACE				 102
-#define CONF_R_NO_CONF					 105
-#define CONF_R_NO_CONF_OR_ENVIRONMENT_VARIABLE		 106
-#define CONF_R_NO_SECTION				 107
-#define CONF_R_NO_SUCH_FILE				 114
-#define CONF_R_NO_VALUE					 108
-#define CONF_R_UNABLE_TO_CREATE_NEW_SECTION		 103
-#define CONF_R_UNKNOWN_MODULE_NAME			 113
-#define CONF_R_VARIABLE_EXPANSION_TOO_LONG		 116
-#define CONF_R_VARIABLE_HAS_NO_VALUE			 104
+#define CONF_R_ERROR_LOADING_DSO 110
+#define CONF_R_LIST_CANNOT_BE_NULL 115
+#define CONF_R_MISSING_CLOSE_SQUARE_BRACKET 100
+#define CONF_R_MISSING_EQUAL_SIGN 101
+#define CONF_R_MISSING_FINISH_FUNCTION 111
+#define CONF_R_MISSING_INIT_FUNCTION 112
+#define CONF_R_MODULE_INITIALIZATION_ERROR 109
+#define CONF_R_NO_CLOSE_BRACE 102
+#define CONF_R_NO_CONF 105
+#define CONF_R_NO_CONF_OR_ENVIRONMENT_VARIABLE 106
+#define CONF_R_NO_SECTION 107
+#define CONF_R_NO_SUCH_FILE 114
+#define CONF_R_NO_VALUE 108
+#define CONF_R_UNABLE_TO_CREATE_NEW_SECTION 103
+#define CONF_R_UNKNOWN_MODULE_NAME 113
+#define CONF_R_VARIABLE_EXPANSION_TOO_LONG 116
+#define CONF_R_VARIABLE_HAS_NO_VALUE 104
 
-#ifdef  __cplusplus
+#ifdef __cplusplus
 }
 #endif
 #endif

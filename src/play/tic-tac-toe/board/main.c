@@ -226,7 +226,8 @@ unsigned char insertBoardValueInSecondaryDiagonalFreeCell(Board *board, const in
 
 unsigned char isBoardCenterFree(const Board *board) {
     if (board->__rows != board->__cols) return 0;
-    return board->__array2D[board->__rows - 1][board->__rows - 1] == board->__cellDefaultValue ? 1 : 0;
+    return board->__array2D[board->__rows - 1][board->__rows - 1] == board->__cellDefaultValue ? 1
+                                                                                               : 0;
 }
 
 unsigned char isBoardPositionFree(const Board *board, const size_t row, const size_t col) {

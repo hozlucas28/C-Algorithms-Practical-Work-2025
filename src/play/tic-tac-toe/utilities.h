@@ -1,8 +1,8 @@
 #ifndef SRC__PLAY__TICTACTOE_UTILITIES_H_INCLUDED
 #define SRC__PLAY__TICTACTOE_UTILITIES_H_INCLUDED
 
-#include "./board/main.h"
 #include "../../player/main.h"
+#include "./board/main.h"
 
 void showBoard(Board *board, Player *player01, Player *player02);
 

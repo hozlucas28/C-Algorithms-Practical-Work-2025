@@ -18,11 +18,10 @@
 #ifndef HEADER_SM4_H
 #define HEADER_SM4_H
 
+#include <openssl/opensslconf.h>
 #include <stdint.h>
 
-#include <openssl/opensslconf.h>
-
-#ifdef  __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -30,21 +29,21 @@ extern "C" {
 #error SM4 is disabled.
 #endif
 
-#define SM4_DECRYPT     0
-#define SM4_ENCRYPT     1
+#define SM4_DECRYPT 0
+#define SM4_ENCRYPT 1
 
-#define SM4_BLOCK_SIZE    16
-#define SM4_KEY_SCHEDULE  32
+#define SM4_BLOCK_SIZE 16
+#define SM4_KEY_SCHEDULE 32
 
 typedef struct sm4_key_st {
-	unsigned char opaque[128];
+    unsigned char opaque[128];
 } SM4_KEY;
 
 int SM4_set_key(const uint8_t *key, SM4_KEY *ks);
 void SM4_decrypt(const uint8_t *in, uint8_t *out, const SM4_KEY *ks);
 void SM4_encrypt(const uint8_t *in, uint8_t *out, const SM4_KEY *ks);
 
-#ifdef  __cplusplus
+#ifdef __cplusplus
 }
 #endif
 

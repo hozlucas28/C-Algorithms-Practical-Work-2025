@@ -4,10 +4,10 @@
 #include <stdio.h>
 
 #include "../../libs/main.h"
+#include "../player/main.h"
 #include "./cJSON/main.h"
 #include "./macros.h"
 #include "./structs.h"
-#include "../player/main.h"
 
 char* parseToJSON(const Configuration* config, SList* players) {
     char* jsonStringified = NULL;

@@ -33,9 +33,9 @@ extern "C" {
  * a key from a password.
  */
 
-int HKDF(uint8_t *out_key, size_t out_len, const EVP_MD *digest,
-    const uint8_t *secret, size_t secret_len, const uint8_t *salt,
-    size_t salt_len, const uint8_t *info, size_t info_len);
+int HKDF(uint8_t *out_key, size_t out_len, const EVP_MD *digest, const uint8_t *secret,
+         size_t secret_len, const uint8_t *salt, size_t salt_len, const uint8_t *info,
+         size_t info_len);
 
 /*
  * HKDF_extract computes a HKDF PRK (as specified by RFC 5869) from
@@ -43,9 +43,8 @@ int HKDF(uint8_t *out_key, size_t out_len, const EVP_MD *digest,
  * and outputs |out_len| bytes to |out_key|. The maximum output size
  * is |EVP_MAX_MD_SIZE|.  It returns one on success and zero on error.
  */
-int HKDF_extract(uint8_t *out_key, size_t *out_len, const EVP_MD *digest,
-    const uint8_t *secret, size_t secret_len,
-    const uint8_t *salt, size_t salt_len);
+int HKDF_extract(uint8_t *out_key, size_t *out_len, const EVP_MD *digest, const uint8_t *secret,
+                 size_t secret_len, const uint8_t *salt, size_t salt_len);
 
 /*
  * HKDF_expand computes a HKDF OKM (as specified by RFC 5869) of
@@ -53,13 +52,11 @@ int HKDF_extract(uint8_t *out_key, size_t *out_len, const EVP_MD *digest,
  * and outputs the result to |out_key|. It returns one on success and
  * zero on error.
  */
-int HKDF_expand(uint8_t *out_key, size_t out_len,
-    const EVP_MD *digest, const uint8_t *prk, size_t prk_len,
-    const uint8_t *info,  size_t info_len);
-
+int HKDF_expand(uint8_t *out_key, size_t out_len, const EVP_MD *digest, const uint8_t *prk,
+                size_t prk_len, const uint8_t *info, size_t info_len);
 
 #if defined(__cplusplus)
-}  /* extern C */
+} /* extern C */
 #endif
 
-#endif  /* OPENSSL_HEADER_HKDF_H */
+#endif /* OPENSSL_HEADER_HKDF_H */
