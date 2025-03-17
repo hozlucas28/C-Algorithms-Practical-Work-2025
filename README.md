@@ -48,7 +48,7 @@ This repository contains the practical work for the Algorithms and Data Structur
 -   Deployment of releases.
 -   Dynamic memory.
 -   Inputs control using validations.
--   local storage of records.
+-   Local storage of records.
 -   Singly linked list implementation.
 -   Team Workflow planning (branches, tags, and releases).
 
