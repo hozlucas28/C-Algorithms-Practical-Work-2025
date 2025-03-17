@@ -29,7 +29,13 @@
 </p>
 
 <p align="center">
-    <img src="./docs/statics/preview.png" width="800" alt="Preview">
+    <a href="https://youtu.be/f5YhwhgLAOE?si=NH89blJgq63M8vj9">
+        <img src="./docs/statics/preview.png" width="800" alt="Preview">
+    </a>
+</p>
+
+<p align="center">
+    <a href="https://youtu.be/f5YhwhgLAOE?si=NH89blJgq63M8vj9" target="_blank">(demonstration video)</a>
 </p>
 
 ## Summary

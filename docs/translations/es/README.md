@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center">
-    <strong>Repositorio del trabajo práctico para la materia Algoritmos y Estructuras de Datos </strong>
+    <strong>Repositorio del trabajo práctico para la materia Algoritmos y Estructuras de Datos</strong>
     <br>
     <strong>- <a href="https://www.unlam.edu.ar/">UNLaM</a> (Universidad Nacional de La Matanza) -</strong>
 </p>
@@ -29,7 +29,13 @@
 </p>
 
 <p align="center">
-    <img src="../../statics/preview.png" width="800" alt="Vista previa">
+    <a href="https://youtu.be/f5YhwhgLAOE?si=NH89blJgq63M8vj9">
+        <img src="../../statics/preview.png" width="800" alt="Vista previa">
+    </a>
+</p>
+
+<p align="center">
+    <a href="https://youtu.be/f5YhwhgLAOE?si=NH89blJgq63M8vj9" target="_blank">(demonstration video)</a>
 </p>
 
 ## Resumen
