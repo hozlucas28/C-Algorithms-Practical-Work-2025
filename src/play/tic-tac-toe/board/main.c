@@ -91,7 +91,9 @@ int multiplyBoardCol(const Board *board, const size_t targetCol, const size_t st
     if (stopAtRow < 0 || stopAtRow > board->__rows) return 0;
     if (targetCol < 0 || targetCol > board->__cols) return 0;
 
-    for (i = 0; i < stopAtRow; i++) result *= board->__array2D[i][targetCol];
+    for (i = 0; i < stopAtRow; i++) {
+        result *= board->__array2D[i][targetCol];
+    };
 
     return result;
 }
@@ -103,7 +105,9 @@ int multiplyBoardMainDiagonal(const Board *board) {
 
     if (board->__rows != board->__cols) return 0;
 
-    for (i = 0; i < board->__rows; i++) result *= board->__array2D[i][i];
+    for (i = 0; i < board->__rows; i++) {
+        result *= board->__array2D[i][i];
+    };
 
     return result;
 }
@@ -116,7 +120,9 @@ int multiplyBoardRow(const Board *board, const size_t targetRow, const size_t st
     if (targetRow < 0 || targetRow > board->__rows) return 0;
     if (stopAtCol < 0 || stopAtCol > board->__cols) return 0;
 
-    for (i = 0; i < stopAtCol; i++) result *= board->__array2D[targetRow][i];
+    for (i = 0; i < stopAtCol; i++) {
+        result *= board->__array2D[targetRow][i];
+    };
 
     return result;
 }

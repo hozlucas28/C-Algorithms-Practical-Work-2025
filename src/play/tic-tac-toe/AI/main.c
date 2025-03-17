@@ -49,7 +49,7 @@ void aiReadRows(AI *ai, Board *board, const int winThis, const int tieThis) {
     int result;
 
     for (i = 0; i < boardRows; i++) {
-        result = multiplyBoardRow(board, i, boardCols - 1);
+        result = multiplyBoardRow(board, i, boardCols);
 
         if (result == winThis) {
             ai->__winningMoves += 1;
@@ -71,7 +71,7 @@ void aiReadCols(AI *ai, Board *board, const int winThis, const int tieThis) {
     int result;
 
     for (i = 0; i < boardCols; i++) {
-        result = multiplyBoardCol(board, i, boardRows - 1);
+        result = multiplyBoardCol(board, i, boardRows);
 
         if (result == winThis) {
             ai->__winningMoves += 1;
