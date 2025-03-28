@@ -1,4 +1,8 @@
 #!/bin/bash
 
 git add .
-git diff-index --quiet HEAD || git commit -m "ci: format code"
+if git diff-index --quiet HEAD || git commit -m "ci: format code"; then
+    echo "true"
+else
+    echo "false"
+fi
