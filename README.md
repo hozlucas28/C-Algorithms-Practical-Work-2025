@@ -44,19 +44,19 @@ This repository contains the practical work for the Algorithms and Data Structur
 
 ## Features
 
--   Architecture planning.
--   Artificial intelligence (AI).
--   Code conventions and standards.
--   Code documentation using [Doxygen](https://www.doxygen.nl/) syntax.
--   Commits following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
--   Communication with [APIs](https://simple.wikipedia.org/wiki/Application_programming_interface) (GET and POST).
--   Continuous integration with [GitHub Actions](https://docs.github.com/en/actions).
--   Deployment of releases.
--   Dynamic memory.
--   Inputs control using validations.
--   Local storage of records.
--   Singly linked list implementation.
--   Team Workflow planning (branches, tags, and releases).
+-   Architecture planning
+-   Artificial intelligence (AI)
+-   Code conventions and standards
+-   Code documentation using [Doxygen](https://www.doxygen.nl/) syntax
+-   Commits following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+-   Communication with [APIs](https://simple.wikipedia.org/wiki/Application_programming_interface) (GET and POST)
+-   Continuous integration with [GitHub Actions](https://docs.github.com/en/actions)
+-   Deployment of releases
+-   Dynamic memory
+-   Inputs control using validations
+-   Local storage of records
+-   Singly linked list implementation
+-   Team Workflow planning (branches, tags, and releases)
 
 ## Installation
 
