@@ -1,0 +1,64 @@
+name: Bug report
+description: Report a reproducible bug.
+
+type: bug
+labels:
+  - bug
+assignees:
+  - hozlucas28
+
+title: "Bug: "
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the template below as best as you can.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Tell us, what did you expect to happen?
+      placeholder: I was trying to... and then...
+      render: markdown
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      description: In which environment did you experience this issue?
+      options:
+        - DevContainer (Default)
+        - DevContainer (Using Docker Compose)
+        - DevContainer (Using Docker Swarm)
+        - Local Machine (Manual Setup)
+        - Local Machine (Using Docker Compose)
+        - Local Machine (Using Docker Swarm)
+      default: 0
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce-it
+    attributes:
+      label: Steps to reproduce it
+      description: Please provide a step-by-step list of how to reproduce the issue.
+      placeholder: |
+        1. Send a request to...
+        2. After that, do...
+        3. Finally, see the issue on...
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      placeholder: |
+        2024-01-01 12:00:00 [error] Something bad happened!
+      render: shell
