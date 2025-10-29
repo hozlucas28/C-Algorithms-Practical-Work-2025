@@ -1,7 +1,6 @@
 name: Bug report
 description: Report a reproducible bug.
 
-type: bug
 labels:
   - bug
 assignees:
