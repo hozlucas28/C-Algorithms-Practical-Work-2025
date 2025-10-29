@@ -18,7 +18,7 @@ body:
     id: what-happened
     attributes:
       label: What happened?
-      description: Tell us, what did you expect to happen?
+      description: Tell us, what did you expect to happen? and what actually happened?
       placeholder: I was trying to... and then...
       render: markdown
     validations:
@@ -27,8 +27,8 @@ body:
   - type: dropdown
     id: environment
     attributes:
-      label: Environment
-      description: In which environment did you experience this issue?
+      label: In which environments did you experience this issue?
+      description: Select the environments where you encountered the issue.
       options:
         - DevContainer (Default)
         - DevContainer (Using Docker Compose)
@@ -37,6 +37,7 @@ body:
         - Local Machine (Using Docker Compose)
         - Local Machine (Using Docker Swarm)
       default: 0
+      multiple: true
     validations:
       required: true
 
@@ -44,7 +45,7 @@ body:
     id: steps-to-reproduce-it
     attributes:
       label: Steps to reproduce it
-      description: Please provide a step-by-step list of how to reproduce the issue.
+      description: Provide a step-by-step list of how to reproduce the issue.
       placeholder: |
         1. Send a request to...
         2. After that, do...
@@ -57,7 +58,7 @@ body:
     id: logs
     attributes:
       label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      description: Copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
       placeholder: |
-        2024-01-01 12:00:00 [error] Something bad happened!
+        2025-01-01 00:00:00 [error] Something bad happened!
       render: shell
