@@ -1,53 +1,43 @@
-name: Feature
-description: Propose a merge request of a new feature.
+<!--
+	Follow these instruction to write a correct pull request...
 
-labels:
-  - feature
-reviewers:
-  - hozlucas28
+	• The title must have the following structure: "<SCOPE>: <Short summary>".
+		• An example of a title could be "Feature: endpoint to get product details from brazil".
 
-title: "Feature: "
+	• Select the labels related to these pull request.
+	• Assign the reviewers for it (for example: "hozlucas28").
+	• If it fixes issues, remember to attach the issue(s) with "#<ISSUE NUMBER>" syntax.
+ -->
 
-body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to develop a new feature! Please fill out the template below as best as you can.
+<!-- Thanks for taking the time to develop a feature/fix! Please fill out the template below as best as you can. -->
 
-  - type: textarea
-    id: feature-value
-    attributes:
-      label: What value does this feature bring?
-      description: Explain the value this feature will bring to the project.
-      placeholder: This feature will...
-    validations:
-      required: true
+### What value does this feature bring? <!-- REMOVE THIS SECTION IF ITS NOT A PULL REQUEST FEATURE. -->
 
-  - type: textarea
-    id: steps-to-try-it
-    attributes:
-      label: How can we test this feature?
-      description: Provide a step-by-step list of how to test this feature.
-      placeholder: |
-        1. Do this...
-        2. Then do that...
-        3. Finally, check that...
-    validations:
-      required: true
+<!-- Explain the value this feature will bring to the project. -->
 
-  - type: dropdown
-    id: environment
-    attributes:
-      label: In which environments did you test this feature?
-      description: Select the environments where you tested this feature.
-      options:
-        - DevContainer
-        - DevContainer (Docker Compose)
-        - DevContainer (Docker Swarm)
-        - Local machine
-        - Local machine (Docker Compose)
-        - Local machine (Docker Swarm)
-      default: 0
-      multiple: true
-    validations:
-      required: true
+This feature will...
+
+### What issue(s) does this feature solved? <!-- REMOVE THIS SECTION IF ITS NOT A PULL REQUEST FIX. -->
+
+<!-- Explain the issues this fix solved and attach the issue(s) with "#<ISSUE NUMBER>" syntax. -->
+
+This feature solved the issue(s)...
+
+### How can we test this feature? <!-- REMOVE THIS SECTION IF ITS NOT A PULL REQUEST FEATURE. -->
+
+<!-- Provide a step-by-step list of how to test this feature. -->
+
+1. Do this...
+2. Then do that...
+3. Finally, check that...
+
+### In which environments did you test this feature? <!-- REMOVE THIS SECTION IF ITS NOT A PULL REQUEST FEATURE. -->
+
+<!-- Select the environments where you tested this feature. -->
+
+- [ ] DevContainer
+- [ ] DevContainer (Docker Compose)
+- [ ] DevContainer (Docker Swarm)
+- [ ] Local machine
+- [ ] Local machine (Docker Compose)
+- [ ] Local machine (Docker Swarm)
