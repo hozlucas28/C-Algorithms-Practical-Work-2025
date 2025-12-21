@@ -243,35 +243,44 @@ C-Algorithms-Practical-Work-2025/
 ## Team workflow
 
 ```mermaid
-%%{init: { 'logLevel': 'debug', 'theme': 'dark', 'gitGraph': {'showBranches': true, 'showCommitLabel': true, 'mainBranchName': 'Master', 'parallelCommits': true}} }%%
-    gitGraph:
-        commit
-        commit tag: "v0.0.1"
-        branch "Lopez Jorge"
-        commit
-        commit
-        checkout Master
-        branch "Parra Ignacio"
-        commit
-        commit
-        checkout Master
-        branch "Hoz Lucas"
-        commit
-        commit
-        checkout Master
-        branch "Massa Valentin"
-        commit
-        commit
-        checkout Master
-        branch "Rombola Facundo"
-        commit
-        commit
-        checkout Master
-        merge "Parra Ignacio"
-        merge "Lopez Jorge"
-        merge "Massa Valentin"
-        merge "Hoz Lucas"
-        merge "Rombola Facundo" tag: "v1.0.0"
+---
+config:
+  theme: base
+  gitGraph:
+    mainBranchName: Master
+    showBranches: true
+    showCommitLabel: true
+    parallelCommits: true
+---
+
+gitGraph:
+    commit
+    commit tag: "v0.0.1"
+    branch "Lopez Jorge"
+    commit
+    commit
+    checkout Master
+    branch "Parra Ignacio"
+    commit
+    commit
+    checkout Master
+    branch "Hoz Lucas"
+    commit
+    commit
+    checkout Master
+    branch "Massa Valentin"
+    commit
+    commit
+    checkout Master
+    branch "Rombola Facundo"
+    commit
+    commit
+    checkout Master
+    merge "Parra Ignacio"
+    merge "Lopez Jorge"
+    merge "Massa Valentin"
+    merge "Hoz Lucas"
+    merge "Rombola Facundo" tag: "v1.0.0"
 ```
 
 ### Tags
