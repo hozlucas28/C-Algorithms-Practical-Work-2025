@@ -302,7 +302,7 @@ C-Algorithms-Practical-Work-2025/
 
 ## Licencia
 
-Este repositorio está bajo la [Licencia MIT](../../../LICENSE). Para más información sobre lo que está permitido hacer con el contenido de este repositorio, visita [choosealicense.com](https://choosealicense.com/licenses/).
+Este repositorio está bajo la [licencia MIT](../../../LICENSE). Para más información sobre lo que está permitido hacer con el contenido de este repositorio, visita [choosealicense.com](https://choosealicense.com/licenses/).
 
 ## Agradecimientos
 
