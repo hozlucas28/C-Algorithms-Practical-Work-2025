@@ -51,7 +51,7 @@ jobs:
 
       - name: Merge pull request
         if: ${{ steps.update-license.outputs.pullRequestNumber != '' }}
-        run: gh pr merge $PULL_REQUEST_NUMBER --merge --delete-branch
+        run: gh pr merge $PULL_REQUEST_NUMBER --admin --merge --delete-branch
         env:
           GITHUB_TOKEN: ${{ steps.github-app-token.outputs.token }}
           PULL_REQUEST_NUMBER: ${{ steps.update-license.outputs.pullRequestNumber }}
