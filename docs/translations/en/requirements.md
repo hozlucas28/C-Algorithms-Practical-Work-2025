@@ -47,7 +47,7 @@ The file format is a reason for rejection of the practical work. As with any sys
 | `TP_ALGORITMOS_2024_2C_INVISIBLE.zip`    | Incorrect semester.                   |
 | `TP_ALGORITMOS_2024_3C_INVISIBLE.rar`    | Incorrect file format.                |
 
-The class schedule lists the submission and defense dates for the practical work. The defense is an evaluation instance for the course.
+The class schedule lists the submission and defense dates for the practical work. The defense is an evaluation instance for the subject.
 
 ## requirement
 
