@@ -13,7 +13,7 @@
     <a href="#características">Características</a> •
     <a href="#instalación">Instalación</a> •
     <a href="#problemas-conocidos">Problemas conocidos</a> •
-    <a href="#Cómo-jugar">Cómo jugar</a>
+    <a href="#cómo-jugar">Cómo jugar</a>
     <br>
     <a href="#estructura-de-la-aplicación">Estructura de la aplicación</a> •
     <a href="#flujo-de-trabajo-del-equipo">Flujo de trabajo del equipo</a> •
@@ -25,17 +25,15 @@
 </p>
 
 <p align="center">
-    <a href="../../../README.md">[ Versión en inglés ]</a>
+    <a href="../../../README.md">(versión en inglés)</a>
 </p>
 
 <p align="center">
-    <a href="https://youtu.be/f5YhwhgLAOE?si=NH89blJgq63M8vj9">
-        <img src="../../statics/preview.png" width="800" alt="Vista previa">
-    </a>
-</p>
-
-<p align="center">
-    <a href="https://youtu.be/f5YhwhgLAOE?si=NH89blJgq63M8vj9" target="_blank">(demonstration video)</a>
+    <a href="https://youtu.be/f5YhwhgLAOE?si=NH89blJgq63M8vj9" target="_blank">
+		<img src="../../statics/preview.png" alt="Vista previa" width="800">
+		<br />
+		(demonstration video)
+	</a>
 </p>
 
 ## Resumen
